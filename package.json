@@ -1,0 +1,29 @@
+{
+  "name": "swivel-js",
+  "version": "1.0.0",
+  "description": "Javascript library for working with the Swivel Finance Protocol",
+  "main": "index.js",
+  "scripts": {
+    "test": "karma test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Swivel-Finance/swivel-js.git"
+  },
+  "keywords": [
+    "Swivel",
+    "Finance",
+    "Javascript",
+    "Typescript",
+    "Badass"
+  ],
+  "author": "Swivel Finance",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Swivel-Finance/swivel-js/issues"
+  },
+  "homepage": "https://github.com/Swivel-Finance/swivel-js#readme",
+  "devDependencies": {
+    "typescript": "^4.1.3"
+  }
+}
