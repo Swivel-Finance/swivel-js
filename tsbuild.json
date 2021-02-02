@@ -6,11 +6,11 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions":{
-    "rootDir": ".src",
+    "rootDir": "./src",
     "removeComments": true
   },
   "exclude": [
-    "node_modules",
-    "tests"
+    "src/**/*.test.ts",
+    "node_modules"
   ]
 }

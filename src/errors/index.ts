@@ -6,4 +6,7 @@
  * therefore, we will keep them in their own dir.
  */
 
-export const OWNER_REQUIRED ='method requires that the contract be owned'
+export * from './providers'
+
+export const OWNER_REQUIRED ='owner required'
+export const PROVIDER_REQUIRED ='provider required'
