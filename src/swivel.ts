@@ -1,13 +1,13 @@
 import { SWIVEL_ABI } from './constants'
 import Deployed from './abstracts/deployed'
-import Provider from './abstracts/provider'
+import Vendor from './abstracts/vendor'
 
 export default class extends Deployed {
   /**
-   * @param p - Instance of a Provider class
+   * @param v - Instance of a Vendor class
    */
-  constructor(p: Provider) {
-    super(p, SWIVEL_ABI)
+  constructor(v: Vendor) {
+    super(v, SWIVEL_ABI)
   }
   /**
    * @remarks
