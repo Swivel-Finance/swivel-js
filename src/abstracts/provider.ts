@@ -9,7 +9,7 @@
  */
 
 
-import { Keyed, Contract } from '../interfaces'
+import { Keyed, Contract, TransactOpts } from '../interfaces'
 
 export default abstract class implements Keyed {
   [key:string]: any
@@ -26,5 +26,5 @@ export default abstract class implements Keyed {
    * @param o - Optional transaction options
    *
    */
-  abstract contract(address: string, abi: any): Contract
+  abstract contract(address: string, abi: any, o?: TransactOpts): Contract
 }

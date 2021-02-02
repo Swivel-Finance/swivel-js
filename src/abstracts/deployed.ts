@@ -5,7 +5,7 @@
  */
 
 import { OWNER_REQUIRED } from '../errors'
-import { Keyed, Contract } from '../interfaces'
+import { Keyed, Contract, TransactOpts } from '../interfaces'
 import Provider from './provider'
 
 export default abstract class implements Keyed {
@@ -18,7 +18,7 @@ export default abstract class implements Keyed {
    * @param p - Optional Provider the HOC will use
    * @param a - Compiled abi of the smart contract this HOC wraps
    */
-  constructor(p: Provider, a: any) {
+  protected constructor(p: Provider, a: any) {
     this.provider = p
     this.abi = a
   }
@@ -29,8 +29,8 @@ export default abstract class implements Keyed {
    *
    * @returns boolean indicating a successful wrapping of the target deployed contract
    */
-  protected at(a: string): boolean {
-    this.contract = this.provider.contract(a, this.abi)
+  protected at(a: string, o?: TransactOpts): boolean {
+    this.contract = this.provider.contract(a, this.abi, o)
     return !!this.contract
   }
 }
