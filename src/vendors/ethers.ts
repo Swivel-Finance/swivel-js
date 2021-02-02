@@ -11,8 +11,6 @@ export default class extends Vendor {
   /**
    * @remarks
    * Given an ethers specific provider and optionally a signer return a Vendor.
-   * Note that the lower level provider and signer are allowed to be <any>.
-   * This we can change to be more specific types, but may not be needed.
    *
    * @param p - An Ethers Provider
    * @param s - Optional Ethers Signer

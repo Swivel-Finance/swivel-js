@@ -1,7 +1,7 @@
 /**
  * @remarks
  * Base class of all Higher Order Contracts (HOCs).
- * Note that we do not want to couple this class to any specific Provider.
+ * Note that we do not want to couple this class to any specific Vendor.
  */
 
 import { OWNER_REQUIRED } from '../errors'
