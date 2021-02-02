@@ -10,7 +10,7 @@ import { Provider } from "@ethersproject/providers"
 export default class extends Vendor {
   /**
    * @remarks
-   * Given an ethers specific provider and optionally a signer return a Provider.
+   * Given an ethers specific provider and optionally a signer return a Vendor.
    * Note that the lower level provider and signer are allowed to be <any>.
    * This we can change to be more specific types, but may not be needed.
    *
@@ -40,7 +40,7 @@ export default class extends Vendor {
   /**
    *
    * @remarks
-   * Convenience methods which abstracts repetitive checking for the presence of a signer || vendor
+   * Convenience methods which abstracts repetitive checking for the presence of a signer || provider
    * @private
    */
   private requireSignerOrProvider() {

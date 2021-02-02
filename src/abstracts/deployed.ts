@@ -15,7 +15,7 @@ export default abstract class implements Keyed {
   public contract?: Contract
 
   /**
-   * @param p - Optional Provider the HOC will use
+   * @param v - Optional Vendor the HOC will use
    * @param a - Compiled abi of the smart contract this HOC wraps
    */
   protected constructor(v: Vendor, a: any) {
