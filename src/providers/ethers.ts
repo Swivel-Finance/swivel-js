@@ -29,11 +29,10 @@ export default class extends Provider {
    *
    * @param address - Address a target contract has been deployed to
    * @param abi - Compiled abi of the deployed target contract
-   * @param o - Optional transaction options
    *
    * @returns Contract
    */
-  contract(address: string, abi: any, o?: TransactOpts): Contract {
+  contract(address: string, abi: any): Contract {
     this.requireSignerOrProvider()
     return new EthersContract(address, abi, this.signer)
   }
