@@ -106,3 +106,6 @@ dist
 # Vim generated files
 *.swp
 *.swo
+
+# Idea configuration files
+.idea

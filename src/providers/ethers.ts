@@ -1,17 +1,11 @@
 // NOTE this is currently a shell for where we will encapsulate ethers.js
 
 import { SIGNER_OR_PROVIDER_REQUIRED } from '../errors'
-import { Contract } from '../interfaces'
+import { Contract, TransactOpts } from '../interfaces'
 import Provider from '../abstracts/provider'
-
-// TODO remove this when using acutal ethers
-class EthersContract implements Contract {
-  public address: string
-  
-  constructor(a: string) {
-    this.address = a
-  }
-}
+import { Signer } from "@ethersproject/abstract-signer"
+import { Contract as EthersContract } from "@ethersproject/contracts"
+import { Provider as EthersProvider } from "@ethersproject/providers"
 
 export default class extends Provider {
   /**
@@ -23,7 +17,7 @@ export default class extends Provider {
    * @param p - An Ethers Provider
    * @param s - Optional Ethers Signer
    */
-  constructor(p: any, s?: any) {
+  constructor(p: EthersProvider, s?: Signer) {
     super()
     this.provider = p
     this.signer = s
@@ -35,22 +29,22 @@ export default class extends Provider {
    *
    * @param address - Address a target contract has been deployed to
    * @param abi - Compiled abi of the deployed target contract
+   * @param opts - Optional transaction options
    *
    * @returns Contract
    */
-  contract(address: string, abi: any): Contract {
-    this.requireSignerOrProvider() 
-    // TODO use actual ethers... `new ethers.Contract(address, abi, this.signer || this.provider)`
-    // this is simply to get the repo running...
-    return new EthersContract(address)
+  contract(address: string, abi: any, opts?: TransactOpts): Contract {
+    this._requireSignerOrProvider()
+    return new EthersContract(address, abi, this.signer)
   }
 
   /**
    *
    * @remarks
    * Convenience methods which abstracts repetitive checking for the presence of a signer || provider
+   * @private
    */
-  requireSignerOrProvider() {
+  _requireSignerOrProvider() {
     if ((!this.signer) && (!this.provider)) throw new ReferenceError(SIGNER_OR_PROVIDER_REQUIRED)
   }
 }
