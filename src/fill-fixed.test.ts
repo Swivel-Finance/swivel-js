@@ -1,18 +1,18 @@
 import 'mocha'
 import { assert } from 'chai'
-import Provider from './providers/ethers'
+import Vendor from './vendors/ethers'
 import Swivel from './swivel'
 import { getDefaultProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
 
 describe('Swivel fillFixed method', () => {
-  let swivel:Swivel
+  let swivel: Swivel
 
   before(() => {
     const ethersProvider = getDefaultProvider();
     const signer = Wallet.createRandom().connect(ethersProvider);
-    const provider:Provider = new Provider(ethersProvider, signer)
-    swivel = new Swivel(provider)
+    const vendor: Vendor = new Vendor(ethersProvider, signer)
+    swivel = new Swivel(vendor)
   })
 
   it('fills fixed yo', () => {
