@@ -29,12 +29,12 @@ export default class extends Provider {
    *
    * @param address - Address a target contract has been deployed to
    * @param abi - Compiled abi of the deployed target contract
-   * @param opts - Optional transaction options
+   * @param o - Optional transaction options
    *
    * @returns Contract
    */
-  contract(address: string, abi: any, opts?: TransactOpts): Contract {
-    this._requireSignerOrProvider()
+  contract(address: string, abi: any, o?: TransactOpts): Contract {
+    this.requireSignerOrProvider()
     return new EthersContract(address, abi, this.signer)
   }
 
@@ -44,7 +44,7 @@ export default class extends Provider {
    * Convenience methods which abstracts repetitive checking for the presence of a signer || provider
    * @private
    */
-  _requireSignerOrProvider() {
+  private requireSignerOrProvider() {
     if ((!this.signer) && (!this.provider)) throw new ReferenceError(SIGNER_OR_PROVIDER_REQUIRED)
   }
 }

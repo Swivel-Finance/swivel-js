@@ -9,7 +9,7 @@ import { Wallet } from "@ethersproject/wallet";
 describe('Swivel constructor', () => {
   let swivel:Swivel
 
-  beforeEach(() => {
+  before(() => {
     const ethersProvider = getDefaultProvider();
     const signer = Wallet.createRandom().connect(ethersProvider);
     const provider:Provider = new Provider(ethersProvider, signer)

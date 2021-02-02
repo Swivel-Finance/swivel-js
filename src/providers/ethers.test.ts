@@ -12,7 +12,7 @@ describe('Ethers Provider abstraction', () => {
   let signer: Signer
   let ethersProvider: EthersProvider
 
-  beforeEach(() => {
+  before(() => {
     ethersProvider = getDefaultProvider();
     signer = Wallet.createRandom().connect(ethersProvider);
     provider = new Provider(ethersProvider, signer)

@@ -23,8 +23,8 @@ export default abstract class implements Keyed {
    *
    * @param address - Deployed address of the target contract
    * @param abi - Compiled abi of the target contract
-   * @param opts - Optional transaction options
+   * @param o - Optional transaction options
    *
    */
-  abstract contract(address: string, abi: any, opts?: TransactOpts): Contract
+  abstract contract(address: string, abi: any, o?: TransactOpts): Contract
 }
