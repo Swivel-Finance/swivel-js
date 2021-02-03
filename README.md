@@ -1,3 +1,4 @@
+[![Build Status](https://travis-ci.com/Swivel-Finance/swivel-js.svg?token=mHzJQzb11WHSPwztZw8B&branch=main)](https://travis-ci.com/Swivel-Finance/swivel-js)
 ```
      _______.____    __    ____  __  ____    ____  _______  __                 __       _______.
     /       |\   \  /  \  /   / |  | \   \  /   / |   ____||  |               |  |     /       |
