@@ -1,23 +1,21 @@
 // NOTE this is currently a shell for where we will encapsulate ethers.js
 
 import { SIGNER_OR_PROVIDER_REQUIRED } from '../errors'
-import { Contract, TransactOpts } from '../interfaces'
-import Provider from '../abstracts/provider'
+import { Contract } from '../interfaces'
+import Vendor from '../abstracts/vendor'
 import { Signer } from "@ethersproject/abstract-signer"
 import { Contract as EthersContract } from "@ethersproject/contracts"
-import { Provider as EthersProvider } from "@ethersproject/providers"
+import { Provider } from "@ethersproject/providers"
 
-export default class extends Provider {
+export default class extends Vendor {
   /**
    * @remarks
-   * Given an ethers specific provider and optionally a signer return a Provider.
-   * Note that the lower level provider and signer are allowed to be <any>.
-   * This we can change to be more specific types, but may not be needed.
+   * Given an ethers specific provider and optionally a signer return a Vendor.
    *
    * @param p - An Ethers Provider
    * @param s - Optional Ethers Signer
    */
-  constructor(p: EthersProvider, s?: Signer) {
+  constructor(p: Provider, s?: Signer) {
     super()
     this.provider = p
     this.signer = s

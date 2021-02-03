@@ -1,33 +1,33 @@
 import 'mocha'
 import { assert } from 'chai'
-import Provider from './ethers'
+import Vendor from './ethers'
 import { Contract } from '../interfaces'
-import { Provider as EthersProvider, getDefaultProvider } from "@ethersproject/providers"
+import { Provider, getDefaultProvider } from "@ethersproject/providers"
 import { Signer } from "@ethersproject/abstract-signer"
 import { Wallet } from "@ethersproject/wallet"
 
 describe('Ethers Provider abstraction', () => {
-  let provider:Provider
+  let vendor: Vendor
 
   let signer: Signer
-  let ethersProvider: EthersProvider
+  let provider: Provider
 
   before(() => {
-    ethersProvider = getDefaultProvider();
-    signer = Wallet.createRandom().connect(ethersProvider);
-    provider = new Provider(ethersProvider, signer)
+    provider = getDefaultProvider();
+    signer = Wallet.createRandom().connect(provider);
+    vendor = new Vendor(provider, signer)
   })
 
   it('constructs', () => {
-    assert.equal(provider.provider, ethersProvider)
-    assert.equal(provider.signer, signer)
+    assert.equal(vendor.provider, provider)
+    assert.equal(vendor.signer, signer)
    })
 
   it('returns a low level contract', () => {
     const abi = [
       "function balanceOf(address owner) view returns (uint256)",
     ];
-    const contract:Contract = provider.contract('0x123', abi)
+    const contract: Contract = vendor.contract('0x123', abi)
     assert.isNotNull(contract)
     assert.equal(contract.address, '0x123')
   })
