@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+  - "14.x.x"
+install:
+  - npm install
+before_script:
+  - npm run build
+script:
+  - npm run test
