@@ -1,2 +1,9 @@
-# swivel-js
-Javascript library for working with the Swivel Finance Protocol
+```
+     _______.____    __    ____  __  ____    ____  _______  __                 __       _______.
+    /       |\   \  /  \  /   / |  | \   \  /   / |   ____||  |               |  |     /       |
+   |   (----` \   \/    \/   /  |  |  \   \/   /  |  |__   |  |               |  |    |   (----`
+    \   \      \            /   |  |   \      /   |   __|  |  |         .--.  |  |     \   \    
+.----)   |      \    /\    /    |  |    \    /    |  |____ |  `----. __ |  `--'  | .----)   |   
+|_______/        \__/  \__/     |__|     \__/     |_______||_______|(__) \______/  |_______/    
+```
+#### Javascript library for working with the Swivel Finance Protocol
