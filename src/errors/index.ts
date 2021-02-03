@@ -6,7 +6,7 @@
  * therefore, we will keep them in their own dir.
  */
 
-export * from './vendor'
+export * from './vendors'
 
 export const OWNER_REQUIRED ='owner required'
 export const PROVIDER_REQUIRED ='provider required'
