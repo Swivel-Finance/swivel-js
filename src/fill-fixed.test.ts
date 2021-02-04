@@ -5,7 +5,7 @@ import Vendor from './vendors/ethers'
 import Swivel from './swivel'
 import { getDefaultProvider } from "@ethersproject/providers";
 import { Wallet } from "@ethersproject/wallet";
-import { Order, Components, TxResponse } from './interfaces'
+import { Order, Components, TxResponse, Contract } from './interfaces'
 
 describe('Swivel fillFixed method', () => {
   let swivel: Swivel
@@ -26,7 +26,15 @@ describe('Swivel fillFixed method', () => {
   it('passes the call thru to the meta contract', async () => {
     const response:TxResponse = { blockNumber: 789 }
 
-    const fake = stub(swivel.contract?.functions, 'fillFixed') // sinon.stub has an issue with these arguments. why? TODO
+    // init dummy contract
+    swivel.contract = {
+      address: '0xaddress',
+      functions: {
+        fillFixed: () => {},
+      }
+    }
+
+    const fake = stub(swivel.contract.functions, 'fillFixed')
     fake.resolves(response)
 
     const order:Order = {
@@ -48,11 +56,14 @@ describe('Swivel fillFixed method', () => {
     }
 
     const result:TxResponse = await swivel.fillFixed(order, '50', '0xagree', components)
+    assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
 
-    // TODO all we care about here is that the call to swivel.fillFixed passes the correct args to its
-    // `.contract.functions.fillFixed`. getting the stubs correct on this is proving a challenge.
-    // with those in place we should be able to inspect the stub.call and see Order, .., .., Components etc...
+    const { args } = fake.getCall(0)
+    assert.equal(args[0], order)
+    assert.equal(args[1], '50')
+    assert.equal(args[2], '0xagree')
+    assert.equal(args[3], components)
   })
 })
