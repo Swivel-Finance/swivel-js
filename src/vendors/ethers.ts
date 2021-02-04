@@ -6,6 +6,7 @@ import Vendor from '../abstracts/vendor'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Contract as EthersContract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
+import { Abi } from '../@types'
 
 export default class extends Vendor {
     /**
@@ -30,7 +31,7 @@ export default class extends Vendor {
      *
      * @returns Contract
      */
-    contract(address: string, abi: any): Contract {
+    contract(address: string, abi: Abi): Contract {
         this.requireSignerOrProvider()
         return new EthersContract(address, abi, this.signer)
     }
