@@ -6,7 +6,7 @@ function defineWriteOnly<T, K extends keyof T>(object: T, name: K, value: T[K]):
         enumerable: false,
         value: value,
         writable: true,
-    });
+    })
 }
 
 /**
@@ -15,8 +15,8 @@ function defineWriteOnly<T, K extends keyof T>(object: T, name: K, value: T[K]):
 function cloneWithWriteAccess(o: any): any {
     if (Array.isArray(o)) return o.map((item) => cloneWithWriteAccess(item))
 
-    if (typeof(o) === "object") {
-        const result: { [ key: string ]: any } = {}
+    if (typeof o === 'object') {
+        const result: { [key: string]: any } = {}
         for (const key in o) {
             if (o.hasOwnProperty(key)) {
                 const value = o[key]
@@ -29,6 +29,4 @@ function cloneWithWriteAccess(o: any): any {
     return o
 }
 
-export {
-    cloneWithWriteAccess
-}
+export { cloneWithWriteAccess }

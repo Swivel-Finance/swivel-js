@@ -1,9 +1,4 @@
-import {
-  Keyed,
-  Order,
-  Components,
-  TxResponse
-} from '.'
+import { Keyed, Order, Components, TxResponse } from '.'
 
 /**
  * @remarks
@@ -11,6 +6,6 @@ import {
  */
 
 export interface Contract {
-  address: string
-  functions: Keyed 
+    address: string
+    functions: Keyed
 }

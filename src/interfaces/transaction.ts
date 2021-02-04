@@ -6,15 +6,15 @@
 import { Nos } from '../@types'
 
 export interface TransactOpts {
-  to?: string
-  from?: string
-  gasPrice?: Nos
-  gasLimit?: Nos
-  value?: Nos
-  data?: any
+    to?: string
+    from?: string
+    gasPrice?: Nos
+    gasLimit?: Nos
+    value?: Nos
+    data?: any
 }
 
 // TODO flush this out...
 export interface TxResponse {
-  blockNumber: number
+    blockNumber: number
 }
