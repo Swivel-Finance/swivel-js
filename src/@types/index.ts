@@ -1,1 +1,1 @@
-export type Nos = number | string;
+export type Nos = number | string
