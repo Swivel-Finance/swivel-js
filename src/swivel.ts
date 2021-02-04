@@ -1,6 +1,7 @@
 import { SWIVEL_ABI } from './constants'
 import Deployed from './abstracts/deployed'
 import Vendor from './abstracts/vendor'
+import { Order, Components, TxResponse } from './interfaces'
 
 export default class extends Deployed {
   /**
@@ -15,7 +16,7 @@ export default class extends Deployed {
    * was set via `this.at`. Something like `return await this.contract.fillFixed(...` 
    * TODO
    */
-  fillFixed(): string {
-    return 'TODO'
+  async fillFixed(o: Order, a: string, k: string, c: Components): Promise<TxResponse> {
+    return await this.contract?.functions.fillFixed(o, a, k, c)
   }
 }

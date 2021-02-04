@@ -29,7 +29,7 @@ export default abstract class implements Keyed {
    *
    * @returns boolean indicating a successful wrapping of the target deployed contract
    */
-  protected at(a: string, o?: TransactOpts): boolean {
+  at(a: string, o?: TransactOpts): boolean {
     this.contract = this.vendor.contract(a, this.abi, o)
     return !!this.contract
   }
