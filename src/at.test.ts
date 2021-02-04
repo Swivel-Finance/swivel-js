@@ -3,8 +3,8 @@ import { assert } from 'chai'
 import { SWIVEL_ABI } from './constants'
 import Vendor from './vendors/ethers'
 import Swivel from './swivel'
-import { getDefaultProvider } from "@ethersproject/providers";
-import { Wallet } from "@ethersproject/wallet";
+import { getDefaultProvider } from "@ethersproject/providers"
+import { Wallet } from "@ethersproject/wallet"
 
 describe('Swivel at method', () => {
   let swivel: Swivel

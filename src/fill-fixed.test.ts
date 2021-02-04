@@ -6,7 +6,7 @@ import Swivel from './swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
 import { Order, Components, TxResponse, Contract } from './interfaces'
-import { cloneWithWriteAccess } from "./helpers";
+import { cloneWithWriteAccess } from "./helpers"
 
 describe('Swivel fillFixed method', () => {
   let swivel: Swivel
