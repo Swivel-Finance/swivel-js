@@ -4,13 +4,13 @@
  * Note that we do not want to couple this class to any specific Vendor.
  */
 
-import { OWNER_REQUIRED } from '../errors'
 import { Keyed, Contract, TransactOpts } from '../interfaces'
 import Vendor from './vendor'
+import { Abi } from '../@types'
 
 export default abstract class implements Keyed {
-  [key:string]: any
-  public abi: any
+  [key: string]: any
+  public abi: Abi
   public vendor: Vendor
   public contract?: Contract
 
@@ -18,7 +18,7 @@ export default abstract class implements Keyed {
    * @param v - Optional Vendor the HOC will use
    * @param a - Compiled abi of the smart contract this HOC wraps
    */
-  protected constructor(v: Vendor, a: any) {
+  protected constructor(v: Vendor, a: Abi) {
     this.vendor = v
     this.abi = a
   }

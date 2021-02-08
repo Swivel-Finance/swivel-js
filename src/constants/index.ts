@@ -1,1 +1,1 @@
-export * from './swivel' 
+export * from './swivel'

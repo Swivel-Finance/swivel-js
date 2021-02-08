@@ -7,11 +7,11 @@
  * While this is natural to me, it may be worth discussing different terms if confusing.
  */
 
-
 import { Keyed, Contract, TransactOpts } from '../interfaces'
+import { Abi } from '../@types'
 
 export default abstract class implements Keyed {
-  [key:string]: any
+  [key: string]: any
   public provider: any // TODO
   public signer: any // TODO
 
@@ -25,5 +25,5 @@ export default abstract class implements Keyed {
    * @param o - Optional transaction options
    *
    */
-  abstract contract(address: string, abi: any, o?: TransactOpts): Contract
+  abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
 }

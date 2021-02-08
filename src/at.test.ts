@@ -1,17 +1,16 @@
 import 'mocha'
 import { assert } from 'chai'
-import { SWIVEL_ABI } from './constants'
 import Vendor from './vendors/ethers'
 import Swivel from './swivel'
-import { getDefaultProvider } from "@ethersproject/providers"
-import { Wallet } from "@ethersproject/wallet"
+import { getDefaultProvider } from '@ethersproject/providers'
+import { Wallet } from '@ethersproject/wallet'
 
 describe('Swivel at method', () => {
   let swivel: Swivel
 
   before(() => {
-    const ethersProvider = getDefaultProvider();
-    const signer = Wallet.createRandom().connect(ethersProvider);
+    const ethersProvider = getDefaultProvider()
+    const signer = Wallet.createRandom().connect(ethersProvider)
     const vendor: Vendor = new Vendor(ethersProvider, signer)
     swivel = new Swivel(vendor)
   })
@@ -21,5 +20,5 @@ describe('Swivel at method', () => {
     assert.isTrue(wrapped)
     assert.isNotNull(swivel.contract)
     assert.equal(swivel.contract?.address, '0x123')
-   })
+  })
 })

@@ -13,7 +13,7 @@ export default class extends Deployed {
   /**
    * @remarks
    * Once properly setup this call becomes a simple wrapper around the .contract object that
-   * was set via `this.at`. Something like `return await this.contract.fillFixed(...` 
+   * was set via `this.at`. Something like `return await this.contract.fillFixed(...`
    * TODO
    */
   async fillFixed(o: Order, a: string, k: string, c: Components): Promise<TxResponse> {

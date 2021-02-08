@@ -6,7 +6,7 @@ import Swivel from './swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
 import { Order, Components, TxResponse, Contract } from './interfaces'
-import { cloneWithWriteAccess } from "./helpers"
+import { cloneWithWriteAccess } from './helpers'
 
 describe('Swivel fillFixed method', () => {
   let swivel: Swivel
@@ -29,17 +29,17 @@ describe('Swivel fillFixed method', () => {
 
     const invalidContract = {
       address: '0xinvalid',
-      functions: {}
+      functions: {},
     }
 
-    const contract: Contract = swivel.contract? swivel.contract : invalidContract
+    const contract: Contract = swivel.contract ? swivel.contract : invalidContract
     assert.isNotNull(contract)
     assert.notDeepEqual(contract, invalidContract)
 
     const fake = stub(contract.functions, 'fillFixed')
     fake.resolves({ blockNumber: 789 })
 
-    const order:Order = {
+    const order: Order = {
       key: '0xorder',
       maker: '0xabc',
       underlying: '0x123',
@@ -48,16 +48,16 @@ describe('Swivel fillFixed method', () => {
       interest: '50',
       duration: '12345',
       expiry: '123456789',
-      nonce: '42'
+      nonce: '42',
     }
 
-    const components:Components = {
+    const components: Components = {
       v: 123,
       r: 'aBc123',
-      s: 'DeF456'
+      s: 'DeF456',
     }
 
-    const result:TxResponse = await swivel.fillFixed(order, '50', '0xagree', components)
+    const result: TxResponse = await swivel.fillFixed(order, '50', '0xagree', components)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
