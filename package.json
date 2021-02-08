@@ -23,6 +23,9 @@
   "scripts": {
     "lint": "eslint 'src/**/*.ts'",
     "lint:fix": "eslint 'src/**/*.ts' --quiet --fix",
+    "prettier:base": "prettier --parser typescript --single-quote",
+    "prettier:check": "npm run prettier:base -- --list-different 'src/**/*.ts'",
+    "prettier:write": "npm run prettier:base -- --write 'src/**/*.ts'",
     "test": "mocha -r ts-node/register 'src/**/*.test.ts'",
     "build:clean": "rm -rf ./build",
     "build:dry": "tsc -noEmit -p ./tsbuild.json",
