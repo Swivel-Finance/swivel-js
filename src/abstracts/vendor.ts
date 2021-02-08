@@ -11,19 +11,19 @@ import { Keyed, Contract, TransactOpts } from '../interfaces'
 import { Abi } from '../@types'
 
 export default abstract class implements Keyed {
-    [key: string]: any
-    public provider: any // TODO
-    public signer: any // TODO
+  [key: string]: any
+  public provider: any // TODO
+  public signer: any // TODO
 
-    /**
-     * @remarks
-     * Method which instantiates and returns the vendor specific contract abstraction. Must be
-     * implemented in a child class
-     *
-     * @param address - Deployed address of the target contract
-     * @param abi - Compiled abi of the target contract
-     * @param o - Optional transaction options
-     *
-     */
-    abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific contract abstraction. Must be
+   * implemented in a child class
+   *
+   * @param address - Deployed address of the target contract
+   * @param abi - Compiled abi of the target contract
+   * @param o - Optional transaction options
+   *
+   */
+  abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
 }

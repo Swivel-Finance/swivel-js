@@ -9,5 +9,5 @@ export * from './order'
 export * from './signature'
 
 export interface Keyed {
-    [key: string]: any
+  [key: string]: any
 }
