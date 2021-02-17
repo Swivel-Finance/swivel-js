@@ -12,11 +12,18 @@ export default class extends Deployed {
   }
   /**
    * @remarks
-   * Once properly setup this call becomes a simple wrapper around the .contract object that
-   * was set via `this.at`. Something like `return await this.contract.fillFixed(...`
-   * TODO
+   * This method only care about the order, filling amout & agreement key and take care of signing the order with specific vendor's signer
+   *
+   * @param o - order object without any vendor specific stuff added
+   * @param a - filling
+   * @param a -
    */
-  async fillFixed(o: Order, a: string, k: string, c: Components): Promise<TxResponse> {
-    return await this.contract?.functions.fillFixed(o, a, k, c)
+  async fillFixed(o: Order, a: string, k: string): Promise<TxResponse> {
+    const order = this.vendor.prepareOrder(o)
+    const signature: string = await this.vendor.signOrder(order)
+    const components: Components = this.vendor.splitSign(signature)
+    const { filling, agreementKey } = this.vendor.prepareOrderMeta(a, k)
+
+    return await this.contract?.functions.fillFixed(order, filling, agreementKey, components)
   }
 }

@@ -5,16 +5,17 @@ import Vendor from './vendors/ethers'
 import Swivel from './swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { Order, Components, TxResponse, Contract } from './interfaces'
+import { Order, TxResponse, Contract } from './interfaces'
 import { cloneWithWriteAccess } from './helpers'
 
 describe('Swivel fillFixed method', () => {
   let swivel: Swivel
+  let vendor: Vendor
 
   before(() => {
     const ethersProvider = getDefaultProvider()
     const signer = Wallet.createRandom().connect(ethersProvider)
-    const vendor: Vendor = new Vendor(ethersProvider, signer)
+    vendor = new Vendor(ethersProvider, signer)
     swivel = new Swivel(vendor)
     swivel.at('0xabc')
   })
@@ -40,9 +41,9 @@ describe('Swivel fillFixed method', () => {
     fake.resolves({ blockNumber: 789 })
 
     const order: Order = {
-      key: '0xorder',
-      maker: '0xabc',
-      underlying: '0x123',
+      key: 'order',
+      maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+      underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
       floating: false,
       principal: '1000',
       interest: '50',
@@ -50,22 +51,19 @@ describe('Swivel fillFixed method', () => {
       expiry: '123456789',
       nonce: '42',
     }
+    const filling = '50'
+    const agreementKey = '0xagree'
 
-    const components: Components = {
-      v: 123,
-      r: 'aBc123',
-      s: 'DeF456',
-    }
+    const meta = vendor.prepareOrderMeta(filling, agreementKey)
 
-    const result: TxResponse = await swivel.fillFixed(order, '50', '0xagree', components)
+    const result: TxResponse = await swivel.fillFixed(order, filling, agreementKey)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
 
     const { args } = fake.getCall(0)
-    assert.equal(args[0], order)
-    assert.equal(args[1], '50')
-    assert.equal(args[2], '0xagree')
-    assert.equal(args[3], components)
+    assert.deepEqual(args[0], vendor.prepareOrder(order))
+    assert.deepEqual(args[1], meta.filling)
+    assert.equal(args[2], meta.agreementKey)
   })
 })

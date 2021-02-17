@@ -7,8 +7,9 @@
  * While this is natural to me, it may be worth discussing different terms if confusing.
  */
 
-import { Keyed, Contract, TransactOpts } from '../interfaces'
+import { Keyed, Contract, TransactOpts, Order, Components } from '../interfaces'
 import { Abi } from '../@types'
+import { OrderMeta, ValidOrder } from '../vendors/interfaces/order'
 
 export default abstract class implements Keyed {
   [key: string]: any
@@ -26,4 +27,12 @@ export default abstract class implements Keyed {
    *
    */
   abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
+
+  abstract prepareOrder(o: Order): ValidOrder
+
+  abstract signOrder(o: ValidOrder): Promise<string>
+
+  abstract splitSign(s: string): Components
+
+  abstract prepareOrderMeta(a: string, k: string): OrderMeta
 }
