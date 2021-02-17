@@ -16,7 +16,7 @@ export default class extends Deployed {
    *
    * @param o - order object without any vendor specific stuff added
    * @param a - filling
-   * @param a -
+   * @param a - agreement key
    */
   async fillFixed(o: Order, a: string, k: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)

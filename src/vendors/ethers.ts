@@ -61,10 +61,22 @@ export default class extends Vendor {
     }
   }
 
+  /**
+   * @remarks
+   * implementation of signing typed order.
+   *
+   * @param o - vendor specific order
+   */
   async signOrder(o: ValidOrder): Promise<string> {
     return this.signer._signTypedData(DOMAIN, TYPES, o)
   }
 
+  /**
+   * @remarks
+   * implementation of spliting signature.
+   *
+   * @param s - signature hash string
+   */
   splitSign(s: string): Components {
     const splitSig: Signature = utils.splitSignature(s)
     const components: Components = {
@@ -77,6 +89,13 @@ export default class extends Vendor {
     return components
   }
 
+  /**
+   * @remarks
+   * The Ethers.js specific convertion of filling amount and agreement key.
+   *
+   * @param a - filling amount
+   * @param k - agreement key
+   */
   prepareOrderMeta(a: string, k: string): OrderMeta {
     return {
       filling: ethers.BigNumber.from(a),
