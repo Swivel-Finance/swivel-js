@@ -21,7 +21,7 @@ export default class extends Deployed {
   async fillFixed(o: Order, a: string, k: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)
     const signature: string = await this.vendor.signOrder(order)
-    const components: Components = this.vendor.splitSign(signature)
+    const components: Components = this.vendor.splitSignature(signature)
     const { filling, agreementKey } = this.vendor.prepareOrderMeta(a, k)
 
     return await this.contract?.functions.fillFixed(order, filling, agreementKey, components)

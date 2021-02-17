@@ -9,3 +9,15 @@ export interface Order {
   expiry: string
   nonce: string
 }
+
+export interface VendorOrder {
+  key: any
+  maker: any
+  underlying: any
+  floating: any
+  principal: any
+  interest: any
+  duration: any
+  expiry: any
+  nonce: any
+}

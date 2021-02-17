@@ -66,7 +66,7 @@ describe('Ethers Provider abstraction', () => {
   it('returns a splited sig', async () => {
     const validOrder: ValidOrder = vendor.prepareOrder(order)
     const signature: string = await vendor.signOrder(validOrder)
-    const components: Components = vendor.splitSign(signature)
+    const components: Components = vendor.splitSignature(signature)
     assert.isNotNull(components)
     assert.isFalse(components.v < 27)
   })

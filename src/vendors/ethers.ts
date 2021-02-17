@@ -45,7 +45,7 @@ export default class extends Vendor {
    *
    * @param o - order that swivel js will get
    *
-   * @returns EthersOrder, ethers own type of order
+   * @returns ValidOrder, ethers own type of order
    */
   prepareOrder(o: Order): ValidOrder {
     return {
@@ -77,7 +77,7 @@ export default class extends Vendor {
    *
    * @param s - signature hash string
    */
-  splitSign(s: string): Components {
+  splitSignature(s: string): Components {
     const splitSig: Signature = utils.splitSignature(s)
     const components: Components = {
       v: splitSig.v,
