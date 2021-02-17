@@ -13,6 +13,17 @@ describe('Ethers Provider abstraction', () => {
 
   let signer: Signer
   let provider: Provider
+  const order: Order = {
+    key: 'order',
+    maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+    underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+    floating: false,
+    principal: '1000',
+    interest: '50',
+    duration: '12345',
+    expiry: '123456789',
+    nonce: '42',
+  }
 
   before(() => {
     provider = getDefaultProvider()
@@ -33,17 +44,6 @@ describe('Ethers Provider abstraction', () => {
   })
 
   it('returns a ether specific order', () => {
-    const order: Order = {
-      key: 'order',
-      maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      floating: false,
-      principal: '1000',
-      interest: '50',
-      duration: '12345',
-      expiry: '123456789',
-      nonce: '42',
-    }
     const validOrder: ValidOrder = vendor.prepareOrder(order)
     assert.isNotNull(validOrder)
     assert.equal(validOrder.key, utils.formatBytes32String(order.key))
@@ -58,34 +58,12 @@ describe('Ethers Provider abstraction', () => {
   })
 
   it('returns a valid signature', async () => {
-    const order: Order = {
-      key: 'order',
-      maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      floating: false,
-      principal: '1000',
-      interest: '50',
-      duration: '12345',
-      expiry: '123456789',
-      nonce: '42',
-    }
     const validOrder: ValidOrder = vendor.prepareOrder(order)
     const signature: string = await vendor.signOrder(validOrder)
     assert.isNotNull(signature)
   })
 
   it('returns a splited sig', async () => {
-    const order: Order = {
-      key: 'order',
-      maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      floating: false,
-      principal: '1000',
-      interest: '50',
-      duration: '12345',
-      expiry: '123456789',
-      nonce: '42',
-    }
     const validOrder: ValidOrder = vendor.prepareOrder(order)
     const signature: string = await vendor.signOrder(validOrder)
     const components: Components = vendor.splitSign(signature)
