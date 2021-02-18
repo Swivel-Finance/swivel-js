@@ -5,10 +5,10 @@ import Vendor from './vendors/ethers'
 import Swivel from './swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { Order, TxResponse, Contract } from './interfaces'
+import { TxResponse, Contract } from './interfaces'
 import { cloneWithWriteAccess } from './helpers'
 
-describe('Swivel fillFixed method', () => {
+describe('Swivel batchRelease method', () => {
   let swivel: Swivel
   let vendor: Vendor
 
@@ -20,8 +20,8 @@ describe('Swivel fillFixed method', () => {
     swivel.at('0xabc')
   })
 
-  it('has a delegated fillFixed method', () => {
-    assert.equal(typeof swivel.contract?.functions.fillFixed, 'function')
+  it('has a delegated batchRelease method', () => {
+    assert.equal(typeof swivel.contract?.functions.batchRelease, 'function')
   })
 
   it('passes the call thru to the meta contract', async () => {
@@ -37,34 +37,29 @@ describe('Swivel fillFixed method', () => {
     assert.isNotNull(contract)
     assert.notDeepEqual(contract, invalidContract)
 
-    const fake = stub(contract.functions, 'fillFixed')
+    const fake = stub(contract.functions, 'batchRelease')
     fake.resolves({ blockNumber: 789 })
 
-    const order: Order = {
-      key: 'order',
-      maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      floating: false,
-      principal: '1000',
-      interest: '50',
-      duration: '12345',
-      expiry: '123456789',
-      nonce: '42',
+    const orderKeys = ['order1', 'order1']
+    const agreementKeys = ['0xagree1', '0xagree2']
+
+    const validOrderKeys = []
+    const validAggreementKeys = []
+    for (let i = 0; i < orderKeys.length; i++) {
+      const { orderKey, agreementKey } = vendor.prepareReleaseMeta(orderKeys[i], agreementKeys[i])
+      validOrderKeys.push(orderKey)
+      validAggreementKeys.push(agreementKey)
     }
-    const filling = '50'
-    const agreementKey = '0xagree'
 
-    const meta = vendor.prepareOrderMeta(filling, agreementKey)
-
-    const result: TxResponse = await swivel.fillFixed(order, filling, agreementKey)
+    const result: TxResponse = await swivel.batchRelease(orderKeys, agreementKeys)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
 
     const { args } = fake.getCall(0)
-    assert.deepEqual(args[0], vendor.prepareOrder(order))
-    assert.isFalse(args[0].floating)
-    assert.deepEqual(args[1], meta.filling)
-    assert.equal(args[2], meta.agreementKey)
+    assert.isArray(args[0])
+    assert.deepEqual(args[0], validOrderKeys)
+    assert.isArray(args[1])
+    assert.deepEqual(args[1], validAggreementKeys)
   })
 })
