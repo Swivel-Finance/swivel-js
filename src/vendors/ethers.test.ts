@@ -1,16 +1,29 @@
 import 'mocha'
 import { assert } from 'chai'
 import Vendor from './ethers'
-import { Contract } from '../interfaces'
+import { Components, Contract, Order } from '../interfaces'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Wallet } from '@ethersproject/wallet'
+import { ValidOrder } from './interfaces/order'
+import { ethers, utils } from 'ethers'
 
 describe('Ethers Provider abstraction', () => {
   let vendor: Vendor
 
   let signer: Signer
   let provider: Provider
+  const order: Order = {
+    key: 'order',
+    maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+    underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
+    floating: false,
+    principal: '1000',
+    interest: '50',
+    duration: '12345',
+    expiry: '123456789',
+    nonce: '42',
+  }
 
   before(() => {
     provider = getDefaultProvider()
@@ -28,5 +41,33 @@ describe('Ethers Provider abstraction', () => {
     const contract: Contract = vendor.contract('0x123', abi)
     assert.isNotNull(contract)
     assert.equal(contract.address, '0x123')
+  })
+
+  it('returns a ether specific order', () => {
+    const validOrder: ValidOrder = vendor.prepareOrder(order)
+    assert.isNotNull(validOrder)
+    assert.equal(validOrder.key, utils.formatBytes32String(order.key))
+    assert.equal(validOrder.maker, order.maker)
+    assert.equal(validOrder.underlying, order.underlying)
+    assert.equal(validOrder.floating, order.floating)
+    assert.deepEqual(validOrder.principal, ethers.BigNumber.from(order.principal))
+    assert.deepEqual(validOrder.interest, ethers.BigNumber.from(order.interest))
+    assert.deepEqual(validOrder.duration, ethers.BigNumber.from(order.duration))
+    assert.deepEqual(validOrder.expiry, ethers.BigNumber.from(order.expiry))
+    assert.deepEqual(validOrder.nonce, ethers.BigNumber.from(order.nonce))
+  })
+
+  it('returns a valid signature', async () => {
+    const validOrder: ValidOrder = vendor.prepareOrder(order)
+    const signature: string = await vendor.signOrder(validOrder)
+    assert.isNotNull(signature)
+  })
+
+  it('returns a splited sig', async () => {
+    const validOrder: ValidOrder = vendor.prepareOrder(order)
+    const signature: string = await vendor.signOrder(validOrder)
+    const components: Components = vendor.splitSignature(signature)
+    assert.isNotNull(components)
+    assert.isFalse(components.v < 27)
   })
 })

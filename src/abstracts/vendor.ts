@@ -7,7 +7,7 @@
  * While this is natural to me, it may be worth discussing different terms if confusing.
  */
 
-import { Keyed, Contract, TransactOpts } from '../interfaces'
+import { Keyed, Contract, TransactOpts, Order, Components, VendorOrder } from '../interfaces'
 import { Abi } from '../@types'
 
 export default abstract class implements Keyed {
@@ -26,4 +26,45 @@ export default abstract class implements Keyed {
    *
    */
   abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
+
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific order object. Must be
+   * implemented in a child class
+   *
+   * @param o - higher level order object
+   *
+   */
+  abstract prepareOrder(o: Order): VendorOrder
+
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific signature. Must be
+   * implemented in a child class
+   *
+   * @param o - vendor order object
+   *
+   */
+  abstract signOrder(o: VendorOrder): Promise<string>
+
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific signature spliting. Must be
+   * implemented in a child class
+   *
+   * @param s - signature
+   *
+   */
+  abstract splitSignature(s: string): Components
+
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific order meta data. Must be
+   * implemented in a child class
+   *
+   * @param a - filling amount
+   * @param k - agreement key
+   *
+   */
+  abstract prepareOrderMeta(a: string, k: string): any
 }

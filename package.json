@@ -35,7 +35,8 @@
     "@ethersproject/abstract-signer": "^5.0.12",
     "@ethersproject/contracts": "^5.0.10",
     "@ethersproject/providers": "^5.0.20",
-    "@ethersproject/wallet": "^5.0.11"
+    "@ethersproject/wallet": "^5.0.11",
+    "ethers": "^5.0.31"
   },
   "devDependencies": {
     "@types/chai": "^4.2.14",

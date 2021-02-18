@@ -1,12 +1,15 @@
 // NOTE this is currently a shell for where we will encapsulate ethers.js
 
 import { SIGNER_OR_PROVIDER_REQUIRED } from '../errors'
-import { Contract } from '../interfaces'
+import { Components, Contract, Order } from '../interfaces'
 import Vendor from '../abstracts/vendor'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Contract as EthersContract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
 import { Abi } from '../@types'
+import { ethers, Signature, utils } from 'ethers'
+import { OrderMeta, ValidOrder } from './interfaces/order'
+import { DOMAIN, TYPES } from '../constants'
 
 export default class extends Vendor {
   /**
@@ -34,6 +37,70 @@ export default class extends Vendor {
   contract(address: string, abi: Abi): Contract {
     this.requireSignerOrProvider()
     return new EthersContract(address, abi, this.signer)
+  }
+
+  /**
+   * @remarks
+   * The Ethers.js specific convertion of order.
+   *
+   * @param o - order that swivel js will get
+   *
+   * @returns ValidOrder, ethers own type of order
+   */
+  prepareOrder(o: Order): ValidOrder {
+    return {
+      key: utils.formatBytes32String(o.key),
+      maker: o.maker,
+      underlying: o.underlying,
+      floating: o.floating,
+      principal: ethers.BigNumber.from(o.principal),
+      interest: ethers.BigNumber.from(o.interest),
+      duration: ethers.BigNumber.from(o.duration),
+      expiry: ethers.BigNumber.from(o.expiry),
+      nonce: ethers.BigNumber.from(o.nonce),
+    }
+  }
+
+  /**
+   * @remarks
+   * implementation of signing typed order.
+   *
+   * @param o - vendor specific order
+   */
+  async signOrder(o: ValidOrder): Promise<string> {
+    return this.signer._signTypedData(DOMAIN, TYPES, o)
+  }
+
+  /**
+   * @remarks
+   * implementation of spliting signature.
+   *
+   * @param s - signature hash string
+   */
+  splitSignature(s: string): Components {
+    const splitSig: Signature = utils.splitSignature(s)
+    const components: Components = {
+      v: splitSig.v,
+      r: splitSig.r,
+      s: splitSig.s,
+    }
+    components.v = parseInt(components.v + '')
+    if (components.v < 27) components.v += 27
+    return components
+  }
+
+  /**
+   * @remarks
+   * The Ethers.js specific convertion of filling amount and agreement key.
+   *
+   * @param a - filling amount
+   * @param k - agreement key
+   */
+  prepareOrderMeta(a: string, k: string): OrderMeta {
+    return {
+      filling: ethers.BigNumber.from(a),
+      agreementKey: ethers.utils.formatBytes32String(k),
+    }
   }
 
   /**
