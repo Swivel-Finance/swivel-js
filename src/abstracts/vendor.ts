@@ -67,4 +67,15 @@ export default abstract class implements Keyed {
    *
    */
   abstract prepareOrderMeta(a: string, k: string): any
+
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific release meta data. Must be
+   * implemented in a child class
+   *
+   * @param o - order key
+   * @param k - agreement key
+   *
+   */
+  abstract prepareReleaseMeta(a: string, k: string): any
 }
