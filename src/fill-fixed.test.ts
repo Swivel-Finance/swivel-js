@@ -49,7 +49,6 @@ describe('Swivel fillFixed method', () => {
       interest: '50',
       duration: '12345',
       expiry: '123456789',
-      nonce: '42',
     }
     const filling = '50'
     const agreementKey = '0xagree'

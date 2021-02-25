@@ -49,7 +49,6 @@ describe('Swivel cancel method', () => {
       interest: '50',
       duration: '12345',
       expiry: '123456789',
-      nonce: '42',
     }
 
     const result: TxResponse = await swivel.cancel(order)

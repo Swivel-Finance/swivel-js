@@ -22,7 +22,6 @@ describe('Ethers Provider abstraction', () => {
     interest: '50',
     duration: '12345',
     expiry: '123456789',
-    nonce: '42',
   }
 
   before(() => {
@@ -54,7 +53,6 @@ describe('Ethers Provider abstraction', () => {
     assert.deepEqual(validOrder.interest, ethers.BigNumber.from(order.interest))
     assert.deepEqual(validOrder.duration, ethers.BigNumber.from(order.duration))
     assert.deepEqual(validOrder.expiry, ethers.BigNumber.from(order.expiry))
-    assert.deepEqual(validOrder.nonce, ethers.BigNumber.from(order.nonce))
   })
 
   it('returns a valid signature', async () => {
