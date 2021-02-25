@@ -1,12 +1,12 @@
 import 'mocha'
 import { stub } from 'sinon'
 import { assert } from 'chai'
-import Vendor from './vendors/ethers'
-import Swivel from './swivel'
+import Vendor from '../vendors/ethers'
+import Swivel from '../swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { Order, TxResponse, Contract } from './interfaces'
-import { cloneWithWriteAccess } from './helpers'
+import { Order, TxResponse, Contract } from '../interfaces'
+import { cloneWithWriteAccess } from '../helpers'
 
 describe('Swivel batchFillFloating method', () => {
   let swivel: Swivel

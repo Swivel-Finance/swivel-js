@@ -1,14 +1,14 @@
 import 'mocha'
 import { stub } from 'sinon'
 import { assert } from 'chai'
-import Vendor from './vendors/ethers'
-import Swivel from './swivel'
+import Vendor from '../vendors/ethers'
+import Swivel from '../swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { Order, TxResponse, Contract } from './interfaces'
-import { cloneWithWriteAccess } from './helpers'
+import { Order, TxResponse, Contract } from '../interfaces'
+import { cloneWithWriteAccess } from '../helpers'
 
-describe('Swivel fillFloating method', () => {
+describe('Swivel fillFixed method', () => {
   let swivel: Swivel
   let vendor: Vendor
 
@@ -20,8 +20,8 @@ describe('Swivel fillFloating method', () => {
     swivel.at('0xabc')
   })
 
-  it('has a delegated fillFloating method', () => {
-    assert.equal(typeof swivel.contract?.functions.fillFloating, 'function')
+  it('has a delegated fillFixed method', () => {
+    assert.equal(typeof swivel.contract?.functions.fillFixed, 'function')
   })
 
   it('passes the call thru to the meta contract', async () => {
@@ -37,14 +37,14 @@ describe('Swivel fillFloating method', () => {
     assert.isNotNull(contract)
     assert.notDeepEqual(contract, invalidContract)
 
-    const fake = stub(contract.functions, 'fillFloating')
+    const fake = stub(contract.functions, 'fillFixed')
     fake.resolves({ blockNumber: 789 })
 
     const order: Order = {
       key: 'order',
       maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
       underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      floating: true,
+      floating: false,
       principal: '1000',
       interest: '50',
       duration: '12345',
@@ -55,14 +55,14 @@ describe('Swivel fillFloating method', () => {
 
     const meta = vendor.prepareOrderMeta(filling, agreementKey)
 
-    const result: TxResponse = await swivel.fillFloating(order, filling, agreementKey)
+    const result: TxResponse = await swivel.fillFixed(order, filling, agreementKey)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
 
     const { args } = fake.getCall(0)
     assert.deepEqual(args[0], vendor.prepareOrder(order))
-    assert.isTrue(args[0].floating)
+    assert.isFalse(args[0].floating)
     assert.deepEqual(args[1], meta.filling)
     assert.equal(args[2], meta.agreementKey)
   })

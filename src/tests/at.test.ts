@@ -1,7 +1,7 @@
 import 'mocha'
 import { assert } from 'chai'
-import Vendor from './vendors/ethers'
-import Swivel from './swivel'
+import Vendor from '../vendors/ethers'
+import Swivel from '../swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
 
