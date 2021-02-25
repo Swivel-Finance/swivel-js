@@ -19,6 +19,5 @@ export const TYPES = {
     { name: 'interest', type: 'uint256' },
     { name: 'duration', type: 'uint256' },
     { name: 'expiry', type: 'uint256' },
-    { name: 'nonce', type: 'uint256' },
   ],
 }

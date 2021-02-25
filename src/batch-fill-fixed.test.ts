@@ -50,7 +50,6 @@ describe('Swivel batchFillFixed method', () => {
         interest: '50',
         duration: '12345',
         expiry: '123456789',
-        nonce: '42',
       },
       {
         key: 'order2',
@@ -61,7 +60,6 @@ describe('Swivel batchFillFixed method', () => {
         interest: '60',
         duration: '12343',
         expiry: '123456782',
-        nonce: '43',
       },
     ]
     const fillings = ['50', '60']

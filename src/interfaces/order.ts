@@ -7,7 +7,6 @@ export interface Order {
   interest: string
   duration: string
   expiry: string
-  nonce: string
 }
 
 export interface VendorOrder {
@@ -19,5 +18,4 @@ export interface VendorOrder {
   interest: any
   duration: any
   expiry: any
-  nonce: any
 }

@@ -57,7 +57,6 @@ export default class extends Vendor {
       interest: ethers.BigNumber.from(o.interest),
       duration: ethers.BigNumber.from(o.duration),
       expiry: ethers.BigNumber.from(o.expiry),
-      nonce: ethers.BigNumber.from(o.nonce),
     }
   }
 

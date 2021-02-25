@@ -9,7 +9,6 @@ export interface ValidOrder {
   interest: ethers.BigNumber
   duration: ethers.BigNumber
   expiry: ethers.BigNumber
-  nonce: ethers.BigNumber
 }
 
 export interface OrderMeta {
