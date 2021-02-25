@@ -13,6 +13,17 @@ export default class extends Deployed {
 
   /**
    * @remarks
+   * This method only care about the order and take care of signing the order with specific vendor's signer.
+   *
+   * @param o - order object without any vendor specific stuff added
+   */
+  async signOrder(o: Order): Promise<string> {
+    const order = this.vendor.prepareOrder(o)
+    return await this.vendor.signOrder(order)
+  }
+
+  /**
+   * @remarks
    * This method only care about the order, filling amout & agreement key and take care of signing the order with specific vendor's signer before calling the fillFixed method in the smart contract.
    *
    * @param o - order object without any vendor specific stuff added
