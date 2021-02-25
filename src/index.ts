@@ -1,2 +1,4 @@
-export * from './swivel'
-export * from './vendors/ethers'
+import Swivel from './swivel'
+import Vendor from './vendors/ethers'
+
+export { Swivel, Vendor }
