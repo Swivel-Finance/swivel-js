@@ -24,9 +24,9 @@ exports.TYPES = {
         { name: 'maker', type: 'address' },
         { name: 'underlying', type: 'address' },
         { name: 'floating', type: 'bool' },
-        { name: 'principal', type: 'integer' },
-        { name: 'interest', type: 'integer' },
-        { name: 'duration', type: 'integer' },
-        { name: 'expiry', type: 'integer' },
+        { name: 'principal', type: 'uint256' },
+        { name: 'interest', type: 'uint256' },
+        { name: 'duration', type: 'uint256' },
+        { name: 'expiry', type: 'uint256' },
     ],
 };
