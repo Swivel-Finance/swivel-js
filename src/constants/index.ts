@@ -11,13 +11,13 @@ export const DOMAIN: TypedDataDomain = {
 
 export const TYPES = {
   Order: [
-    { name: 'key', type: 'bytes32' },
+    { name: 'key', type: 'string' },
     { name: 'maker', type: 'address' },
     { name: 'underlying', type: 'address' },
     { name: 'floating', type: 'bool' },
-    { name: 'principal', type: 'uint256' },
-    { name: 'interest', type: 'uint256' },
-    { name: 'duration', type: 'uint256' },
-    { name: 'expiry', type: 'uint256' },
+    { name: 'principal', type: 'integer' },
+    { name: 'interest', type: 'integer' },
+    { name: 'duration', type: 'integer' },
+    { name: 'expiry', type: 'integer' },
   ],
 }
