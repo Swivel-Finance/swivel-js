@@ -15,7 +15,7 @@ export const TYPES = {
     { name: 'maker', type: 'address' },
     { name: 'underlying', type: 'address' },
     { name: 'floating', type: 'bool' },
-    { name: 'principal', type: 'integer' },
+    { name: 'principal', type: 'string' },
     { name: 'interest', type: 'string' },
     { name: 'duration', type: 'string' },
     { name: 'expiry', type: 'string' },
