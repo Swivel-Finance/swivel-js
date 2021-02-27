@@ -27,6 +27,12 @@ export default abstract class implements Keyed {
    */
   abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
 
+  /**
+   * @remarks
+   * Method which sets the vendor specific signer with a raw provider
+   *
+   * @param p - raw provider
+   */
   abstract setSigner(p: any): void
 
   /**

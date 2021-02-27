@@ -25,6 +25,12 @@ export default class extends Vendor {
     this.signer = s
   }
 
+  /**
+   * @remarks
+   * The Ethers.js specific setting of signer from provider.
+   *
+   * @param p - raw provider instance
+   */
   setSigner(p: any): void {
     const provider = new ethers.providers.Web3Provider(p)
     this.signer = provider.getSigner()
