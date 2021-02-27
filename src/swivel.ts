@@ -18,8 +18,7 @@ export default class extends Deployed {
    * @param o - order object without any vendor specific stuff added
    */
   async signOrder(o: Order): Promise<string> {
-    const order = this.vendor.prepareOrder(o)
-    return await this.vendor.signOrder(order)
+    return await this.vendor.signOrder(o)
   }
 
   /**

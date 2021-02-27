@@ -20,8 +20,7 @@ class default_1 extends deployed_1.default {
     }
     signOrder(o) {
         return __awaiter(this, void 0, void 0, function* () {
-            const order = this.vendor.prepareOrder(o);
-            return yield this.vendor.signOrder(order);
+            return yield this.vendor.signOrder(o);
         });
     }
     fillFixed(o, a, k) {
