@@ -6,6 +6,7 @@ import { Abi } from '../@types';
 import { OrderMeta, ReleaseMeta, ValidOrder } from './interfaces/order';
 export default class extends Vendor {
     constructor(p: Provider, s?: Signer);
+    setSigner(p: any): void;
     contract(address: string, abi: Abi): Contract;
     prepareOrder(o: Order): ValidOrder;
     signOrder(o: ValidOrder): Promise<string>;

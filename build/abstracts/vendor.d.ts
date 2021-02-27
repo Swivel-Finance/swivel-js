@@ -5,6 +5,7 @@ export default abstract class implements Keyed {
     provider: any;
     signer: any;
     abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract;
+    abstract setSigner(p: any): void;
     abstract prepareOrder(o: Order): VendorOrder;
     abstract signOrder(o: VendorOrder): Promise<string>;
     abstract splitSignature(s: string): Components;

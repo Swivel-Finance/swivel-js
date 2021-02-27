@@ -23,6 +23,10 @@ class default_1 extends vendor_1.default {
         this.provider = p;
         this.signer = s;
     }
+    setSigner(p) {
+        const provider = new ethers_1.ethers.providers.Web3Provider(p);
+        this.signer = provider.getSigner();
+    }
     contract(address, abi) {
         this.requireSignerOrProvider();
         return new contracts_1.Contract(address, abi, this.signer);
