@@ -5,7 +5,7 @@ export * from './swivel'
 export const DOMAIN: TypedDataDomain = {
   name: 'My Messaging App',
   version: '1',
-  chainId: 5,
+  chainId: 42,
   verifyingContract: '0x7753cfAD258eFbC52A9A1452e42fFbce9bE486cb',
 }
 
