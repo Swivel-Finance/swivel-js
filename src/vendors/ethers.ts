@@ -5,7 +5,7 @@ import { Components, Contract, Order } from '../interfaces'
 import Vendor from '../abstracts/vendor'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Contract as EthersContract } from '@ethersproject/contracts'
-import { Provider } from '@ethersproject/providers'
+import { Provider, Web3Provider } from '@ethersproject/providers'
 import { Abi } from '../@types'
 import { ethers, Signature, utils } from 'ethers'
 import { OrderMeta, ReleaseMeta, ValidOrder } from './interfaces/order'
@@ -23,6 +23,11 @@ export default class extends Vendor {
     super()
     this.provider = p
     this.signer = s
+  }
+
+  setSigner(p: any): void {
+    const provider = new ethers.providers.Web3Provider(p)
+    this.signer = provider.getSigner()
   }
 
   /**

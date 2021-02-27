@@ -27,6 +27,8 @@ export default abstract class implements Keyed {
    */
   abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
 
+  abstract setSigner(p: any): void
+
   /**
    * @remarks
    * Method which instantiates and returns the vendor specific order object. Must be
