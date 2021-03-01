@@ -1,4 +1,9 @@
 import Swivel from './swivel'
 import Vendor from './vendors/ethers'
+import * as ethersHelper from './vendors/ethers.helpers'
 
-export { Swivel, Vendor }
+const helpers = {
+  ethers: ethersHelper,
+}
+
+export { Swivel, Vendor, helpers }

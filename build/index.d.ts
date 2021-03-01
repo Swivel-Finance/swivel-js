@@ -1,3 +1,7 @@
 import Swivel from './swivel';
 import Vendor from './vendors/ethers';
-export { Swivel, Vendor };
+import * as ethersHelper from './vendors/ethers.helpers';
+declare const helpers: {
+    ethers: typeof ethersHelper;
+};
+export { Swivel, Vendor, helpers };
