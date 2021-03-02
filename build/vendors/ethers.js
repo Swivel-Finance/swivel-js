@@ -33,7 +33,7 @@ class default_1 extends vendor_1.default {
     }
     prepareOrder(o) {
         return {
-            key: o.key,
+            key: ethers_1.utils.arrayify(o.key),
             maker: o.maker,
             underlying: o.underlying,
             floating: o.floating,
