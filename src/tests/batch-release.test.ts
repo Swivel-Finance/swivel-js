@@ -43,14 +43,6 @@ describe('Swivel batchRelease method', () => {
     const orderKeys = ['order1', 'order1']
     const agreementKeys = ['0xagree1', '0xagree2']
 
-    const validOrderKeys = []
-    const validAggreementKeys = []
-    for (let i = 0; i < orderKeys.length; i++) {
-      const { orderKey, agreementKey } = vendor.prepareReleaseMeta(orderKeys[i], agreementKeys[i])
-      validOrderKeys.push(orderKey)
-      validAggreementKeys.push(agreementKey)
-    }
-
     const result: TxResponse = await swivel.batchRelease(orderKeys, agreementKeys)
     assert(fake.calledOnce)
     assert.isNotNull(result)
@@ -58,8 +50,8 @@ describe('Swivel batchRelease method', () => {
 
     const { args } = fake.getCall(0)
     assert.isArray(args[0])
-    assert.deepEqual(args[0], validOrderKeys)
+    assert.deepEqual(args[0], orderKeys)
     assert.isArray(args[1])
-    assert.deepEqual(args[1], validAggreementKeys)
+    assert.deepEqual(args[1], agreementKeys)
   })
 })

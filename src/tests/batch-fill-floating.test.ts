@@ -74,7 +74,6 @@ describe('Swivel batchFillFloating method', () => {
       const filling = vendor.prepareFillingAmount(fillings[i])
       validFillings.push(filling)
     }
-    const validAggreementKey = vendor.prepareAgreementKey(agreementKey)
     const components = signatures.map((sig) => vendor.splitSignature(sig))
 
     const result: TxResponse = await swivel.batchFillFloating(orders, fillings, agreementKey, signatures)
@@ -92,7 +91,7 @@ describe('Swivel batchFillFloating method', () => {
     assert.isArray(args[1])
     assert.deepEqual(args[1], validFillings)
 
-    assert.deepEqual(args[2], validAggreementKey)
+    assert.deepEqual(args[2], agreementKey)
 
     assert.isArray(args[3])
     assert.deepEqual(args[3], components)

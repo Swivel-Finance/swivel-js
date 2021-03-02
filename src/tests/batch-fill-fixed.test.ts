@@ -74,7 +74,6 @@ describe('Swivel batchFillFixed method', () => {
       const filling = vendor.prepareFillingAmount(fillings[i])
       validFillings.push(filling)
     }
-    const validAggreementKey = vendor.prepareAgreementKey(agreementKey)
     const components = signatures.map((sig) => vendor.splitSignature(sig))
 
     const result: TxResponse = await swivel.batchFillFixed(orders, fillings, agreementKey, signatures)
@@ -92,7 +91,7 @@ describe('Swivel batchFillFixed method', () => {
     assert.isArray(args[1])
     assert.deepEqual(args[1], validFillings)
 
-    assert.equal(args[2], validAggreementKey)
+    assert.equal(args[2], agreementKey)
 
     assert.isArray(args[3])
     assert.deepEqual(args[3], components)

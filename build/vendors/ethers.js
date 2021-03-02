@@ -63,15 +63,6 @@ class default_1 extends vendor_1.default {
     prepareFillingAmount(a) {
         return ethers_1.ethers.BigNumber.from(a);
     }
-    prepareAgreementKey(k) {
-        return ethers_1.ethers.utils.formatBytes32String(k);
-    }
-    prepareReleaseMeta(a, k) {
-        return {
-            orderKey: ethers_1.ethers.utils.formatBytes32String(a),
-            agreementKey: ethers_1.ethers.utils.formatBytes32String(k),
-        };
-    }
     requireSignerOrProvider() {
         if (!this.signer && !this.provider)
             throw new ReferenceError(errors_1.SIGNER_OR_PROVIDER_REQUIRED);

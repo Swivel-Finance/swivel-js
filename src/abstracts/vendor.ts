@@ -74,25 +74,4 @@ export default abstract class implements Keyed {
    *
    */
   abstract prepareFillingAmount(a: string): any
-
-  /**
-   * @remarks
-   * Method which instantiates and returns the vendor specific agreement key. Must be
-   * implemented in a child class
-   *
-   * @param k - agreement key
-   *
-   */
-  abstract prepareAgreementKey(k: string): any
-
-  /**
-   * @remarks
-   * Method which instantiates and returns the vendor specific release meta data. Must be
-   * implemented in a child class
-   *
-   * @param o - order key
-   * @param k - agreement key
-   *
-   */
-  abstract prepareReleaseMeta(a: string, k: string): any
 }

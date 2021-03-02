@@ -43,15 +43,13 @@ describe('Swivel releaseFloating method', () => {
     const orderKey = 'order'
     const agreementKey = '0xagree'
 
-    const meta = vendor.prepareReleaseMeta(orderKey, agreementKey)
-
     const result: TxResponse = await swivel.releaseFloating(orderKey, agreementKey)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
 
     const { args } = fake.getCall(0)
-    assert.equal(args[0], meta.orderKey)
-    assert.equal(args[1], meta.agreementKey)
+    assert.equal(args[0], orderKey)
+    assert.equal(args[1], agreementKey)
   })
 })

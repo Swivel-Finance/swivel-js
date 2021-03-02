@@ -10,6 +10,4 @@ export default abstract class implements Keyed {
     abstract signOrder(o: VendorOrder): Promise<string>;
     abstract splitSignature(s: string): Components;
     abstract prepareFillingAmount(a: string): any;
-    abstract prepareAgreementKey(k: string): any;
-    abstract prepareReleaseMeta(a: string, k: string): any;
 }

@@ -34,9 +34,8 @@ export default class extends Deployed {
     const order = this.vendor.prepareOrder(o)
     const components: Components = this.vendor.splitSignature(s)
     const filling = this.vendor.prepareFillingAmount(a)
-    const agreementKey = this.vendor.prepareAgreementKey(k)
 
-    return await this.contract?.functions.fillFixed(order, filling, agreementKey, components)
+    return await this.contract?.functions.fillFixed(order, filling, k, components)
   }
 
   /**
@@ -52,9 +51,8 @@ export default class extends Deployed {
     const order = this.vendor.prepareOrder(o)
     const components: Components = this.vendor.splitSignature(s)
     const filling = this.vendor.prepareFillingAmount(a)
-    const agreementKey = this.vendor.prepareAgreementKey(k)
 
-    return await this.contract?.functions.fillFloating(order, filling, agreementKey, components)
+    return await this.contract?.functions.fillFloating(order, filling, k, components)
   }
 
   /**
@@ -65,9 +63,7 @@ export default class extends Deployed {
    * @param a - agreement key
    */
   async releaseFixed(o: string, a: string): Promise<TxResponse> {
-    const { orderKey, agreementKey } = this.vendor.prepareReleaseMeta(o, a)
-
-    return await this.contract?.functions.releaseFixed(orderKey, agreementKey)
+    return await this.contract?.functions.releaseFixed(o, a)
   }
 
   /**
@@ -78,9 +74,7 @@ export default class extends Deployed {
    * @param a - agreement key
    */
   async releaseFloating(o: string, a: string): Promise<TxResponse> {
-    const { orderKey, agreementKey } = this.vendor.prepareReleaseMeta(o, a)
-
-    return await this.contract?.functions.releaseFloating(orderKey, agreementKey)
+    return await this.contract?.functions.releaseFloating(o, a)
   }
 
   /**
@@ -100,9 +94,8 @@ export default class extends Deployed {
       const filling = this.vendor.prepareFillingAmount(a[i])
       fillings.push(filling)
     }
-    const agreementKey = this.vendor.prepareAgreementKey(k)
 
-    return await this.contract?.functions.batchFillFixed(orders, fillings, agreementKey, components)
+    return await this.contract?.functions.batchFillFixed(orders, fillings, k, components)
   }
 
   /**
@@ -122,9 +115,8 @@ export default class extends Deployed {
       const filling = this.vendor.prepareFillingAmount(a[i])
       fillings.push(filling)
     }
-    const agreementKey = this.vendor.prepareAgreementKey(k)
 
-    return await this.contract?.functions.batchFillFloating(orders, fillings, agreementKey, components)
+    return await this.contract?.functions.batchFillFloating(orders, fillings, k, components)
   }
 
   /**
@@ -135,15 +127,7 @@ export default class extends Deployed {
    * @param a - agreement keys array
    */
   async batchRelease(o: string[], a: string[]): Promise<TxResponse> {
-    const orderKeys = []
-    const aggreementKeys = []
-    for (let i = 0; i < o.length; i++) {
-      const { orderKey, agreementKey } = this.vendor.prepareReleaseMeta(o[i], a[i])
-      orderKeys.push(orderKey)
-      aggreementKeys.push(agreementKey)
-    }
-
-    return await this.contract?.functions.batchRelease(orderKeys, aggreementKeys)
+    return await this.contract?.functions.batchRelease(o, a)
   }
 
   /**

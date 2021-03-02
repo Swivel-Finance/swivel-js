@@ -8,7 +8,7 @@ import { Contract as EthersContract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
 import { Abi } from '../@types'
 import { BigNumber, ethers, Signature, utils } from 'ethers'
-import { ReleaseMeta, ValidOrder } from './interfaces/order'
+import { ValidOrder } from './interfaces/order'
 import { DOMAIN, TYPES } from '../constants'
 
 export default class extends Vendor {
@@ -107,30 +107,6 @@ export default class extends Vendor {
    */
   prepareFillingAmount(a: string): BigNumber {
     return ethers.BigNumber.from(a)
-  }
-
-  /**
-   * @remarks
-   * The Ethers.js specific convertion of filling amount and agreement key.
-   *
-   * @param k - agreement key
-   */
-  prepareAgreementKey(k: string): string {
-    return ethers.utils.formatBytes32String(k)
-  }
-
-  /**
-   * @remarks
-   * The Ethers.js specific convertion of order key and agreement key.
-   *
-   * @param a - order key
-   * @param k - agreement key
-   */
-  prepareReleaseMeta(a: string, k: string): ReleaseMeta {
-    return {
-      orderKey: ethers.utils.formatBytes32String(a),
-      agreementKey: ethers.utils.formatBytes32String(k),
-    }
   }
 
   /**

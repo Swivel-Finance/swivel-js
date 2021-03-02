@@ -56,7 +56,6 @@ describe('Swivel fillFixed method', () => {
       '0x64eac3e9c741fce72cc8abaddb269b3b00046e17e7feff5f5fc4a9b02c720fa427cf7b1fb3a3fdad7af4489c729d995c4c62ef90729d8a096fbe6233b1c3a4af28'
 
     const validFilling = vendor.prepareFillingAmount(filling)
-    const validAgreementKey = vendor.prepareAgreementKey(agreementKey)
     const components = vendor.splitSignature(signature)
 
     const result: TxResponse = await swivel.fillFixed(order, filling, agreementKey, signature)
@@ -68,7 +67,7 @@ describe('Swivel fillFixed method', () => {
     assert.deepEqual(args[0], vendor.prepareOrder(order))
     assert.isFalse(args[0].floating)
     assert.deepEqual(args[1], validFilling)
-    assert.equal(args[2], validAgreementKey)
+    assert.equal(args[2], agreementKey)
     assert.deepEqual(args[3], components)
   })
 })

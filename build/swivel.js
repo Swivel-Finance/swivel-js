@@ -29,8 +29,7 @@ class default_1 extends deployed_1.default {
             const order = this.vendor.prepareOrder(o);
             const components = this.vendor.splitSignature(s);
             const filling = this.vendor.prepareFillingAmount(a);
-            const agreementKey = this.vendor.prepareAgreementKey(k);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.fillFixed(order, filling, agreementKey, components));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.fillFixed(order, filling, k, components));
         });
     }
     fillFloating(o, a, k, s) {
@@ -39,22 +38,19 @@ class default_1 extends deployed_1.default {
             const order = this.vendor.prepareOrder(o);
             const components = this.vendor.splitSignature(s);
             const filling = this.vendor.prepareFillingAmount(a);
-            const agreementKey = this.vendor.prepareAgreementKey(k);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.fillFloating(order, filling, agreementKey, components));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.fillFloating(order, filling, k, components));
         });
     }
     releaseFixed(o, a) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            const { orderKey, agreementKey } = this.vendor.prepareReleaseMeta(o, a);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.releaseFixed(orderKey, agreementKey));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.releaseFixed(o, a));
         });
     }
     releaseFloating(o, a) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            const { orderKey, agreementKey } = this.vendor.prepareReleaseMeta(o, a);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.releaseFloating(orderKey, agreementKey));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.releaseFloating(o, a));
         });
     }
     batchFillFixed(o, a, k, s) {
@@ -67,8 +63,7 @@ class default_1 extends deployed_1.default {
                 const filling = this.vendor.prepareFillingAmount(a[i]);
                 fillings.push(filling);
             }
-            const agreementKey = this.vendor.prepareAgreementKey(k);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFixed(orders, fillings, agreementKey, components));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFixed(orders, fillings, k, components));
         });
     }
     batchFillFloating(o, a, k, s) {
@@ -81,21 +76,13 @@ class default_1 extends deployed_1.default {
                 const filling = this.vendor.prepareFillingAmount(a[i]);
                 fillings.push(filling);
             }
-            const agreementKey = this.vendor.prepareAgreementKey(k);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFloating(orders, fillings, agreementKey, components));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFloating(orders, fillings, k, components));
         });
     }
     batchRelease(o, a) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
-            const orderKeys = [];
-            const aggreementKeys = [];
-            for (let i = 0; i < o.length; i++) {
-                const { orderKey, agreementKey } = this.vendor.prepareReleaseMeta(o[i], a[i]);
-                orderKeys.push(orderKey);
-                aggreementKeys.push(agreementKey);
-            }
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchRelease(orderKeys, aggreementKeys));
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchRelease(o, a));
         });
     }
     cancel(o, s) {

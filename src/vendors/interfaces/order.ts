@@ -10,12 +10,3 @@ export interface ValidOrder {
   duration: ethers.BigNumber
   expiry: ethers.BigNumber
 }
-
-export interface OrderMeta {
-  filling: ethers.BigNumber
-  agreementKey: string
-}
-export interface ReleaseMeta {
-  orderKey: string
-  agreementKey: string
-}
