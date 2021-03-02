@@ -60,7 +60,7 @@ export default class extends Vendor {
    */
   prepareOrder(o: Order): ValidOrder {
     return {
-      key: utils.formatBytes32String(o.key),
+      key: o.key,
       maker: o.maker,
       underlying: o.underlying,
       floating: o.floating,
