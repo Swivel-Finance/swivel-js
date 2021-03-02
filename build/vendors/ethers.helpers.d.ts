@@ -1,1 +1,1 @@
-export declare const createOrderKey: (address: string) => string;
+export declare const createKey: (address: string) => string;
