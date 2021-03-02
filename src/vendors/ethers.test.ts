@@ -1,7 +1,7 @@
 import 'mocha'
 import { assert } from 'chai'
 import Vendor from './ethers'
-import { Components, Contract, Order } from '../interfaces'
+import { Components, Contract } from '../interfaces'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Wallet } from '@ethersproject/wallet'
