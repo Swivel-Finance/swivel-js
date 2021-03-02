@@ -23,23 +23,23 @@ class default_1 extends deployed_1.default {
             return yield this.vendor.signOrder(o);
         });
     }
-    fillFixed(o, a, k) {
+    fillFixed(o, a, k, s) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const order = this.vendor.prepareOrder(o);
-            const signature = yield this.vendor.signOrder(order);
-            const components = this.vendor.splitSignature(signature);
-            const { filling, agreementKey } = this.vendor.prepareOrderMeta(a, k);
+            const components = this.vendor.splitSignature(s);
+            const filling = this.vendor.prepareFillingAmount(a);
+            const agreementKey = this.vendor.prepareAgreementKey(k);
             return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.fillFixed(order, filling, agreementKey, components));
         });
     }
-    fillFloating(o, a, k) {
+    fillFloating(o, a, k, s) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const order = this.vendor.prepareOrder(o);
-            const signature = yield this.vendor.signOrder(order);
-            const components = this.vendor.splitSignature(signature);
-            const { filling, agreementKey } = this.vendor.prepareOrderMeta(a, k);
+            const components = this.vendor.splitSignature(s);
+            const filling = this.vendor.prepareFillingAmount(a);
+            const agreementKey = this.vendor.prepareAgreementKey(k);
             return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.fillFloating(order, filling, agreementKey, components));
         });
     }
@@ -57,36 +57,32 @@ class default_1 extends deployed_1.default {
             return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.releaseFloating(orderKey, agreementKey));
         });
     }
-    batchFillFixed(o, a, k) {
+    batchFillFixed(o, a, k, s) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const orders = o.map((r) => this.vendor.prepareOrder(r));
-            const signature = yield Promise.all(orders.map((o) => this.vendor.signOrder(o)));
-            const components = signature.map((s) => this.vendor.splitSignature(s));
+            const components = s.map((sig) => this.vendor.splitSignature(sig));
             const fillings = [];
-            const aggreementKeys = [];
             for (let i = 0; i < a.length; i++) {
-                const { filling, agreementKey } = this.vendor.prepareOrderMeta(a[i], k[i]);
+                const filling = this.vendor.prepareFillingAmount(a[i]);
                 fillings.push(filling);
-                aggreementKeys.push(agreementKey);
             }
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFixed(orders, fillings, aggreementKeys, components));
+            const agreementKey = this.vendor.prepareAgreementKey(k);
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFixed(orders, fillings, agreementKey, components));
         });
     }
-    batchFillFloating(o, a, k) {
+    batchFillFloating(o, a, k, s) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const orders = o.map((r) => this.vendor.prepareOrder(r));
-            const signature = yield Promise.all(orders.map((o) => this.vendor.signOrder(o)));
-            const components = signature.map((s) => this.vendor.splitSignature(s));
+            const components = s.map((sig) => this.vendor.splitSignature(sig));
             const fillings = [];
-            const aggreementKeys = [];
             for (let i = 0; i < a.length; i++) {
-                const { filling, agreementKey } = this.vendor.prepareOrderMeta(a[i], k[i]);
+                const filling = this.vendor.prepareFillingAmount(a[i]);
                 fillings.push(filling);
-                aggreementKeys.push(agreementKey);
             }
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFloating(orders, fillings, aggreementKeys, components));
+            const agreementKey = this.vendor.prepareAgreementKey(k);
+            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchFillFloating(orders, fillings, agreementKey, components));
         });
     }
     batchRelease(o, a) {
@@ -102,12 +98,11 @@ class default_1 extends deployed_1.default {
             return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.batchRelease(orderKeys, aggreementKeys));
         });
     }
-    cancel(o) {
+    cancel(o, s) {
         var _a;
         return __awaiter(this, void 0, void 0, function* () {
             const order = this.vendor.prepareOrder(o);
-            const signature = yield this.vendor.signOrder(order);
-            const components = this.vendor.splitSignature(signature);
+            const components = this.vendor.splitSignature(s);
             return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.cancel(order, components));
         });
     }

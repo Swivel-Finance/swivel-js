@@ -63,17 +63,21 @@ describe('Swivel batchFillFixed method', () => {
       },
     ]
     const fillings = ['50', '60']
-    const agreementKeys = ['0xagree1', '0xagree2']
+    const agreementKey = '0xagree1'
+    const signatures = [
+      '0x64eac3e9c741fce72cc8abaddb269b3b00046e17e7feff5f5fc4a9b02c720fa427cf7b1fb3a3fdad7af4489c729d995c4c62ef90729d8a096fbe6233b1c3a4af28',
+      '0x64eac3e9c741fce72cc8abaddb269b3b00046e17e7feff5f5fc4a9b02c720fa427cf7b1fb3a3fdad7af4489c729d995c4c62ef90729d8a096fbe6233b1c3a4af28',
+    ]
 
     const validFillings = []
-    const validAggreementKeys = []
     for (let i = 0; i < fillings.length; i++) {
-      const { filling, agreementKey } = vendor.prepareOrderMeta(fillings[i], agreementKeys[i])
+      const filling = vendor.prepareFillingAmount(fillings[i])
       validFillings.push(filling)
-      validAggreementKeys.push(agreementKey)
     }
+    const validAggreementKey = vendor.prepareAgreementKey(agreementKey)
+    const components = signatures.map((sig) => vendor.splitSignature(sig))
 
-    const result: TxResponse = await swivel.batchFillFixed(orders, fillings, agreementKeys)
+    const result: TxResponse = await swivel.batchFillFixed(orders, fillings, agreementKey, signatures)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
@@ -88,7 +92,9 @@ describe('Swivel batchFillFixed method', () => {
     assert.isArray(args[1])
     assert.deepEqual(args[1], validFillings)
 
-    assert.isArray(args[2])
-    assert.deepEqual(args[2], validAggreementKeys)
+    assert.equal(args[2], validAggreementKey)
+
+    assert.isArray(args[3])
+    assert.deepEqual(args[3], components)
   })
 })

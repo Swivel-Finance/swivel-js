@@ -60,11 +60,11 @@ class default_1 extends vendor_1.default {
             components.v += 27;
         return components;
     }
-    prepareOrderMeta(a, k) {
-        return {
-            filling: ethers_1.ethers.BigNumber.from(a),
-            agreementKey: ethers_1.ethers.utils.formatBytes32String(k),
-        };
+    prepareFillingAmount(a) {
+        return ethers_1.ethers.BigNumber.from(a);
+    }
+    prepareAgreementKey(k) {
+        return ethers_1.ethers.utils.formatBytes32String(k);
     }
     prepareReleaseMeta(a, k) {
         return {

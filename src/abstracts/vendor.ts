@@ -67,14 +67,23 @@ export default abstract class implements Keyed {
 
   /**
    * @remarks
-   * Method which instantiates and returns the vendor specific order meta data. Must be
+   * Method which instantiates and returns the vendor specific filling amount. Must be
    * implemented in a child class
    *
    * @param a - filling amount
+   *
+   */
+  abstract prepareFillingAmount(a: string): any
+
+  /**
+   * @remarks
+   * Method which instantiates and returns the vendor specific agreement key. Must be
+   * implemented in a child class
+   *
    * @param k - agreement key
    *
    */
-  abstract prepareOrderMeta(a: string, k: string): any
+  abstract prepareAgreementKey(k: string): any
 
   /**
    * @remarks

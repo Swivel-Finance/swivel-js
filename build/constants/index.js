@@ -15,7 +15,7 @@ __exportStar(require("./swivel"), exports);
 exports.DOMAIN = {
     name: 'My Messaging App',
     version: '1',
-    chainId: 42,
+    chainId: 5,
     verifyingContract: '0x7753cfAD258eFbC52A9A1452e42fFbce9bE486cb',
 };
 exports.TYPES = {

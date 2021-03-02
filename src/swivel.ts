@@ -28,12 +28,13 @@ export default class extends Deployed {
    * @param o - order object without any vendor specific stuff added
    * @param a - filling
    * @param k - agreement key
+   * @param s - signature
    */
-  async fillFixed(o: Order, a: string, k: string): Promise<TxResponse> {
+  async fillFixed(o: Order, a: string, k: string, s: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)
-    const signature: string = await this.vendor.signOrder(order)
-    const components: Components = this.vendor.splitSignature(signature)
-    const { filling, agreementKey } = this.vendor.prepareOrderMeta(a, k)
+    const components: Components = this.vendor.splitSignature(s)
+    const filling = this.vendor.prepareFillingAmount(a)
+    const agreementKey = this.vendor.prepareAgreementKey(k)
 
     return await this.contract?.functions.fillFixed(order, filling, agreementKey, components)
   }
@@ -45,12 +46,13 @@ export default class extends Deployed {
    * @param o - order object without any vendor specific stuff added
    * @param a - filling
    * @param k - agreement key
+   * @param s - signature
    */
-  async fillFloating(o: Order, a: string, k: string): Promise<TxResponse> {
+  async fillFloating(o: Order, a: string, k: string, s: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)
-    const signature: string = await this.vendor.signOrder(order)
-    const components: Components = this.vendor.splitSignature(signature)
-    const { filling, agreementKey } = this.vendor.prepareOrderMeta(a, k)
+    const components: Components = this.vendor.splitSignature(s)
+    const filling = this.vendor.prepareFillingAmount(a)
+    const agreementKey = this.vendor.prepareAgreementKey(k)
 
     return await this.contract?.functions.fillFloating(order, filling, agreementKey, components)
   }
@@ -87,21 +89,20 @@ export default class extends Deployed {
    *
    * @param o - orders array without any vendor specific stuff added
    * @param a - filling amounts array
-   * @param k - agreement keys array
+   * @param k - agreement key
+   * @param s - signature array
    */
-  async batchFillFixed(o: Order[], a: string[], k: string[]): Promise<TxResponse> {
+  async batchFillFixed(o: Order[], a: string[], k: string, s: string[]): Promise<TxResponse> {
     const orders = o.map((r: Order) => this.vendor.prepareOrder(r))
-    const signature: string[] = await Promise.all(orders.map((o) => this.vendor.signOrder(o)))
-    const components: Components[] = signature.map((s) => this.vendor.splitSignature(s))
+    const components: Components[] = s.map((sig) => this.vendor.splitSignature(sig))
     const fillings = []
-    const aggreementKeys = []
     for (let i = 0; i < a.length; i++) {
-      const { filling, agreementKey } = this.vendor.prepareOrderMeta(a[i], k[i])
+      const filling = this.vendor.prepareFillingAmount(a[i])
       fillings.push(filling)
-      aggreementKeys.push(agreementKey)
     }
+    const agreementKey = this.vendor.prepareAgreementKey(k)
 
-    return await this.contract?.functions.batchFillFixed(orders, fillings, aggreementKeys, components)
+    return await this.contract?.functions.batchFillFixed(orders, fillings, agreementKey, components)
   }
 
   /**
@@ -110,21 +111,20 @@ export default class extends Deployed {
    *
    * @param o - order array without any vendor specific stuff added
    * @param a - filling amount array
-   * @param k - agreement key array
+   * @param k - agreement key
+   * @param s - signature array
    */
-  async batchFillFloating(o: Order[], a: string[], k: string[]): Promise<TxResponse> {
+  async batchFillFloating(o: Order[], a: string[], k: string, s: string[]): Promise<TxResponse> {
     const orders = o.map((r: Order) => this.vendor.prepareOrder(r))
-    const signature: string[] = await Promise.all(orders.map((o) => this.vendor.signOrder(o)))
-    const components: Components[] = signature.map((s) => this.vendor.splitSignature(s))
+    const components: Components[] = s.map((sig) => this.vendor.splitSignature(sig))
     const fillings = []
-    const aggreementKeys = []
     for (let i = 0; i < a.length; i++) {
-      const { filling, agreementKey } = this.vendor.prepareOrderMeta(a[i], k[i])
+      const filling = this.vendor.prepareFillingAmount(a[i])
       fillings.push(filling)
-      aggreementKeys.push(agreementKey)
     }
+    const agreementKey = this.vendor.prepareAgreementKey(k)
 
-    return await this.contract?.functions.batchFillFloating(orders, fillings, aggreementKeys, components)
+    return await this.contract?.functions.batchFillFloating(orders, fillings, agreementKey, components)
   }
 
   /**
@@ -151,11 +151,11 @@ export default class extends Deployed {
    * This method only care about the order and take care of signing the order with specific vendor's signer before calling the cancel method in the smart contract.
    *
    * @param o - order
+   * @param s - signature
    */
-  async cancel(o: Order): Promise<TxResponse> {
+  async cancel(o: Order, s: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)
-    const signature: string = await this.vendor.signOrder(order)
-    const components: Components = this.vendor.splitSignature(signature)
+    const components: Components = this.vendor.splitSignature(s)
 
     return await this.contract?.functions.cancel(order, components)
   }

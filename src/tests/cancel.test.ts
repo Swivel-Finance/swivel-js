@@ -50,13 +50,18 @@ describe('Swivel cancel method', () => {
       duration: '12345',
       expiry: '123456789',
     }
+    const signature =
+      '0x64eac3e9c741fce72cc8abaddb269b3b00046e17e7feff5f5fc4a9b02c720fa427cf7b1fb3a3fdad7af4489c729d995c4c62ef90729d8a096fbe6233b1c3a4af28'
 
-    const result: TxResponse = await swivel.cancel(order)
+    const components = vendor.splitSignature(signature)
+
+    const result: TxResponse = await swivel.cancel(order, signature)
     assert(fake.calledOnce)
     assert.isNotNull(result)
     assert.equal(result.blockNumber, 789)
 
     const { args } = fake.getCall(0)
     assert.deepEqual(args[0], vendor.prepareOrder(order))
+    assert.deepEqual(args[1], components)
   })
 })
