@@ -41,7 +41,7 @@ describe('Swivel fillFloating method', () => {
     fake.resolves({ blockNumber: 789 })
 
     const order: Order = {
-      key: 'order',
+      key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
       maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
       underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
       floating: true,

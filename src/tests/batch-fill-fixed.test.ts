@@ -42,7 +42,7 @@ describe('Swivel batchFillFixed method', () => {
 
     const orders: Order[] = [
       {
-        key: 'order1',
+        key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
         maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         floating: false,
@@ -52,7 +52,7 @@ describe('Swivel batchFillFixed method', () => {
         expiry: '123456789',
       },
       {
-        key: 'order2',
+        key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c03',
         maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         floating: false,
