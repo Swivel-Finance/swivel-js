@@ -8,5 +8,5 @@ export interface TransactOpts {
     data?: any;
 }
 export interface TxResponse {
-    blockNumber: number;
+    hash: string;
 }

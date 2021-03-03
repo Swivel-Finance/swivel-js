@@ -38,7 +38,7 @@ describe('Swivel releaseFloating method', () => {
     assert.notDeepEqual(contract, invalidContract)
 
     const fake = stub(contract.functions, 'releaseFloating')
-    fake.resolves({ blockNumber: 789 })
+    fake.resolves({ hash: '0xhash' })
 
     const orderKey = 'order'
     const agreementKey = '0xagree'
@@ -46,7 +46,7 @@ describe('Swivel releaseFloating method', () => {
     const result: TxResponse = await swivel.releaseFloating(orderKey, agreementKey)
     assert(fake.calledOnce)
     assert.isNotNull(result)
-    assert.equal(result.blockNumber, 789)
+    assert.equal(result.hash, '0xhash')
 
     const { args } = fake.getCall(0)
     assert.equal(args[0], orderKey)

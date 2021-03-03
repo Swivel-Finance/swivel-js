@@ -38,7 +38,7 @@ describe('Swivel batchRelease method', () => {
     assert.notDeepEqual(contract, invalidContract)
 
     const fake = stub(contract.functions, 'batchRelease')
-    fake.resolves({ blockNumber: 789 })
+    fake.resolves({ hash: '0xhash' })
 
     const orderKeys = ['order1', 'order1']
     const agreementKeys = ['0xagree1', '0xagree2']
@@ -46,7 +46,7 @@ describe('Swivel batchRelease method', () => {
     const result: TxResponse = await swivel.batchRelease(orderKeys, agreementKeys)
     assert(fake.calledOnce)
     assert.isNotNull(result)
-    assert.equal(result.blockNumber, 789)
+    assert.equal(result.hash, '0xhash')
 
     const { args } = fake.getCall(0)
     assert.isArray(args[0])

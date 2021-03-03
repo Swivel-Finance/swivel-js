@@ -30,7 +30,7 @@ export default class extends Deployed {
    * @param k - agreement key
    * @param s - signature
    */
-  async fillFixed(o: Order, a: string, k: string, s: string): Promise<any> {
+  async fillFixed(o: Order, a: string, k: string, s: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)
     const components: Components = this.vendor.splitSignature(s)
     const filling = this.vendor.prepareFillingAmount(a)
@@ -47,7 +47,7 @@ export default class extends Deployed {
    * @param k - agreement key
    * @param s - signature
    */
-  async fillFloating(o: Order, a: string, k: string, s: string): Promise<any> {
+  async fillFloating(o: Order, a: string, k: string, s: string): Promise<TxResponse> {
     const order = this.vendor.prepareOrder(o)
     const components: Components = this.vendor.splitSignature(s)
     const filling = this.vendor.prepareFillingAmount(a)
@@ -86,7 +86,7 @@ export default class extends Deployed {
    * @param k - agreement key
    * @param s - signature array
    */
-  async batchFillFixed(o: Order[], a: string[], k: string, s: string[]): Promise<any> {
+  async batchFillFixed(o: Order[], a: string[], k: string, s: string[]): Promise<TxResponse> {
     const orders = o.map((r: Order) => this.vendor.prepareOrder(r))
     const components: Components[] = s.map((sig) => this.vendor.splitSignature(sig))
     const fillings = []
@@ -107,7 +107,7 @@ export default class extends Deployed {
    * @param k - agreement key
    * @param s - signature array
    */
-  async batchFillFloating(o: Order[], a: string[], k: string, s: string[]): Promise<any> {
+  async batchFillFloating(o: Order[], a: string[], k: string, s: string[]): Promise<TxResponse> {
     const orders = o.map((r: Order) => this.vendor.prepareOrder(r))
     const components: Components[] = s.map((sig) => this.vendor.splitSignature(sig))
     const fillings = []

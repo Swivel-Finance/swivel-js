@@ -38,7 +38,7 @@ describe('Swivel fillFixed method', () => {
     assert.notDeepEqual(contract, invalidContract)
 
     const fake = stub(contract.functions, 'fillFixed')
-    fake.resolves({ blockNumber: 789 })
+    fake.resolves({ hash: '0xhash' })
 
     const order: Order = {
       key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
@@ -61,7 +61,7 @@ describe('Swivel fillFixed method', () => {
     const result: TxResponse = await swivel.fillFixed(order, filling, agreementKey, signature)
     assert(fake.calledOnce)
     assert.isNotNull(result)
-    assert.equal(result.blockNumber, 789)
+    assert.equal(result.hash, '0xhash')
 
     const { args } = fake.getCall(0)
     assert.deepEqual(args[0], vendor.prepareOrder(order))

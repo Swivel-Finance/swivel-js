@@ -38,7 +38,7 @@ describe('Swivel batchFillFixed method', () => {
     assert.notDeepEqual(contract, invalidContract)
 
     const fake = stub(contract.functions, 'batchFillFixed')
-    fake.resolves({ blockNumber: 789 })
+    fake.resolves({ hash: '0xhash' })
 
     const orders: Order[] = [
       {
@@ -79,7 +79,7 @@ describe('Swivel batchFillFixed method', () => {
     const result: TxResponse = await swivel.batchFillFixed(orders, fillings, agreementKey, signatures)
     assert(fake.calledOnce)
     assert.isNotNull(result)
-    assert.equal(result.blockNumber, 789)
+    assert.equal(result.hash, '0xhash')
 
     const { args } = fake.getCall(0)
     assert.isArray(args[0])
