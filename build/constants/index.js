@@ -13,10 +13,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TYPES = exports.DOMAIN = void 0;
 __exportStar(require("./swivel"), exports);
 exports.DOMAIN = {
-    name: 'My Messaging App',
-    version: '1',
+    name: 'Swivel Finance',
+    version: '1.0.0',
     chainId: 5,
-    verifyingContract: '0x7753cfAD258eFbC52A9A1452e42fFbce9bE486cb',
+    verifyingContract: '0x6a6BeC42A5Dd6F2766F806F91Ad12034F43b6361',
 };
 exports.TYPES = {
     Order: [

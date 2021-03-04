@@ -3,10 +3,10 @@ import { TypedDataDomain } from '@ethersproject/abstract-signer'
 export * from './swivel'
 
 export const DOMAIN: TypedDataDomain = {
-  name: 'My Messaging App',
-  version: '1',
+  name: 'Swivel Finance',
+  version: '1.0.0',
   chainId: 5,
-  verifyingContract: '0x7753cfAD258eFbC52A9A1452e42fFbce9bE486cb',
+  verifyingContract: '0x6a6BeC42A5Dd6F2766F806F91Ad12034F43b6361',
 }
 
 export const TYPES = {
