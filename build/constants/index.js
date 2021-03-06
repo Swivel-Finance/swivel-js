@@ -15,8 +15,8 @@ __exportStar(require("./swivel"), exports);
 exports.DOMAIN = {
     name: 'Swivel Finance',
     version: '1.0.0',
-    chainId: 5,
-    verifyingContract: '0x416D738C564C2062F22Af6232406899C6bc72AAe',
+    chainId: 42,
+    verifyingContract: '0x33E17F512a509D592a484BfD34B1B6feD5815658',
 };
 exports.TYPES = {
     Order: [
