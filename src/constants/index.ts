@@ -6,7 +6,7 @@ export const DOMAIN: TypedDataDomain = {
   name: 'Swivel Finance',
   version: '1.0.0',
   chainId: 42,
-  verifyingContract: '0x33E17F512a509D592a484BfD34B1B6feD5815658',
+  verifyingContract: '0x1522dD4E44092fA8A4D624770895ba47C77d065E',
 }
 
 export const TYPES = {
