@@ -78,7 +78,25 @@ export default class extends Vendor {
    * @param o - vendor specific order
    */
   async signOrder(o: ValidOrder): Promise<string> {
-    return this.signer._signTypedData(DOMAIN, TYPES, o)
+    const msgParams = {
+      domain: DOMAIN,
+      message: o,
+      primaryType: 'Order',
+      types: {
+        EIP712Domain: [
+          { name: 'name', type: 'string' },
+          { name: 'version', type: 'string' },
+          { name: 'chainId', type: 'uint256' },
+          { name: 'verifyingContract', type: 'address' },
+        ],
+        Order: TYPES.Order,
+      },
+    }
+
+    return this.provider.request({
+      method: 'eth_signTypedData_v4',
+      params: [o.maker, JSON.stringify(msgParams)],
+    })
   }
 
   /**
