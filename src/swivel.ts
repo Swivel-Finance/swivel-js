@@ -16,9 +16,10 @@ export default class extends Deployed {
    * This method only care about the order and take care of signing the order with specific vendor's signer.
    *
    * @param o - order object without any vendor specific stuff added
+   * @param p - raw provider instance
    */
-  async signOrder(o: Order): Promise<string> {
-    return await this.vendor.signOrder(o)
+  async signOrder(o: Order, p: any): Promise<string> {
+    return await this.vendor.signOrder(o, p)
   }
 
   /**

@@ -3,7 +3,7 @@ import Vendor from './abstracts/vendor';
 import { Order, TxResponse } from './interfaces';
 export default class extends Deployed {
     constructor(v: Vendor);
-    signOrder(o: Order): Promise<string>;
+    signOrder(o: Order, p: any): Promise<string>;
     fillFixed(o: Order, a: string, k: string, s: string): Promise<TxResponse>;
     fillFloating(o: Order, a: string, k: string, s: string): Promise<TxResponse>;
     releaseFixed(o: string, a: string): Promise<TxResponse>;

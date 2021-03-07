@@ -43,7 +43,7 @@ class default_1 extends vendor_1.default {
             expiry: ethers_1.ethers.BigNumber.from(o.expiry),
         };
     }
-    signOrder(o) {
+    signOrder(o, p) {
         return __awaiter(this, void 0, void 0, function* () {
             const msgParams = {
                 domain: constants_1.DOMAIN,
@@ -59,7 +59,7 @@ class default_1 extends vendor_1.default {
                     Order: constants_1.TYPES.Order,
                 },
             };
-            return this.provider.request({
+            return p.request({
                 method: 'eth_signTypedData_v4',
                 params: [o.maker, JSON.stringify(msgParams)],
             });

@@ -51,9 +51,10 @@ export default abstract class implements Keyed {
    * implemented in a child class
    *
    * @param o - vendor order object
+   * @param p - raw provider
    *
    */
-  abstract signOrder(o: VendorOrder): Promise<string>
+  abstract signOrder(o: VendorOrder, p: any): Promise<string>
 
   /**
    * @remarks
