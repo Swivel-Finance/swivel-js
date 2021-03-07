@@ -43,27 +43,9 @@ class default_1 extends vendor_1.default {
             expiry: ethers_1.ethers.BigNumber.from(o.expiry),
         };
     }
-    signOrder(o, p) {
+    signOrder(o) {
         return __awaiter(this, void 0, void 0, function* () {
-            const msgParams = {
-                domain: constants_1.DOMAIN,
-                message: o,
-                primaryType: 'Order',
-                types: {
-                    EIP712Domain: [
-                        { name: 'name', type: 'string' },
-                        { name: 'version', type: 'string' },
-                        { name: 'chainId', type: 'uint256' },
-                        { name: 'verifyingContract', type: 'address' },
-                    ],
-                    Order: constants_1.TYPES.Order,
-                },
-            };
-            console.log(msgParams);
-            return p.request({
-                method: 'eth_signTypedData_v4',
-                params: [o.maker, JSON.stringify(msgParams)],
-            });
+            return this.signer._signTypedData(constants_1.DOMAIN, constants_1.TYPES, o);
         });
     }
     splitSignature(s) {

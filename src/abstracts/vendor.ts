@@ -54,7 +54,7 @@ export default abstract class implements Keyed {
    * @param p - raw provider
    *
    */
-  abstract signOrder(o: VendorOrder, p: any): Promise<string>
+  abstract signOrder(o: VendorOrder): Promise<string>
 
   /**
    * @remarks

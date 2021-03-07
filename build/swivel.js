@@ -18,9 +18,9 @@ class default_1 extends deployed_1.default {
     constructor(v) {
         super(v, constants_1.SWIVEL_ABI);
     }
-    signOrder(o, p) {
+    signOrder(o) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.vendor.signOrder(o, p);
+            return yield this.vendor.signOrder(o);
         });
     }
     fillFixed(o, a, k, s) {
