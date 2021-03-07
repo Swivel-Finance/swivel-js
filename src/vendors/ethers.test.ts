@@ -1,7 +1,7 @@
 import 'mocha'
 import { assert } from 'chai'
 import Vendor from './ethers'
-import { Components, Contract, Order } from '../interfaces'
+import { Components, Contract } from '../interfaces'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Wallet } from '@ethersproject/wallet'
@@ -13,8 +13,8 @@ describe('Ethers Provider abstraction', () => {
 
   let signer: Signer
   let provider: Provider
-  const order: Order = {
-    key: 'order',
+  const order: any = {
+    key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
     maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
     underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
     floating: false,
@@ -45,7 +45,7 @@ describe('Ethers Provider abstraction', () => {
   it('returns a ether specific order', () => {
     const validOrder: ValidOrder = vendor.prepareOrder(order)
     assert.isNotNull(validOrder)
-    assert.equal(validOrder.key, utils.formatBytes32String(order.key))
+    assert.deepEqual(validOrder.key, utils.arrayify(order.key))
     assert.equal(validOrder.maker, order.maker)
     assert.equal(validOrder.underlying, order.underlying)
     assert.equal(validOrder.floating, order.floating)
@@ -56,14 +56,12 @@ describe('Ethers Provider abstraction', () => {
   })
 
   it('returns a valid signature', async () => {
-    const validOrder: ValidOrder = vendor.prepareOrder(order)
-    const signature: string = await vendor.signOrder(validOrder)
+    const signature: string = await vendor.signOrder(order)
     assert.isNotNull(signature)
   })
 
   it('returns a splited sig', async () => {
-    const validOrder: ValidOrder = vendor.prepareOrder(order)
-    const signature: string = await vendor.signOrder(validOrder)
+    const signature: string = await vendor.signOrder(order)
     const components: Components = vendor.splitSignature(signature)
     assert.isNotNull(components)
     assert.isFalse(components.v < 27)

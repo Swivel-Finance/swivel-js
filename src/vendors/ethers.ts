@@ -7,8 +7,8 @@ import { Signer } from '@ethersproject/abstract-signer'
 import { Contract as EthersContract } from '@ethersproject/contracts'
 import { Provider } from '@ethersproject/providers'
 import { Abi } from '../@types'
-import { ethers, Signature, utils } from 'ethers'
-import { OrderMeta, ReleaseMeta, ValidOrder } from './interfaces/order'
+import { BigNumber, ethers, Signature, utils } from 'ethers'
+import { ValidOrder } from './interfaces/order'
 import { DOMAIN, TYPES } from '../constants'
 
 export default class extends Vendor {
@@ -23,6 +23,17 @@ export default class extends Vendor {
     super()
     this.provider = p
     this.signer = s
+  }
+
+  /**
+   * @remarks
+   * The Ethers.js specific setting of signer from provider.
+   *
+   * @param p - raw provider instance
+   */
+  setSigner(p: any): void {
+    const provider = new ethers.providers.Web3Provider(p)
+    this.signer = provider.getSigner()
   }
 
   /**
@@ -49,7 +60,7 @@ export default class extends Vendor {
    */
   prepareOrder(o: Order): ValidOrder {
     return {
-      key: utils.formatBytes32String(o.key),
+      key: utils.arrayify(o.key),
       maker: o.maker,
       underlying: o.underlying,
       floating: o.floating,
@@ -93,27 +104,9 @@ export default class extends Vendor {
    * The Ethers.js specific convertion of filling amount and agreement key.
    *
    * @param a - filling amount
-   * @param k - agreement key
    */
-  prepareOrderMeta(a: string, k: string): OrderMeta {
-    return {
-      filling: ethers.BigNumber.from(a),
-      agreementKey: ethers.utils.formatBytes32String(k),
-    }
-  }
-
-  /**
-   * @remarks
-   * The Ethers.js specific convertion of order key and agreement key.
-   *
-   * @param a - order key
-   * @param k - agreement key
-   */
-  prepareReleaseMeta(a: string, k: string): ReleaseMeta {
-    return {
-      orderKey: ethers.utils.formatBytes32String(a),
-      agreementKey: ethers.utils.formatBytes32String(k),
-    }
+  prepareFillingAmount(a: string): BigNumber {
+    return ethers.BigNumber.from(a)
   }
 
   /**

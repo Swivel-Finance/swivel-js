@@ -1,7 +1,7 @@
 import { ethers } from 'ethers'
 
 export interface ValidOrder {
-  key: string
+  key: Uint8Array
   maker: string
   underlying: string
   floating: boolean
@@ -9,13 +9,4 @@ export interface ValidOrder {
   interest: ethers.BigNumber
   duration: ethers.BigNumber
   expiry: ethers.BigNumber
-}
-
-export interface OrderMeta {
-  filling: ethers.BigNumber
-  agreementKey: string
-}
-export interface ReleaseMeta {
-  orderKey: string
-  agreementKey: string
 }

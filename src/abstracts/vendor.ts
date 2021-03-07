@@ -29,6 +29,14 @@ export default abstract class implements Keyed {
 
   /**
    * @remarks
+   * Method which sets the vendor specific signer with a raw provider
+   *
+   * @param p - raw provider
+   */
+  abstract setSigner(p: any): void
+
+  /**
+   * @remarks
    * Method which instantiates and returns the vendor specific order object. Must be
    * implemented in a child class
    *
@@ -43,6 +51,7 @@ export default abstract class implements Keyed {
    * implemented in a child class
    *
    * @param o - vendor order object
+   * @param p - raw provider
    *
    */
   abstract signOrder(o: VendorOrder): Promise<string>
@@ -59,23 +68,11 @@ export default abstract class implements Keyed {
 
   /**
    * @remarks
-   * Method which instantiates and returns the vendor specific order meta data. Must be
+   * Method which instantiates and returns the vendor specific filling amount. Must be
    * implemented in a child class
    *
    * @param a - filling amount
-   * @param k - agreement key
    *
    */
-  abstract prepareOrderMeta(a: string, k: string): any
-
-  /**
-   * @remarks
-   * Method which instantiates and returns the vendor specific release meta data. Must be
-   * implemented in a child class
-   *
-   * @param o - order key
-   * @param k - agreement key
-   *
-   */
-  abstract prepareReleaseMeta(a: string, k: string): any
+  abstract prepareFillingAmount(a: string): any
 }

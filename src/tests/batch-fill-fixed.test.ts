@@ -1,14 +1,14 @@
 import 'mocha'
 import { stub } from 'sinon'
 import { assert } from 'chai'
-import Vendor from './vendors/ethers'
-import Swivel from './swivel'
+import Vendor from '../vendors/ethers'
+import Swivel from '../swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { Order, TxResponse, Contract } from './interfaces'
-import { cloneWithWriteAccess } from './helpers'
+import { Order, TxResponse, Contract } from '../interfaces'
+import { cloneWithWriteAccess } from '../helpers'
 
-describe('Swivel batchFillFloating method', () => {
+describe('Swivel batchFillFixed method', () => {
   let swivel: Swivel
   let vendor: Vendor
 
@@ -20,8 +20,8 @@ describe('Swivel batchFillFloating method', () => {
     swivel.at('0xabc')
   })
 
-  it('has a delegated batchFillFloating method', () => {
-    assert.equal(typeof swivel.contract?.functions.batchFillFloating, 'function')
+  it('has a delegated batchFillFixed method', () => {
+    assert.equal(typeof swivel.contract?.functions.batchFillFixed, 'function')
   })
 
   it('passes the call thru to the meta contract', async () => {
@@ -37,25 +37,25 @@ describe('Swivel batchFillFloating method', () => {
     assert.isNotNull(contract)
     assert.notDeepEqual(contract, invalidContract)
 
-    const fake = stub(contract.functions, 'batchFillFloating')
-    fake.resolves({ blockNumber: 789 })
+    const fake = stub(contract.functions, 'batchFillFixed')
+    fake.resolves({ hash: '0xhash' })
 
     const orders: Order[] = [
       {
-        key: 'order1',
+        key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
         maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-        floating: true,
+        floating: false,
         principal: '1000',
         interest: '50',
         duration: '12345',
         expiry: '123456789',
       },
       {
-        key: 'order2',
+        key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c03',
         maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
         underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-        floating: true,
+        floating: false,
         principal: '3000',
         interest: '60',
         duration: '12343',
@@ -63,20 +63,23 @@ describe('Swivel batchFillFloating method', () => {
       },
     ]
     const fillings = ['50', '60']
-    const agreementKeys = ['0xagree1', '0xagree2']
+    const agreementKey = '0xagree1'
+    const signatures = [
+      '0x64eac3e9c741fce72cc8abaddb269b3b00046e17e7feff5f5fc4a9b02c720fa427cf7b1fb3a3fdad7af4489c729d995c4c62ef90729d8a096fbe6233b1c3a4af28',
+      '0x64eac3e9c741fce72cc8abaddb269b3b00046e17e7feff5f5fc4a9b02c720fa427cf7b1fb3a3fdad7af4489c729d995c4c62ef90729d8a096fbe6233b1c3a4af28',
+    ]
 
     const validFillings = []
-    const validAggreementKeys = []
     for (let i = 0; i < fillings.length; i++) {
-      const { filling, agreementKey } = vendor.prepareOrderMeta(fillings[i], agreementKeys[i])
+      const filling = vendor.prepareFillingAmount(fillings[i])
       validFillings.push(filling)
-      validAggreementKeys.push(agreementKey)
     }
+    const components = signatures.map((sig) => vendor.splitSignature(sig))
 
-    const result: TxResponse = await swivel.batchFillFloating(orders, fillings, agreementKeys)
+    const result: TxResponse = await swivel.batchFillFixed(orders, fillings, agreementKey, signatures)
     assert(fake.calledOnce)
     assert.isNotNull(result)
-    assert.equal(result.blockNumber, 789)
+    assert.equal(result.hash, '0xhash')
 
     const { args } = fake.getCall(0)
     assert.isArray(args[0])
@@ -88,7 +91,9 @@ describe('Swivel batchFillFloating method', () => {
     assert.isArray(args[1])
     assert.deepEqual(args[1], validFillings)
 
-    assert.isArray(args[2])
-    assert.deepEqual(args[2], validAggreementKeys)
+    assert.equal(args[2], agreementKey)
+
+    assert.isArray(args[3])
+    assert.deepEqual(args[3], components)
   })
 })

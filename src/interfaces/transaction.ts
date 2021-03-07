@@ -16,5 +16,5 @@ export interface TransactOpts {
 
 // TODO flush this out...
 export interface TxResponse {
-  blockNumber: number
+  hash: string
 }

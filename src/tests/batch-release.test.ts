@@ -1,14 +1,14 @@
 import 'mocha'
 import { stub } from 'sinon'
 import { assert } from 'chai'
-import Vendor from './vendors/ethers'
-import Swivel from './swivel'
+import Vendor from '../vendors/ethers'
+import Swivel from '../swivel'
 import { getDefaultProvider } from '@ethersproject/providers'
 import { Wallet } from '@ethersproject/wallet'
-import { TxResponse, Contract } from './interfaces'
-import { cloneWithWriteAccess } from './helpers'
+import { TxResponse, Contract } from '../interfaces'
+import { cloneWithWriteAccess } from '../helpers'
 
-describe('Swivel releaseFixed method', () => {
+describe('Swivel batchRelease method', () => {
   let swivel: Swivel
   let vendor: Vendor
 
@@ -20,8 +20,8 @@ describe('Swivel releaseFixed method', () => {
     swivel.at('0xabc')
   })
 
-  it('has a delegated releaseFixed method', () => {
-    assert.equal(typeof swivel.contract?.functions.releaseFixed, 'function')
+  it('has a delegated batchRelease method', () => {
+    assert.equal(typeof swivel.contract?.functions.batchRelease, 'function')
   })
 
   it('passes the call thru to the meta contract', async () => {
@@ -37,21 +37,21 @@ describe('Swivel releaseFixed method', () => {
     assert.isNotNull(contract)
     assert.notDeepEqual(contract, invalidContract)
 
-    const fake = stub(contract.functions, 'releaseFixed')
-    fake.resolves({ blockNumber: 789 })
+    const fake = stub(contract.functions, 'batchRelease')
+    fake.resolves({ hash: '0xhash' })
 
-    const orderKey = 'order'
-    const agreementKey = '0xagree'
+    const orderKeys = ['order1', 'order1']
+    const agreementKeys = ['0xagree1', '0xagree2']
 
-    const meta = vendor.prepareReleaseMeta(orderKey, agreementKey)
-
-    const result: TxResponse = await swivel.releaseFixed(orderKey, agreementKey)
+    const result: TxResponse = await swivel.batchRelease(orderKeys, agreementKeys)
     assert(fake.calledOnce)
     assert.isNotNull(result)
-    assert.equal(result.blockNumber, 789)
+    assert.equal(result.hash, '0xhash')
 
     const { args } = fake.getCall(0)
-    assert.equal(args[0], meta.orderKey)
-    assert.equal(args[1], meta.agreementKey)
+    assert.isArray(args[0])
+    assert.deepEqual(args[0], orderKeys)
+    assert.isArray(args[1])
+    assert.deepEqual(args[1], agreementKeys)
   })
 })
