@@ -20,13 +20,13 @@ exports.DOMAIN = {
 };
 exports.TYPES = {
     Order: [
-        { name: 'key', type: 'string' },
+        { name: 'key', type: 'bytes32' },
         { name: 'maker', type: 'address' },
         { name: 'underlying', type: 'address' },
         { name: 'floating', type: 'bool' },
-        { name: 'principal', type: 'string' },
-        { name: 'interest', type: 'string' },
-        { name: 'duration', type: 'string' },
-        { name: 'expiry', type: 'string' },
+        { name: 'principal', type: 'uint256' },
+        { name: 'interest', type: 'uint256' },
+        { name: 'duration', type: 'uint256' },
+        { name: 'expiry', type: 'uint256' },
     ],
 };
