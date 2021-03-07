@@ -93,6 +93,7 @@ export default class extends Vendor {
         Order: TYPES.Order,
       },
     }
+    console.log(msgParams)
 
     return p.request({
       method: 'eth_signTypedData_v4',

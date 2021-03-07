@@ -59,6 +59,7 @@ class default_1 extends vendor_1.default {
                     Order: constants_1.TYPES.Order,
                 },
             };
+            console.log(msgParams);
             return p.request({
                 method: 'eth_signTypedData_v4',
                 params: [o.maker, JSON.stringify(msgParams)],
