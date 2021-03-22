@@ -1,11 +1,11 @@
 import 'mocha'
 import { assert } from 'chai'
-import Vendor from './ethers'
+import Vendor from '../vendors/ethers'
+import { ValidOrder } from '../vendors/interfaces/order'
 import { Components, Contract } from '../interfaces'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Wallet } from '@ethersproject/wallet'
-import { ValidOrder } from './interfaces/order'
 import { ethers, utils } from 'ethers'
 
 describe('Ethers Provider abstraction', () => {
@@ -56,12 +56,12 @@ describe('Ethers Provider abstraction', () => {
   })
 
   it('returns a valid signature', async () => {
-    const signature: string = await vendor.signOrder(order)
+    const signature: string = await vendor.signOrder(order, 42,'0xdd644f221Eec4Fbe1B89C74bC7b276A0a2b8818f')
     assert.isNotNull(signature)
   })
 
   it('returns a splited sig', async () => {
-    const signature: string = await vendor.signOrder(order)
+    const signature: string = await vendor.signOrder(order, 42,'0xdd644f221Eec4Fbe1B89C74bC7b276A0a2b8818f')
     const components: Components = vendor.splitSignature(signature)
     assert.isNotNull(components)
     assert.isFalse(components.v < 27)

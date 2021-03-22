@@ -10,7 +10,8 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.PROVIDER_REQUIRED = exports.OWNER_REQUIRED = void 0;
+exports.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED = exports.PROVIDER_REQUIRED = exports.OWNER_REQUIRED = void 0;
 __exportStar(require("./vendor"), exports);
 exports.OWNER_REQUIRED = 'owner required';
 exports.PROVIDER_REQUIRED = 'provider required';
+exports.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED = 'chain id and verifying contract required';

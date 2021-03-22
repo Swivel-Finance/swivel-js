@@ -1,14 +1,21 @@
 import { SWIVEL_ABI } from './constants'
+import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED } from './errors'
 import Deployed from './abstracts/deployed'
 import Vendor from './abstracts/vendor'
 import { Order, Components, TxResponse } from './interfaces'
 
 export default class extends Deployed {
+  public chainId: any
+  public verifyingContract: any
   /**
-   * @param v - Instance of a Vendor class
+   * @param vendor - Instance of a Vendor class
+   * @param i - optional chainId for the deployed smart contract. NOTE: signOrder requires this be set
+   * @param verifier - optional address of a deployed verifying contract. NOTE: signOrder requires this be set
    */
-  constructor(v: Vendor) {
-    super(v, SWIVEL_ABI)
+  constructor(vendor: Vendor, i?: number, verifier?: string) {
+    super(vendor, SWIVEL_ABI)
+    this.chainId = i
+    this.verifyingContract = verifier
   }
 
   /**
@@ -16,10 +23,10 @@ export default class extends Deployed {
    * This method only care about the order and take care of signing the order with specific vendor's signer.
    *
    * @param o - order object without any vendor specific stuff added
-   * @param p - raw provider instance
    */
   async signOrder(o: Order): Promise<string> {
-    return await this.vendor.signOrder(o)
+    if (!!this.chainId || !!this.verifyingContract) return Promise.reject(CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED)
+    return await this.vendor.signOrder(o, this.chainId, this.verifyingContract)
   }
 
   /**

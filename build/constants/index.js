@@ -10,14 +10,10 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.TYPES = exports.DOMAIN = void 0;
+exports.TYPES = exports.DOMAIN_VERSION = exports.DOMAIN_NAME = void 0;
 __exportStar(require("./swivel"), exports);
-exports.DOMAIN = {
-    name: 'Swivel Finance',
-    version: '1.0.0',
-    chainId: 42,
-    verifyingContract: '0x350E97B9b8DacA97AA4eb1864B3Ff0643CEFB0f2',
-};
+exports.DOMAIN_NAME = 'Swivel Finance';
+exports.DOMAIN_VERSION = '1.0.0';
 exports.TYPES = {
     Order: [
         { name: 'key', type: 'bytes32' },

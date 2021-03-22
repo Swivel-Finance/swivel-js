@@ -1,13 +1,7 @@
-import { TypedDataDomain } from '@ethersproject/abstract-signer'
-
 export * from './swivel'
 
-export const DOMAIN: TypedDataDomain = {
-  name: 'Swivel Finance',
-  version: '1.0.0',
-  chainId: 42,
-  verifyingContract: '0x350E97B9b8DacA97AA4eb1864B3Ff0643CEFB0f2',
-}
+export const DOMAIN_NAME = 'Swivel Finance'
+export const DOMAIN_VERSION = '1.0.0'
 
 export const TYPES = {
   Order: [

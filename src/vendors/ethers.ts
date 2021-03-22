@@ -1,5 +1,6 @@
 // NOTE this is currently a shell for where we will encapsulate ethers.js
 
+import { TypedDataDomain } from '@ethersproject/abstract-signer'
 import { SIGNER_OR_PROVIDER_REQUIRED } from '../errors'
 import { Components, Contract, Order } from '../interfaces'
 import Vendor from '../abstracts/vendor'
@@ -9,7 +10,7 @@ import { Provider } from '@ethersproject/providers'
 import { Abi } from '../@types'
 import { BigNumber, ethers, Signature, utils } from 'ethers'
 import { ValidOrder } from './interfaces/order'
-import { DOMAIN, TYPES } from '../constants'
+import { DOMAIN_NAME, DOMAIN_VERSION, TYPES } from '../constants'
 
 export default class extends Vendor {
   /**
@@ -23,6 +24,15 @@ export default class extends Vendor {
     super()
     this.provider = p
     this.signer = s
+  }
+
+  domain(i: number, v: string): TypedDataDomain {
+    return {
+      name: DOMAIN_NAME,
+      version: DOMAIN_VERSION,
+      chainId: i,
+      verifyingContract: v,
+    }
   }
 
   /**
@@ -76,9 +86,11 @@ export default class extends Vendor {
    * implementation of signing typed order.
    *
    * @param o - vendor specific order
+   * @param i - chainId for the deployed Contract
+   * @param v - address of the deployed verifying contract
    */
-  async signOrder(o: ValidOrder): Promise<string> {
-    return this.signer._signTypedData(DOMAIN, TYPES, o)
+  async signOrder(o: ValidOrder, i: number, v: string): Promise<string> {
+    return this.signer._signTypedData(this.domain(i, v), TYPES, o)
   }
 
   /**

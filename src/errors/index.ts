@@ -10,3 +10,4 @@ export * from './vendor'
 
 export const OWNER_REQUIRED = 'owner required'
 export const PROVIDER_REQUIRED = 'provider required'
+export const CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED = 'chain id and verifying contract required'
