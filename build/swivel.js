@@ -23,7 +23,7 @@ class default_1 extends deployed_1.default {
     }
     signOrder(o) {
         return __awaiter(this, void 0, void 0, function* () {
-            if (!!this.chainId || !!this.verifyingContract)
+            if (!this.chainId || !this.verifyingContract)
                 return Promise.reject(errors_1.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED);
             return yield this.vendor.signOrder(o, this.chainId, this.verifyingContract);
         });
