@@ -23,6 +23,14 @@ class default_1 extends vendor_1.default {
         this.provider = p;
         this.signer = s;
     }
+    domain(i, v) {
+        return {
+            name: constants_1.DOMAIN_NAME,
+            version: constants_1.DOMAIN_VERSION,
+            chainId: i,
+            verifyingContract: v,
+        };
+    }
     setSigner(p) {
         const provider = new ethers_1.ethers.providers.Web3Provider(p);
         this.signer = provider.getSigner();
@@ -43,9 +51,9 @@ class default_1 extends vendor_1.default {
             expiry: ethers_1.ethers.BigNumber.from(o.expiry),
         };
     }
-    signOrder(o) {
+    signOrder(o, i, v) {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.signer._signTypedData(constants_1.DOMAIN, constants_1.TYPES, o);
+            return this.signer._signTypedData(this.domain(i, v), constants_1.TYPES, o);
         });
     }
     splitSignature(s) {

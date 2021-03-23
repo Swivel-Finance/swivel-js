@@ -13,14 +13,19 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const constants_1 = require("./constants");
+const errors_1 = require("./errors");
 const deployed_1 = __importDefault(require("./abstracts/deployed"));
 class default_1 extends deployed_1.default {
-    constructor(v) {
-        super(v, constants_1.SWIVEL_ABI);
+    constructor(vendor, i, verifier) {
+        super(vendor, constants_1.SWIVEL_ABI);
+        this.chainId = i;
+        this.verifyingContract = verifier;
     }
     signOrder(o) {
         return __awaiter(this, void 0, void 0, function* () {
-            return yield this.vendor.signOrder(o);
+            if (!!this.chainId || !!this.verifyingContract)
+                return Promise.reject(errors_1.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED);
+            return yield this.vendor.signOrder(o, this.chainId, this.verifyingContract);
         });
     }
     fillFixed(o, a, k, s) {

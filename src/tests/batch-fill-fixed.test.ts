@@ -16,7 +16,7 @@ describe('Swivel batchFillFixed method', () => {
     const ethersProvider = getDefaultProvider()
     const signer = Wallet.createRandom().connect(ethersProvider)
     vendor = new Vendor(ethersProvider, signer)
-    swivel = new Swivel(vendor)
+    swivel = new Swivel(vendor, 42, '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccD')
     swivel.at('0xabc')
   })
 
