@@ -1,10 +1,10 @@
 {
-  "name": "swivel-js",
-  "version": "1.0.0",
+  "name": "@swivel-finance/swivel-js",
+  "version": "1.0.1",
   "description": "Javascript library for working with the Swivel Finance Protocol",
   "main": "build/index.js",
   "types": "build/index.d.ts",
-  "author": "Swivel Finance",
+  "author": "swivel-finance",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Swivel-Finance/swivel-js/issues"
