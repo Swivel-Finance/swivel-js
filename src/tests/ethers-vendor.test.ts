@@ -56,12 +56,12 @@ describe('Ethers Provider abstraction', () => {
   })
 
   it('returns a valid signature', async () => {
-    const signature: string = await vendor.signOrder(order, 42,'0xdd644f221Eec4Fbe1B89C74bC7b276A0a2b8818f')
+    const signature: string = await vendor.signOrder(order, 42, '0xdd644f221Eec4Fbe1B89C74bC7b276A0a2b8818f')
     assert.isNotNull(signature)
   })
 
   it('returns a splited sig', async () => {
-    const signature: string = await vendor.signOrder(order, 42,'0xdd644f221Eec4Fbe1B89C74bC7b276A0a2b8818f')
+    const signature: string = await vendor.signOrder(order, 42, '0xdd644f221Eec4Fbe1B89C74bC7b276A0a2b8818f')
     const components: Components = vendor.splitSignature(signature)
     assert.isNotNull(components)
     assert.isFalse(components.v < 27)
