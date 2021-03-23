@@ -25,7 +25,7 @@ export default class extends Deployed {
    * @param o - order object without any vendor specific stuff added
    */
   async signOrder(o: Order): Promise<string> {
-    if (!!this.chainId || !!this.verifyingContract) return Promise.reject(CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED)
+    if (!this.chainId || !this.verifyingContract) return Promise.reject(CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED)
     return await this.vendor.signOrder(o, this.chainId, this.verifyingContract)
   }
 
