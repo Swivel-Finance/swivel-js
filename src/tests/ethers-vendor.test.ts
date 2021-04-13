@@ -6,7 +6,8 @@ import { Components, Contract } from '../interfaces'
 import { Provider, getDefaultProvider } from '@ethersproject/providers'
 import { Signer } from '@ethersproject/abstract-signer'
 import { Wallet } from '@ethersproject/wallet'
-import { ethers, utils } from 'ethers'
+import { BigNumber, ethers, utils } from 'ethers'
+import { DOMAIN_NAME, DOMAIN_VERSION } from '../constants'
 
 describe('Ethers Provider abstraction', () => {
   let vendor: Vendor
@@ -42,6 +43,15 @@ describe('Ethers Provider abstraction', () => {
     assert.equal(contract.address, '0x123')
   })
 
+  it('returns a domain', async () => {
+    const domain = vendor.domain(42, '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccD')
+    assert.isNotNull(domain)
+    assert.deepEqual(domain.name, DOMAIN_NAME)
+    assert.deepEqual(domain.version, DOMAIN_VERSION)
+    assert.deepEqual(domain.chainId, 42)
+    assert.deepEqual(domain.verifyingContract, '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccD')
+  })
+
   it('returns a ether specific order', () => {
     const validOrder: ValidOrder = vendor.prepareOrder(order)
     assert.isNotNull(validOrder)
@@ -65,5 +75,11 @@ describe('Ethers Provider abstraction', () => {
     const components: Components = vendor.splitSignature(signature)
     assert.isNotNull(components)
     assert.isFalse(components.v < 27)
+  })
+
+  it('returns a bignumber', async () => {
+    const filling = vendor.prepareFillingAmount('42')
+    assert.isNotNull(filling)
+    assert.deepEqual(filling, BigNumber.from('42'))
   })
 })

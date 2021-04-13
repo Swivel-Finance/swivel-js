@@ -55,7 +55,7 @@ export default abstract class implements Keyed {
    * @param v - address of the deployed verifying contract
    *
    */
-  abstract signOrder(o: VendorOrder, i: number, v: string): Promise<string>
+  abstract signOrder(o: Order, i: number, v: string): Promise<string>
 
   /**
    * @remarks

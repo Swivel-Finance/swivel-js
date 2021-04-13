@@ -26,6 +26,13 @@ export default class extends Vendor {
     this.signer = s
   }
 
+  /**
+   * @remarks
+   * The Ethers.js specific setting of typed data domain.
+   *
+   * @param i - chain Id
+   * @param v - verifying address
+   */
   domain(i: number, v: string): TypedDataDomain {
     return {
       name: DOMAIN_NAME,
@@ -89,7 +96,7 @@ export default class extends Vendor {
    * @param i - chainId for the deployed Contract
    * @param v - address of the deployed verifying contract
    */
-  async signOrder(o: ValidOrder, i: number, v: string): Promise<string> {
+  async signOrder(o: Order, i: number, v: string): Promise<string> {
     return this.signer._signTypedData(this.domain(i, v), TYPES, o)
   }
 

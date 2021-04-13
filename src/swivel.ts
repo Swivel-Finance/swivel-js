@@ -7,6 +7,7 @@ import { Order, Components, TxResponse } from './interfaces'
 export default class extends Deployed {
   public chainId: any
   public verifyingContract: any
+
   /**
    * @param vendor - Instance of a Vendor class
    * @param i - optional chainId for the deployed smart contract. NOTE: signOrder requires this be set
