@@ -18,10 +18,11 @@ describe('Ethers Provider abstraction', () => {
     key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
     maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
     underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-    floating: false,
+    vault: false,
+    exit: false,
     principal: '1000',
-    interest: '50',
-    duration: '12345',
+    premium: '50',
+    maturity: '12345',
     expiry: '123456789',
   }
 
@@ -58,10 +59,10 @@ describe('Ethers Provider abstraction', () => {
     assert.deepEqual(validOrder.key, utils.arrayify(order.key))
     assert.equal(validOrder.maker, order.maker)
     assert.equal(validOrder.underlying, order.underlying)
-    assert.equal(validOrder.floating, order.floating)
+    assert.equal(validOrder.vault, order.vault)
     assert.deepEqual(validOrder.principal, ethers.BigNumber.from(order.principal))
-    assert.deepEqual(validOrder.interest, ethers.BigNumber.from(order.interest))
-    assert.deepEqual(validOrder.duration, ethers.BigNumber.from(order.duration))
+    assert.deepEqual(validOrder.premium, ethers.BigNumber.from(order.premium))
+    assert.deepEqual(validOrder.maturity, ethers.BigNumber.from(order.maturity))
     assert.deepEqual(validOrder.expiry, ethers.BigNumber.from(order.expiry))
   })
 

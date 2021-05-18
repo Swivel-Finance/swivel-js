@@ -13,16 +13,17 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.TYPES = exports.DOMAIN_VERSION = exports.DOMAIN_NAME = void 0;
 __exportStar(require("./swivel"), exports);
 exports.DOMAIN_NAME = 'Swivel Finance';
-exports.DOMAIN_VERSION = '1.0.0';
+exports.DOMAIN_VERSION = '2.0.0';
 exports.TYPES = {
     Order: [
         { name: 'key', type: 'bytes32' },
         { name: 'maker', type: 'address' },
         { name: 'underlying', type: 'address' },
-        { name: 'floating', type: 'bool' },
+        { name: 'vault', type: 'bool' },
+        { name: 'exit', type: 'bool' },
         { name: 'principal', type: 'uint256' },
-        { name: 'interest', type: 'uint256' },
-        { name: 'duration', type: 'uint256' },
+        { name: 'premium', type: 'uint256' },
+        { name: 'maturity', type: 'uint256' },
         { name: 'expiry', type: 'uint256' },
     ],
 };

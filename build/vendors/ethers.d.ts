@@ -12,7 +12,7 @@ export default class extends Vendor {
     setSigner(p: any): void;
     contract(address: string, abi: Abi): Contract;
     prepareOrder(o: Order): ValidOrder;
-    signOrder(o: ValidOrder, i: number, v: string): Promise<string>;
+    signOrder(o: Order, i: number, v: string): Promise<string>;
     splitSignature(s: string): Components;
     prepareFillingAmount(a: string): BigNumber;
     private requireSignerOrProvider;

@@ -6,12 +6,5 @@ export default class extends Deployed {
     verifyingContract: any;
     constructor(vendor: Vendor, i?: number, verifier?: string);
     signOrder(o: Order): Promise<string>;
-    fillFixed(o: Order, a: string, k: string, s: string): Promise<TxResponse>;
-    fillFloating(o: Order, a: string, k: string, s: string): Promise<TxResponse>;
-    releaseFixed(o: string, a: string): Promise<TxResponse>;
-    releaseFloating(o: string, a: string): Promise<TxResponse>;
-    batchFillFixed(o: Order[], a: string[], k: string, s: string[]): Promise<TxResponse>;
-    batchFillFloating(o: Order[], a: string[], k: string, s: string[]): Promise<TxResponse>;
-    batchRelease(o: string[], a: string[]): Promise<TxResponse>;
     cancel(o: Order, s: string): Promise<TxResponse>;
 }

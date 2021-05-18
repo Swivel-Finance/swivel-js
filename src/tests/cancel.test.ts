@@ -44,10 +44,11 @@ describe('Swivel cancel method', () => {
       key: '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01',
       maker: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
       underlying: '0xCcCCccccCCCCcCCCCCCcCcCccCcCCCcCcccccccC',
-      floating: false,
+      vault: false,
+      exit: false,
       principal: '1000',
-      interest: '50',
-      duration: '12345',
+      premium: '50',
+      maturity: '12345',
       expiry: '123456789',
     }
     const signature =

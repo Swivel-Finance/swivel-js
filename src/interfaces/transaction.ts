@@ -5,7 +5,7 @@
 
 import { Nos } from '../@types'
 
-export interface TransactOpts {
+export interface TxOpts {
   to?: string
   from?: string
   gasPrice?: Nos

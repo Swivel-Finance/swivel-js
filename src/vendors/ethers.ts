@@ -80,10 +80,11 @@ export default class extends Vendor {
       key: utils.arrayify(o.key),
       maker: o.maker,
       underlying: o.underlying,
-      floating: o.floating,
+      vault: o.vault,
+      exit: o.exit,
       principal: ethers.BigNumber.from(o.principal),
-      interest: ethers.BigNumber.from(o.interest),
-      duration: ethers.BigNumber.from(o.duration),
+      premium: ethers.BigNumber.from(o.premium),
+      maturity: ethers.BigNumber.from(o.maturity),
       expiry: ethers.BigNumber.from(o.expiry),
     }
   }
@@ -121,6 +122,8 @@ export default class extends Vendor {
   /**
    * @remarks
    * The Ethers.js specific convertion of filling amount and agreement key.
+   *
+   * TODO this name?
    *
    * @param a - filling amount
    */

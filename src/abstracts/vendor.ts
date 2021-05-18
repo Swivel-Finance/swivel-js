@@ -2,12 +2,12 @@
  * @remarks
  * Base class of all Vendors for Swivel HOCs. This abstraction should only
  * contain the Methods and properties needed by Swivel HOCs to function.
- * Note that we are referring to third party libs such as Ethers and Web3 as
+ * Note that we are referring to third party libs such as Ethers and Web3 as <TODO>
  * The Vendor, in turn, keeps a reference to it's own .provider specific to that lib.
  * While this is natural to me, it may be worth discussing different terms if confusing.
  */
 
-import { Keyed, Contract, TransactOpts, Order, Components, VendorOrder } from '../interfaces'
+import { Keyed, Contract, TxOpts, Order, Components, VendorOrder } from '../interfaces'
 import { Abi } from '../@types'
 
 export default abstract class implements Keyed {
@@ -25,7 +25,7 @@ export default abstract class implements Keyed {
    * @param o - Optional transaction options
    *
    */
-  abstract contract(address: string, abi: Abi, o?: TransactOpts): Contract
+  abstract contract(address: string, abi: Abi, o?: TxOpts): Contract
 
   /**
    * @remarks
@@ -71,6 +71,9 @@ export default abstract class implements Keyed {
    * @remarks
    * Method which instantiates and returns the vendor specific filling amount. Must be
    * implemented in a child class
+   *
+   * TODO: review this name. `prepare` is good as we see it with `prepareOrder`.
+   * `FillingAmount` is what is in question here. Is there a better word for those amounts?
    *
    * @param a - filling amount
    *

@@ -3,9 +3,10 @@ export interface ValidOrder {
     key: Uint8Array;
     maker: string;
     underlying: string;
-    floating: boolean;
+    vault: boolean;
+    exit: boolean;
     principal: ethers.BigNumber;
-    interest: ethers.BigNumber;
-    duration: ethers.BigNumber;
+    premium: ethers.BigNumber;
+    maturity: ethers.BigNumber;
     expiry: ethers.BigNumber;
 }

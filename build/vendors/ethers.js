@@ -44,10 +44,11 @@ class default_1 extends vendor_1.default {
             key: ethers_1.utils.arrayify(o.key),
             maker: o.maker,
             underlying: o.underlying,
-            floating: o.floating,
+            vault: o.vault,
+            exit: o.exit,
             principal: ethers_1.ethers.BigNumber.from(o.principal),
-            interest: ethers_1.ethers.BigNumber.from(o.interest),
-            duration: ethers_1.ethers.BigNumber.from(o.duration),
+            premium: ethers_1.ethers.BigNumber.from(o.premium),
+            maturity: ethers_1.ethers.BigNumber.from(o.maturity),
             expiry: ethers_1.ethers.BigNumber.from(o.expiry),
         };
     }

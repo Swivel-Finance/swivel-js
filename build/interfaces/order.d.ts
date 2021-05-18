@@ -2,19 +2,21 @@ export interface Order {
     key: string;
     maker: string;
     underlying: string;
-    floating: boolean;
+    vault: boolean;
+    exit: boolean;
     principal: string;
-    interest: string;
-    duration: string;
+    premium: string;
+    maturity: string;
     expiry: string;
 }
 export interface VendorOrder {
     key: any;
     maker: any;
     underlying: any;
-    floating: any;
+    vault: any;
+    exit: any;
     principal: any;
-    interest: any;
-    duration: any;
+    premium: any;
+    maturity: any;
     expiry: any;
 }

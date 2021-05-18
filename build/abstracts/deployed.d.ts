@@ -1,4 +1,4 @@
-import { Keyed, Contract, TransactOpts } from '../interfaces';
+import { Keyed, Contract, TxOpts } from '../interfaces';
 import Vendor from './vendor';
 import { Abi } from '../@types';
 export default abstract class implements Keyed {
@@ -7,5 +7,5 @@ export default abstract class implements Keyed {
     vendor: Vendor;
     contract?: Contract;
     protected constructor(v: Vendor, a: Abi);
-    at(a: string, o?: TransactOpts): boolean;
+    at(a: string, o?: TxOpts): boolean;
 }
