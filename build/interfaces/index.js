@@ -1,9 +1,0 @@
-/*
- * index file which allows declaration of small, utility interfaces
- * as well as the re-export (barrel pattern) of interfaces within this dir
- */
-export * from './contract';
-export * from './transaction';
-export * from './order';
-export * from './signature';
-//# sourceMappingURL=index.js.map
