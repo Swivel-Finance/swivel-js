@@ -20,3 +20,4 @@ export interface VendorOrder {
     maturity: any;
     expiry: any;
 }
+//# sourceMappingURL=order.d.ts.map

@@ -1,6 +1,6 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.cloneWithWriteAccess = void 0;
+/**
+ * Defines a property with writable permission
+ */
 function defineWriteOnly(object, name, value) {
     Object.defineProperty(object, name, {
         enumerable: false,
@@ -8,6 +8,9 @@ function defineWriteOnly(object, name, value) {
         writable: true,
     });
 }
+/**
+ * Clone an object with all writable properties
+ */
 function cloneWithWriteAccess(o) {
     if (Array.isArray(o))
         return o.map((item) => cloneWithWriteAccess(item));
@@ -25,4 +28,5 @@ function cloneWithWriteAccess(o) {
     }
     return o;
 }
-exports.cloneWithWriteAccess = cloneWithWriteAccess;
+export { cloneWithWriteAccess };
+//# sourceMappingURL=helpers.js.map

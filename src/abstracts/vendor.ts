@@ -7,15 +7,17 @@
  * While this is natural to me, it may be worth discussing different terms if confusing.
  */
 
-import { Keyed, Contract, TxOpts, Order, Components, VendorOrder } from '../interfaces'
-import { Abi } from '../@types'
+import { Abi } from '../@types';
+import { Keyed, Contract, TxOpts, Order, Components, VendorOrder } from '../interfaces';
 
 export default abstract class implements Keyed {
-  [key: string]: any
-  public provider: any // TODO
-  public signer: any // TODO
+    [key: string]: any
 
-  /**
+    public provider: any; // TODO
+
+    public signer: any; // TODO
+
+    /**
    * @remarks
    * Method which instantiates and returns the vendor specific contract abstraction. Must be
    * implemented in a child class
@@ -25,17 +27,17 @@ export default abstract class implements Keyed {
    * @param o - Optional transaction options
    *
    */
-  abstract contract(address: string, abi: Abi, o?: TxOpts): Contract
+    abstract contract (address: string, abi: Abi, o?: TxOpts): Contract;
 
-  /**
+    /**
    * @remarks
    * Method which sets the vendor specific signer with a raw provider
    *
    * @param p - raw provider
    */
-  abstract setSigner(p: any): void
+    abstract setSigner (p: any): void;
 
-  /**
+    /**
    * @remarks
    * Method which instantiates and returns the vendor specific order object. Must be
    * implemented in a child class
@@ -43,9 +45,9 @@ export default abstract class implements Keyed {
    * @param o - higher level order object
    *
    */
-  abstract prepareOrder(o: Order): VendorOrder
+    abstract prepareOrder (o: Order): VendorOrder;
 
-  /**
+    /**
    * @remarks
    * Method which instantiates and returns the vendor specific signature. Must be
    * implemented in a child class
@@ -55,9 +57,9 @@ export default abstract class implements Keyed {
    * @param v - address of the deployed verifying contract
    *
    */
-  abstract signOrder(o: Order, i: number, v: string): Promise<string>
+    abstract signOrder (o: Order, i: number, v: string): Promise<string>;
 
-  /**
+    /**
    * @remarks
    * Method which instantiates and returns the vendor specific signature spliting. Must be
    * implemented in a child class
@@ -65,9 +67,9 @@ export default abstract class implements Keyed {
    * @param s - signature
    *
    */
-  abstract splitSignature(s: string): Components
+    abstract splitSignature (s: string): Components;
 
-  /**
+    /**
    * @remarks
    * Method which instantiates and returns the vendor specific filling amount. Must be
    * implemented in a child class
@@ -78,5 +80,5 @@ export default abstract class implements Keyed {
    * @param a - filling amount
    *
    */
-  abstract prepareFillingAmount(a: string): any
+    abstract prepareFillingAmount (a: string): any;
 }

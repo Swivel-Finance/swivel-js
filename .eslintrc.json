@@ -1,0 +1,15 @@
+{
+  "root": true,
+  "extends": [
+    "@swivel-finance"
+  ],
+  "ignorePatterns": [
+    "build",
+    "*.js"
+  ],
+  "parserOptions": {
+    "project": [
+      "./tsconfig.eslint.json"
+    ]
+  }
+}

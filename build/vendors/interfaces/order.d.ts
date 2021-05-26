@@ -10,3 +10,4 @@ export interface ValidOrder {
     maturity: ethers.BigNumber;
     expiry: ethers.BigNumber;
 }
+//# sourceMappingURL=order.d.ts.map
