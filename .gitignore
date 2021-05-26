@@ -35,7 +35,7 @@ bower_components
 .lock-wscript
 
 # built typescript
-# build/
+build/
 
 # Compiled binary addons (https://nodejs.org/api/addons.html)
 # build/Release
