@@ -5,3 +5,4 @@ export * from './signature';
 export interface Keyed {
     [key: string]: any;
 }
+//# sourceMappingURL=index.d.ts.map

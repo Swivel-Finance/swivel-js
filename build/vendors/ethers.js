@@ -1,64 +1,100 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const errors_1 = require("../errors");
-const vendor_1 = __importDefault(require("../abstracts/vendor"));
-const contracts_1 = require("@ethersproject/contracts");
-const ethers_1 = require("ethers");
-const constants_1 = require("../constants");
-class default_1 extends vendor_1.default {
+// NOTE this is currently a shell for where we will encapsulate ethers.js
+import { SIGNER_OR_PROVIDER_REQUIRED } from '../errors';
+import Vendor from '../abstracts/vendor';
+import { Contract as EthersContract } from '@ethersproject/contracts';
+import { ethers, utils } from 'ethers';
+import { DOMAIN_NAME, DOMAIN_VERSION, TYPES } from '../constants';
+export default class extends Vendor {
+    /**
+     * @remarks
+     * Given an ethers specific provider and optionally a signer return a Vendor.
+     *
+     * @param p - An Ethers Provider
+     * @param s - Optional Ethers Signer
+     */
     constructor(p, s) {
         super();
         this.provider = p;
         this.signer = s;
     }
+    /**
+     * @remarks
+     * The Ethers.js specific setting of typed data domain.
+     *
+     * @param i - chain Id
+     * @param v - verifying address
+     */
     domain(i, v) {
         return {
-            name: constants_1.DOMAIN_NAME,
-            version: constants_1.DOMAIN_VERSION,
+            name: DOMAIN_NAME,
+            version: DOMAIN_VERSION,
             chainId: i,
             verifyingContract: v,
         };
     }
+    /**
+     * @remarks
+     * The Ethers.js specific setting of signer from provider.
+     *
+     * @param p - raw provider instance
+     */
     setSigner(p) {
-        const provider = new ethers_1.ethers.providers.Web3Provider(p);
+        const provider = new ethers.providers.Web3Provider(p);
         this.signer = provider.getSigner();
     }
+    /**
+     * @remarks
+     * The Ethers.js specific implementation of a .contract method.
+     *
+     * @param address - Address a target contract has been deployed to
+     * @param abi - Compiled abi of the deployed target contract
+     *
+     * @returns Contract
+     */
     contract(address, abi) {
         this.requireSignerOrProvider();
-        return new contracts_1.Contract(address, abi, this.signer);
+        return new EthersContract(address, abi, this.signer);
     }
+    /**
+     * @remarks
+     * The Ethers.js specific convertion of order.
+     *
+     * @param o - order that swivel js will get
+     *
+     * @returns ValidOrder, ethers own type of order
+     */
     prepareOrder(o) {
         return {
-            key: ethers_1.utils.arrayify(o.key),
+            key: utils.arrayify(o.key),
             maker: o.maker,
             underlying: o.underlying,
             vault: o.vault,
             exit: o.exit,
-            principal: ethers_1.ethers.BigNumber.from(o.principal),
-            premium: ethers_1.ethers.BigNumber.from(o.premium),
-            maturity: ethers_1.ethers.BigNumber.from(o.maturity),
-            expiry: ethers_1.ethers.BigNumber.from(o.expiry),
+            principal: ethers.BigNumber.from(o.principal),
+            premium: ethers.BigNumber.from(o.premium),
+            maturity: ethers.BigNumber.from(o.maturity),
+            expiry: ethers.BigNumber.from(o.expiry),
         };
     }
-    signOrder(o, i, v) {
-        return __awaiter(this, void 0, void 0, function* () {
-            return this.signer._signTypedData(this.domain(i, v), constants_1.TYPES, o);
-        });
+    /**
+     * @remarks
+     * implementation of signing typed order.
+     *
+     * @param o - vendor specific order
+     * @param i - chainId for the deployed Contract
+     * @param v - address of the deployed verifying contract
+     */
+    async signOrder(o, i, v) {
+        return this.signer._signTypedData(this.domain(i, v), TYPES, o);
     }
+    /**
+     * @remarks
+     * implementation of spliting signature.
+     *
+     * @param s - signature hash string
+     */
     splitSignature(s) {
-        const splitSig = ethers_1.utils.splitSignature(s);
+        const splitSig = utils.splitSignature(s);
         const components = {
             v: splitSig.v,
             r: splitSig.r,
@@ -69,12 +105,26 @@ class default_1 extends vendor_1.default {
             components.v += 27;
         return components;
     }
+    /**
+     * @remarks
+     * The Ethers.js specific convertion of filling amount and agreement key.
+     *
+     * TODO this name?
+     *
+     * @param a - filling amount
+     */
     prepareFillingAmount(a) {
-        return ethers_1.ethers.BigNumber.from(a);
+        return ethers.BigNumber.from(a);
     }
+    /**
+     *
+     * @remarks
+     * Convenience methods which abstracts repetitive checking for the presence of a signer || provider
+     * @private
+     */
     requireSignerOrProvider() {
         if (!this.signer && !this.provider)
-            throw new ReferenceError(errors_1.SIGNER_OR_PROVIDER_REQUIRED);
+            throw new ReferenceError(SIGNER_OR_PROVIDER_REQUIRED);
     }
 }
-exports.default = default_1;
+//# sourceMappingURL=ethers.js.map

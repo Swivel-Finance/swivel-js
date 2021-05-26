@@ -7,3 +7,4 @@ export declare const TYPES: {
         type: string;
     }[];
 };
+//# sourceMappingURL=index.d.ts.map

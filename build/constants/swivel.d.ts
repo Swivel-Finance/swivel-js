@@ -47,3 +47,4 @@ export declare const SWIVEL_ABI: ({
     type: string;
     anonymous?: undefined;
 })[];
+//# sourceMappingURL=swivel.d.ts.map

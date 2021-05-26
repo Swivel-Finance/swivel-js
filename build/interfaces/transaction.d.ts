@@ -1,3 +1,7 @@
+/**
+ * @remarks
+ * Interfaces for, supporting or generally having-to-do-with a Transactions
+ */
 import { Nos } from '../@types';
 export interface TxOpts {
     to?: string;
@@ -10,3 +14,4 @@ export interface TxOpts {
 export interface TxResponse {
     hash: string;
 }
+//# sourceMappingURL=transaction.d.ts.map

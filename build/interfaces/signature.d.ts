@@ -4,3 +4,4 @@ export interface Components {
     r: string;
     s: string;
 }
+//# sourceMappingURL=signature.d.ts.map

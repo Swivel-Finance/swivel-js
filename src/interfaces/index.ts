@@ -1,13 +1,5 @@
-/*
- * index file which allows declaration of small, utility interfaces
- * as well as the re-export (barrel pattern) of interfaces within this dir
- */
-
-export * from './contract'
-export * from './transaction'
-export * from './order'
-export * from './signature'
-
-export interface Keyed {
-  [key: string]: any
-}
+export * from './contract';
+export * from './keyed';
+export * from './order';
+export * from './signature';
+export * from './transaction';

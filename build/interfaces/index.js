@@ -1,16 +1,9 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./contract"), exports);
-__exportStar(require("./transaction"), exports);
-__exportStar(require("./order"), exports);
-__exportStar(require("./signature"), exports);
+/*
+ * index file which allows declaration of small, utility interfaces
+ * as well as the re-export (barrel pattern) of interfaces within this dir
+ */
+export * from './contract';
+export * from './transaction';
+export * from './order';
+export * from './signature';
+//# sourceMappingURL=index.js.map

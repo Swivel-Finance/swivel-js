@@ -1,4 +1,2 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.SIGNER_OR_PROVIDER_REQUIRED = void 0;
-exports.SIGNER_OR_PROVIDER_REQUIRED = 'signer or provider required';
+export const SIGNER_OR_PROVIDER_REQUIRED = 'signer or provider required';
+//# sourceMappingURL=vendor.js.map

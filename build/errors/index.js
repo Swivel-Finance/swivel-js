@@ -1,17 +1,12 @@
-"use strict";
-var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
-}) : (function(o, m, k, k2) {
-    if (k2 === undefined) k2 = k;
-    o[k2] = m[k];
-}));
-var __exportStar = (this && this.__exportStar) || function(m, exports) {
-    for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED = exports.PROVIDER_REQUIRED = exports.OWNER_REQUIRED = void 0;
-__exportStar(require("./vendor"), exports);
-exports.OWNER_REQUIRED = 'owner required';
-exports.PROVIDER_REQUIRED = 'provider required';
-exports.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED = 'chain id and verifying contract required';
+/**
+ * @remarks
+ * It could be argued that errors be placed in ../constants.
+ * This may be true, however, it is undetermined if we would decide to
+ * instantiate actual instances of errors, or write custom error constructors,
+ * therefore, we will keep them in their own dir.
+ */
+export * from './vendor';
+export const OWNER_REQUIRED = 'owner required';
+export const PROVIDER_REQUIRED = 'provider required';
+export const CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED = 'chain id and verifying contract required';
+//# sourceMappingURL=index.js.map

@@ -1,40 +1,43 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-var __importDefault = (this && this.__importDefault) || function (mod) {
-    return (mod && mod.__esModule) ? mod : { "default": mod };
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const constants_1 = require("./constants");
-const errors_1 = require("./errors");
-const deployed_1 = __importDefault(require("./abstracts/deployed"));
-class default_1 extends deployed_1.default {
+import Deployed from './abstracts/deployed';
+import { SWIVEL_ABI } from './constants';
+import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED } from './errors';
+export default class extends Deployed {
+    /**
+     * @param vendor - Instance of a Vendor class
+     * @param i - optional chainId for the deployed smart contract. NOTE: signOrder requires this be set
+     * @param verifier - optional address of a deployed verifying contract. NOTE: signOrder requires this be set
+     */
     constructor(vendor, i, verifier) {
-        super(vendor, constants_1.SWIVEL_ABI);
+        super(vendor, SWIVEL_ABI);
         this.chainId = i;
         this.verifyingContract = verifier;
     }
-    signOrder(o) {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (!this.chainId || !this.verifyingContract)
-                return Promise.reject(errors_1.CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED);
-            return yield this.vendor.signOrder(o, this.chainId, this.verifyingContract);
-        });
+    /**
+     * @remarks
+     * Proxy method which delegates to its vendor's signOrder method.
+     *
+     * @param o - raw order object
+     * @return Vendor specific Promise
+     */
+    async signOrder(o) {
+        if (!this.chainId || !this.verifyingContract)
+            return Promise.reject(CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED);
+        return await this.vendor.signOrder(o, this.chainId, this.verifyingContract);
     }
-    cancel(o, s) {
+    /**
+     * @remarks
+     * Calls to its vendor to prepare the order, gets the signature components then attempts to cancel
+     * via the swivel contract method
+     *
+     * @param o - order
+     * @param s - signature
+     * @return Promise resolving to a transaction response
+     */
+    async cancel(o, s) {
         var _a;
-        return __awaiter(this, void 0, void 0, function* () {
-            const order = this.vendor.prepareOrder(o);
-            const components = this.vendor.splitSignature(s);
-            return yield ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.cancel(order, components));
-        });
+        const order = this.vendor.prepareOrder(o);
+        const components = this.vendor.splitSignature(s);
+        return await ((_a = this.contract) === null || _a === void 0 ? void 0 : _a.functions.cancel(order, components));
     }
 }
-exports.default = default_1;
+//# sourceMappingURL=swivel.js.map
