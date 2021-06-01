@@ -1,7 +1,5 @@
-import { Nos } from '../@types';
-
-export interface Components {
-    v: Nos;
+export interface Signature {
+    v: number | string;
     r: string;
     s: string;
 }

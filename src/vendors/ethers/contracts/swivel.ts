@@ -1,5 +1,4 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import { Contract } from '@ethersproject/contracts';
+import { Contract, Signer } from 'ethers';
 import { ABI, Order, SwivelContract, TxResponse } from '../../../interfaces';
 import { prepareOrder, splitSignature } from '../utils';
 
@@ -15,10 +14,12 @@ export class EthersSwivelContract implements SwivelContract {
         this.address = this.contract.address;
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async exit (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }

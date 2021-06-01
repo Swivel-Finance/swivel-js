@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { domain, TypedDataDomain, DOMAIN_NAME, DOMAIN_VERSION } from '../../../src/@new';
+import { domain, DOMAIN_NAME, DOMAIN_VERSION, TypedDataDomain } from '../../src';
 
 describe('constants/domain', () => {
 

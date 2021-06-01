@@ -9,15 +9,3 @@ export interface Order {
     maturity: string;
     expiry: string;
 }
-
-export interface VendorOrder {
-    key: any;
-    maker: any;
-    underlying: any;
-    vault: any;
-    exit: any;
-    principal: any;
-    premium: any;
-    maturity: any;
-    expiry: any;
-}

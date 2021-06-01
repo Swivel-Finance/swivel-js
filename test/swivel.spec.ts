@@ -3,8 +3,8 @@ import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
 import { stub } from 'sinon';
-import { EthersSwivelContract, EthersVendor, Order, prepareOrder, splitSignature, Swivel, TxResponse } from '../../src/@new';
-import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } from '../../src/@new/errors';
+import { EthersSwivelContract, EthersVendor, Order, prepareOrder, splitSignature, Swivel, TxResponse } from '../src';
+import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } from '../src/errors';
 import { TEST_HELPERS } from './test-helpers';
 
 describe('swivel', () => {

@@ -1,5 +1,5 @@
 import { Contract } from '@ethersproject/contracts';
-import { EthersMarketplaceContract, EthersSwivelContract, Marketplace, Swivel } from '../../src/@new';
+import { EthersMarketplaceContract, EthersSwivelContract, Marketplace, Swivel } from '../src';
 
 interface HasContract<TContract> {
     contract: TContract;

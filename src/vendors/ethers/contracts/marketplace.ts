@@ -1,5 +1,4 @@
-import { Signer } from '@ethersproject/abstract-signer';
-import { Contract } from '@ethersproject/contracts';
+import { Contract, Signer } from 'ethers';
 import { ABI, MarketplaceContract, TxResponse } from '../../../interfaces';
 
 export class EthersMarketplaceContract implements MarketplaceContract {
@@ -14,34 +13,42 @@ export class EthersMarketplaceContract implements MarketplaceContract {
         this.address = this.contract.address;
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async matureMarket (u: string, m: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async redeemZcToken (u: string, m: number, a: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async redeemVaultInterest (u: string, m: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async calculateReturn (u: string, m: number, a: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async custodialInitiate (u: string, m: number, z: string, n: string, a: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async custodialExit (u: string, m: number, z: string, n: string, a: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async p2pZcTokenExchange (u: string, m: number, f: string, t: string, a: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }
 
+    // eslint-disable-next-line @typescript-eslint/require-await
     async p2pVaultExchange (u: string, m: number, f: string, t: string, a: number): Promise<TxResponse> {
         throw new Error('Method not implemented.');
     }

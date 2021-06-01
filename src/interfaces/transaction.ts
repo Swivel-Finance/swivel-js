@@ -1,20 +1,12 @@
-/**
- * @remarks
- * Interfaces for, supporting or generally having-to-do-with a Transactions
- */
-
-import { Nos } from '../@types';
-
-export interface TxOpts {
+export interface TxOptions {
     to?: string;
     from?: string;
-    gasPrice?: Nos;
-    gasLimit?: Nos;
-    value?: Nos;
-    data?: any;
+    gasPrice?: number | string;
+    gasLimit?: number | string;
+    value?: number | string;
+    data?: unknown;
 }
 
-// TODO flush this out...
 export interface TxResponse {
     hash: string;
 }
