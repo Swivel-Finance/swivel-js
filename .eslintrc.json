@@ -11,5 +11,15 @@
     "project": [
       "./tsconfig.eslint.json"
     ]
+  },
+  "rules": {
+    "import/no-unresolved": [
+      "error",
+      {
+        "ignore": [
+          "\\.js$"
+        ]
+      }
+    ]
   }
 }

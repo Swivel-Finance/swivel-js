@@ -14,10 +14,6 @@
     "composite": true,
     "importHelpers": true,
     "strict": true,
-    "typeRoots": [
-      "./src/@types",
-      "./node_modules/@types"
-    ],
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "skipLibCheck": true,
