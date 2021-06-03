@@ -1,6 +1,6 @@
 import { MARKETPLACE_ABI } from './constants';
 import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { MarketplaceContract, TxOptions, TxResponse, Vendor } from './interfaces';
+import { Market, MarketplaceContract, TxOptions, TxResponse, Vendor } from './interfaces';
 
 export class Marketplace implements MarketplaceContract {
 
@@ -68,6 +68,27 @@ export class Marketplace implements MarketplaceContract {
         return this;
     }
 
+    async markets (u: string): Promise<Market> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.markets(u);
+    }
+
+    async mature (u: string): Promise<boolean> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.mature(u);
+    }
+
+    async maturityRate (u: string): Promise<number> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.maturityRate(u);
+    }
+
     async matureMarket (u: string, m: number): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
@@ -89,38 +110,10 @@ export class Marketplace implements MarketplaceContract {
         return await this.contract.redeemVaultInterest(u, m);
     }
 
-    async calculateReturn (u: string, m: number, a: number): Promise<TxResponse> {
+    async transferVaultNotional (u: string, m: number, t: string, a: number): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
-        return await this.contract.calculateReturn(u, m, a);
-    }
-
-    async custodialInitiate (u: string, m: number, z: string, n: string, a: number): Promise<TxResponse> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
-
-        return await this.contract.custodialInitiate(u, m, z, n, a);
-    }
-
-    async custodialExit (u: string, m: number, z: string, n: string, a: number): Promise<TxResponse> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
-
-        return await this.contract.custodialExit(u, m, z, n, a);
-    }
-
-    async p2pZcTokenExchange (u: string, m: number, f: string, t: string, a: number): Promise<TxResponse> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
-
-        return await this.contract.p2pZcTokenExchange(u, m, f, t, a);
-    }
-
-    async p2pVaultExchange (u: string, m: number, f: string, t: string, a: number): Promise<TxResponse> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
-
-        return await this.contract.p2pVaultExchange(u, m, f, t, a);
+        return await this.contract.transferVaultNotional(u, m, t, a);
     }
 }

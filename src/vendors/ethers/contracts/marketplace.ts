@@ -1,5 +1,5 @@
 import { Contract, Signer } from 'ethers';
-import { ABI, MarketplaceContract, TxResponse } from '../../../interfaces';
+import { ABI, Market, MarketplaceContract, TxResponse } from '../../../interfaces';
 
 export class EthersMarketplaceContract implements MarketplaceContract {
 
@@ -13,43 +13,38 @@ export class EthersMarketplaceContract implements MarketplaceContract {
         this.address = this.contract.address;
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
+    async markets (u: string): Promise<Market> {
+
+        return await this.contract.functions.markets(u) as Promise<Market>;
+    }
+
+    async mature (u: string): Promise<boolean> {
+
+        return await this.contract.functions.mature(u) as Promise<boolean>;
+    }
+
+    async maturityRate (u: string): Promise<number> {
+
+        return await this.contract.functions.maturityRate(u) as Promise<number>;
+    }
+
     async matureMarket (u: string, m: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+
+        return await this.contract.functions.matureMarket(u, m) as Promise<TxResponse>;
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     async redeemZcToken (u: string, m: number, a: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+
+        return await this.contract.functions.redeemZcToken(u, m, a) as Promise<TxResponse>;
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
     async redeemVaultInterest (u: string, m: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+
+        return await this.contract.functions.redeemVaultInterest(u, m) as Promise<TxResponse>;
     }
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async calculateReturn (u: string, m: number, a: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
-    }
+    async transferVaultNotional (u: string, m: number, t: string, a: number): Promise<TxResponse> {
 
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async custodialInitiate (u: string, m: number, z: string, n: string, a: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
-    }
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async custodialExit (u: string, m: number, z: string, n: string, a: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
-    }
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async p2pZcTokenExchange (u: string, m: number, f: string, t: string, a: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
-    }
-
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async p2pVaultExchange (u: string, m: number, f: string, t: string, a: number): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+        return await this.contract.functions.transferVaultNotional(u, m, t, a) as Promise<TxResponse>;
     }
 }

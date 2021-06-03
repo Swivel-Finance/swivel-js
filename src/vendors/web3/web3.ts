@@ -11,9 +11,11 @@ export class Web3Vendor implements Vendor {
     web3: Web3;
 
     contracts = {
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         marketplace: (a: string, abi: ABI): MarketplaceContract => {
             throw new Error('Method not implemented.');
         },
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
         swivel: (a: string, abi: ABI): SwivelContract => {
             throw new Error('Method not implemented.');
         },
