@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbstractProvider, provider } from 'web3-core';
 import { JsonRpcPayload } from 'web3-core-helpers';
 import { domain, TYPES } from '../../constants';
-import { ABI, MarketplaceContract, Order, SwivelContract, Vendor } from '../../interfaces';
+import { ABI, MarketplaceContract, Order, SwivelContract, TxOptions, Vendor } from '../../interfaces';
 
 export class Web3Vendor implements Vendor {
 
@@ -11,22 +11,51 @@ export class Web3Vendor implements Vendor {
     web3: Web3;
 
     contracts = {
+        /**
+         * Factory for creating a web3.js specific marketplace contract wrapper.
+         *
+         * @param address - address of the deployed marketplace contract
+         * @param abi - the abi of the marketplace contract
+         * @param options - optional default transaction options
+         */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        marketplace: (a: string, abi: ABI): MarketplaceContract => {
+        marketplace: (address: string, abi: ABI, options?: TxOptions): MarketplaceContract => {
             throw new Error('Method not implemented.');
         },
+        /**
+         * Factory for creating a web3.js specific swivel contract wrapper.
+         *
+         * @param address - address of the deployed swivel contract
+         * @param abi - the abi of the swivel contract
+         * @param options - optional default transaction options
+         */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        swivel: (a: string, abi: ABI): SwivelContract => {
+        swivel: (address: string, abi: ABI, options?: TxOptions): SwivelContract => {
             throw new Error('Method not implemented.');
         },
     };
 
+    /**
+     * Creates a new web3.js vendor object.
+     *
+     * @param p - a web3.js provider instance to use
+     */
     constructor (p: provider) {
 
         this.provider = p;
         this.web3 = new Web3(p);
     }
 
+    /**
+     * Sign an order using EIP-712.
+     *
+     * @remarks
+     * https://eips.ethereum.org/EIPS/eip-712
+     *
+     * @param o - order to sign
+     * @param i - chain-id for the deployed smart contract
+     * @param c - address of a deployed verifying contract
+     */
     async signOrder (o: Order, i: number, c: string): Promise<string> {
 
         // TODO: check how to get the correct account

@@ -67,6 +67,16 @@ export class Swivel implements SwivelContract {
         return this;
     }
 
+    /**
+     * Sign an order using EIP-712.
+     *
+     * @remarks
+     * https://eips.ethereum.org/EIPS/eip-712
+     *
+     * @param o - order to sign
+     * @param i - chain-id for the deployed smart contract
+     * @param c - address of a deployed verifying contract
+     */
     async signOrder (o: Order): Promise<string> {
 
         if (!this.chainId || !this.verifyingContract) throw CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED;
@@ -74,6 +84,11 @@ export class Swivel implements SwivelContract {
         return await this.vendor.signOrder(o, this.chainId, this.verifyingContract);
     }
 
+    /**
+     * @param o - array of offline swivel orders
+     * @param a - array of order volume (principal) amounts relative to passed orders
+     * @param s - array of valid ECDSA signatures
+     */
     async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
@@ -81,6 +96,11 @@ export class Swivel implements SwivelContract {
         return await this.contract.initiate(o, a, s);
     }
 
+    /**
+     * @param o - array of offline swivel orders
+     * @param a - array of order volume (principal) amounts relative to passed orders
+     * @param s - array of valid ECDSA signatures
+     */
     async exit (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
@@ -88,6 +108,10 @@ export class Swivel implements SwivelContract {
         return await this.contract.exit(o, a, s);
     }
 
+    /**
+     * @param o - offline swivel order
+     * @param a - valid ECDSA signature
+     */
     async cancel (o: Order, s: string): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
