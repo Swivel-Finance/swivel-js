@@ -14,17 +14,17 @@ export interface Vendor {
          *
          * @param address - address of the deployed marketplace contract
          * @param abi - the abi of the marketplace contract
-         * @param options - optional default transaction options
+         * @param o - optional default transaction options
          */
-        marketplace: (address: string, abi: ABI, options?: TxOptions) => MarketplaceContract;
+        marketplace: (address: string, abi: ABI, o?: TxOptions) => MarketplaceContract;
         /**
          * Factory for creating a vendor specific swivel contract wrapper.
          *
          * @param address - address of the deployed swivel contract
          * @param abi - the abi of the swivel contract
-         * @param options - optional default transaction options
+         * @param o - optional default transaction options
          */
-        swivel: (address: string, abi: ABI, options?: TxOptions) => SwivelContract;
+        swivel: (address: string, abi: ABI, o?: TxOptions) => SwivelContract;
     };
 
     /**

@@ -16,10 +16,10 @@ export class Web3Vendor implements Vendor {
          *
          * @param address - address of the deployed marketplace contract
          * @param abi - the abi of the marketplace contract
-         * @param options - optional default transaction options
+         * @param o - optional default transaction options
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        marketplace: (address: string, abi: ABI, options?: TxOptions): MarketplaceContract => {
+        marketplace: (address: string, abi: ABI, o?: TxOptions): MarketplaceContract => {
             throw new Error('Method not implemented.');
         },
         /**
@@ -27,10 +27,10 @@ export class Web3Vendor implements Vendor {
          *
          * @param address - address of the deployed swivel contract
          * @param abi - the abi of the swivel contract
-         * @param options - optional default transaction options
+         * @param o - optional default transaction options
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        swivel: (address: string, abi: ABI, options?: TxOptions): SwivelContract => {
+        swivel: (address: string, abi: ABI, o?: TxOptions): SwivelContract => {
             throw new Error('Method not implemented.');
         },
     };

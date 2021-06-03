@@ -12,11 +12,11 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      *
      * @param address - address of the deployed marketplace contract
      * @param abi - the abi of the marketplace contract
-     * @param options - optional default transaction options
+     * @param s - an ethers.js signer instance
      */
-    constructor (address: string, abi: ABI, signer: Signer) {
+    constructor (address: string, abi: ABI, s: Signer) {
 
-        this.contract = new Contract(address, abi, signer);
+        this.contract = new Contract(address, abi, s);
         this.address = this.contract.address;
     }
 
