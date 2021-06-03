@@ -3,7 +3,12 @@
   "version": "1.0.2",
   "description": "Javascript library for working with the Swivel Finance Protocol",
   "main": "build/index.js",
+  "module": "build/index.js",
   "types": "build/index.d.ts",
+  "files": [
+    "/build",
+    "/src/**/*.ts"
+  ],
   "author": "swivel-finance",
   "license": "MIT",
   "bugs": {

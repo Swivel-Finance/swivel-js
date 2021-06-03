@@ -3,7 +3,8 @@ import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
 import { BigNumber, ethers, utils } from 'ethers';
-import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, MARKETPLACE_ABI, Order, prepareAmount, prepareOrder, splitSignature, SWIVEL_ABI } from '../../../src';
+import { MARKETPLACE_ABI, Order, SWIVEL_ABI } from '../../../src';
+import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, prepareAmount, prepareOrder, splitSignature } from '../../../src/vendors/ethers';
 
 describe('vendors/ethers', () => {
 
