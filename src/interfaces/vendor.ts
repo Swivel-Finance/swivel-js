@@ -9,8 +9,22 @@ export interface Vendor {
      * Contract factories for the swivel and marketplace contracts.
      */
     contracts: {
-        marketplace: (a: string, abi: ABI, o?: TxOptions) => MarketplaceContract;
-        swivel: (a: string, abi: ABI, o?: TxOptions) => SwivelContract;
+        /**
+         * Factory for creating a vendor specific marketplace contract wrapper.
+         *
+         * @param address - address of the deployed marketplace contract
+         * @param abi - the abi of the marketplace contract
+         * @param o - optional default transaction options
+         */
+        marketplace: (address: string, abi: ABI, o?: TxOptions) => MarketplaceContract;
+        /**
+         * Factory for creating a vendor specific swivel contract wrapper.
+         *
+         * @param address - address of the deployed swivel contract
+         * @param abi - the abi of the swivel contract
+         * @param o - optional default transaction options
+         */
+        swivel: (address: string, abi: ABI, o?: TxOptions) => SwivelContract;
     };
 
     /**
