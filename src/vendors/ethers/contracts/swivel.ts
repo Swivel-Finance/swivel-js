@@ -1,5 +1,5 @@
 import { Contract, Signer } from 'ethers';
-import { ABI, Order, SwivelContract, TxResponse } from '../../../interfaces';
+import { Abi, Order, SwivelContract, TxResponse } from '../../../interfaces';
 import { prepareAmount, prepareOrder, splitSignature, unwrap } from '../utils';
 
 export class EthersSwivelContract implements SwivelContract {
@@ -15,7 +15,7 @@ export class EthersSwivelContract implements SwivelContract {
      * @param abi - the abi of the swivel contract
      * @param s - an ethers.js signer instance
      */
-    constructor (address: string, abi: ABI, s: Signer) {
+    constructor (address: string, abi: Abi, s: Signer) {
 
         this.contract = new Contract(address, abi, s);
         this.address = this.contract.address;

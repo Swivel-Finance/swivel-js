@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbstractProvider, provider } from 'web3-core';
 import { JsonRpcPayload } from 'web3-core-helpers';
 import { domain, TYPES } from '../../constants';
-import { ABI, MarketplaceContract, Order, SwivelContract, TxOptions, Vendor } from '../../interfaces';
+import { Abi, MarketplaceContract, Order, SwivelContract, TxOptions, Vendor } from '../../interfaces';
 
 export class Web3Vendor implements Vendor {
 
@@ -19,7 +19,7 @@ export class Web3Vendor implements Vendor {
          * @param o - optional default transaction options
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        marketplace: (address: string, abi: ABI, o?: TxOptions): MarketplaceContract => {
+        marketplace: (address: string, abi: Abi, o?: TxOptions): MarketplaceContract => {
             throw new Error('Method not implemented.');
         },
         /**
@@ -30,7 +30,7 @@ export class Web3Vendor implements Vendor {
          * @param o - optional default transaction options
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        swivel: (address: string, abi: ABI, o?: TxOptions): SwivelContract => {
+        swivel: (address: string, abi: Abi, o?: TxOptions): SwivelContract => {
             throw new Error('Method not implemented.');
         },
     };

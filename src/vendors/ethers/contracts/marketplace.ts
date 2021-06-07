@@ -1,5 +1,5 @@
 import { Contract, Signer } from 'ethers';
-import { ABI, Market, MarketplaceContract, TxResponse } from '../../../interfaces';
+import { Abi, Market, MarketplaceContract, TxResponse } from '../../../interfaces';
 import { unwrap } from '../utils';
 
 export class EthersMarketplaceContract implements MarketplaceContract {
@@ -15,7 +15,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      * @param abi - the abi of the marketplace contract
      * @param s - an ethers.js signer instance
      */
-    constructor (address: string, abi: ABI, s: Signer) {
+    constructor (address: string, abi: Abi, s: Signer) {
 
         this.contract = new Contract(address, abi, s);
         this.address = this.contract.address;

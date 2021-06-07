@@ -1,4 +1,4 @@
-import { ABI } from './abi';
+import { Abi } from './abi';
 import { MarketplaceContract, SwivelContract } from './contracts';
 import { Order } from './order';
 import { TxOptions } from './transaction';
@@ -16,7 +16,7 @@ export interface Vendor {
          * @param abi - the abi of the marketplace contract
          * @param o - optional default transaction options
          */
-        marketplace: (address: string, abi: ABI, o?: TxOptions) => MarketplaceContract;
+        marketplace: (address: string, abi: Abi, o?: TxOptions) => MarketplaceContract;
         /**
          * Factory for creating a vendor specific swivel contract wrapper.
          *
@@ -24,7 +24,7 @@ export interface Vendor {
          * @param abi - the abi of the swivel contract
          * @param o - optional default transaction options
          */
-        swivel: (address: string, abi: ABI, o?: TxOptions) => SwivelContract;
+        swivel: (address: string, abi: Abi, o?: TxOptions) => SwivelContract;
     };
 
     /**

@@ -1,36 +1,36 @@
-export interface ABIInput {
+export interface AbiInput {
     readonly name: string;
     readonly type: string;
-    readonly components?: Readonly<ABIInput[]>;
+    readonly components?: Readonly<AbiInput[]>;
 }
 
-export interface ABIConstructor {
+export interface AbiConstructor {
     readonly type: 'constructor';
-    readonly inputs: Readonly<ABIInput[]>;
+    readonly inputs: Readonly<AbiInput[]>;
     readonly stateMutability: 'pure' | 'view' | 'nonpayable' | 'payable';
 }
 
-export interface ABIFunction {
+export interface AbiFunction {
     readonly type: 'function' | 'receive' | 'fallback';
     readonly name: string;
-    readonly inputs: Readonly<ABIInput[]>;
-    readonly outputs: Readonly<ABIInput[]>;
+    readonly inputs: Readonly<AbiInput[]>;
+    readonly outputs: Readonly<AbiInput[]>;
     readonly stateMutability: 'pure' | 'view' | 'nonpayable' | 'payable';
 }
 
-export interface ABIEvent {
+export interface AbiEvent {
     readonly type: 'event';
     readonly name: string;
-    readonly inputs: Readonly<(ABIInput & { indexed: boolean; })[]>;
+    readonly inputs: Readonly<(AbiInput & { indexed: boolean; })[]>;
     readonly anonymous: boolean;
 }
 
-export interface ABIError {
+export interface AbiError {
     readonly type: 'error';
     readonly name: string;
-    readonly inputs: Readonly<ABIInput[]>;
+    readonly inputs: Readonly<AbiInput[]>;
 }
 
-export type ABIItem = ABIConstructor | ABIFunction | ABIEvent | ABIError;
+export type AbiItem = AbiConstructor | AbiFunction | AbiEvent | AbiError;
 
-export type ABI = Readonly<ABIItem[]>;
+export type Abi = Readonly<AbiItem[]>;

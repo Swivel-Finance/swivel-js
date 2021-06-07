@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
 import { domain, TYPES } from '../../constants';
-import { ABI, MarketplaceContract, Order, SwivelContract, Vendor } from '../../interfaces';
+import { Abi, MarketplaceContract, Order, SwivelContract, Vendor } from '../../interfaces';
 import { EthersMarketplaceContract, EthersSwivelContract } from './contracts';
 
 export class EthersVendor implements Vendor {
@@ -23,7 +23,7 @@ export class EthersVendor implements Vendor {
          * @param address - address of the deployed marketplace contract
          * @param abi - the abi of the marketplace contract
          */
-        marketplace: (address: string, abi: ABI): MarketplaceContract => {
+        marketplace: (address: string, abi: Abi): MarketplaceContract => {
             this.marketplace = new EthersMarketplaceContract(address, abi, this.signer);
             return this.marketplace;
         },
@@ -33,7 +33,7 @@ export class EthersVendor implements Vendor {
          * @param address - address of the deployed swivel contract
          * @param abi - the abi of the swivel contract
          */
-        swivel: (address: string, abi: ABI): SwivelContract => {
+        swivel: (address: string, abi: Abi): SwivelContract => {
             this.swivel = new EthersSwivelContract(address, abi, this.signer);
             return this.swivel;
         },
