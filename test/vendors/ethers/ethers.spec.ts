@@ -4,7 +4,7 @@ import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
 import { BigNumber, ethers, utils } from 'ethers';
 import { MARKETPLACE_ABI, Order, SWIVEL_ABI } from '../../../src';
-import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, prepareAmount, prepareOrder, splitSignature } from '../../../src/vendors/ethers';
+import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, prepareAmount, prepareOrder, Result, splitSignature, unwrap } from '../../../src/vendors/ethers';
 
 describe('vendors/ethers', () => {
 
@@ -116,6 +116,31 @@ describe('vendors/ethers', () => {
             assert.equal(components.r, `0x${ signature.substr(2, 64) }`);
             assert.equal(components.s, `0x${ signature.substr(66, 64) }`);
             assert.isTrue(components.v >= 27);
+        });
+
+        it('unwraps a result', () => {
+
+            let unwrapped: unknown;
+
+            unwrapped = unwrap(['test'] as Result<[string]>);
+            assert.strictEqual(unwrapped, 'test');
+
+            unwrapped = unwrap([1000] as Result<[number]>);
+            assert.strictEqual(unwrapped, 1000);
+
+            unwrapped = unwrap([true] as Result<[boolean]>);
+            assert.strictEqual(unwrapped, true);
+
+            // for named return parameters, the `Result` object includes the named key
+
+            unwrapped = unwrap({ 0: 'test', name: 'test', length: 1 } as unknown as Result<[string]>);
+            assert.strictEqual(unwrapped, 'test');
+
+            unwrapped = unwrap({ 0: 1000, name: 1000, length: 1 } as unknown as Result<[number]>);
+            assert.strictEqual(unwrapped, 1000);
+
+            unwrapped = unwrap({ 0: true, name: true, length: 1 } as unknown as Result<[boolean]>);
+            assert.strictEqual(unwrapped, true);
         });
     });
 });

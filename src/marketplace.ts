@@ -8,7 +8,6 @@ export class Marketplace implements MarketplaceContract {
 
     protected options?: TxOptions;
 
-    // TODO: create the marketplace abi
     protected abi = MARKETPLACE_ABI;
 
     address?: string;
@@ -30,7 +29,6 @@ export class Marketplace implements MarketplaceContract {
 
         this.vendor = v;
 
-        // TODO: what is the verifying contract?
         this.chainId = i;
         this.verifyingContract = c;
     }

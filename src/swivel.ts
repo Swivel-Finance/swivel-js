@@ -30,7 +30,6 @@ export class Swivel implements SwivelContract {
 
         this.vendor = v;
 
-        // TODO: what is the verifying contract?
         this.chainId = i;
         this.verifyingContract = c;
     }

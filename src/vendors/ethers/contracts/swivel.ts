@@ -1,6 +1,6 @@
 import { Contract, Signer } from 'ethers';
 import { ABI, Order, SwivelContract, TxResponse } from '../../../interfaces';
-import { prepareAmount, prepareOrder, splitSignature } from '../utils';
+import { prepareAmount, prepareOrder, splitSignature, unwrap } from '../utils';
 
 export class EthersSwivelContract implements SwivelContract {
 
@@ -23,17 +23,17 @@ export class EthersSwivelContract implements SwivelContract {
 
     async NAME (): Promise<string> {
 
-        return await this.contract.functions.NAME() as Promise<string>;
+        return unwrap<string>(await this.contract.functions.NAME());
     }
 
     async VERSION (): Promise<string> {
 
-        return await this.contract.functions.VERSION() as Promise<string>;
+        return unwrap<string>(await this.contract.functions.VERSION());
     }
 
     async DOMAIN (): Promise<string> {
 
-        return await this.contract.functions.DOMAIN() as Promise<string>;
+        return unwrap<string>(await this.contract.functions.DOMAIN());
     }
 
     /**
@@ -41,7 +41,7 @@ export class EthersSwivelContract implements SwivelContract {
      */
     async marketPlace (): Promise<string> {
 
-        return await this.contract.functions.marketPlace() as Promise<string>;
+        return unwrap<string>(await this.contract.functions.marketPlace());
     }
 
     /**
@@ -51,10 +51,7 @@ export class EthersSwivelContract implements SwivelContract {
      */
     async cancelled (k: string): Promise<boolean> {
 
-        // TODO: do we need to convert the order key `k`?
-        // the order key should probably be formatted correctly already
-        // const key = ethers.utils.formatBytes32String(k);
-        return await this.contract.functions.cancelled(k) as Promise<boolean>;
+        return unwrap<boolean>(await this.contract.functions.cancelled(k));
     }
 
     /**
@@ -65,10 +62,7 @@ export class EthersSwivelContract implements SwivelContract {
      */
     async filled (k: string): Promise<number> {
 
-        // TODO: do we need to convert the order key `k`?
-        // the order key should probably be formatted correctly already
-        // const key = ethers.utils.formatBytes32String(k);
-        return await this.contract.functions.filled(k) as Promise<number>;
+        return unwrap<number>(await this.contract.functions.filled(k));
     }
 
     /**
@@ -82,7 +76,7 @@ export class EthersSwivelContract implements SwivelContract {
         const amounts = a.map(amount => prepareAmount(amount));
         const signatures = s.map(signature => splitSignature(signature));
 
-        return await this.contract.functions.initiate(orders, amounts, signatures) as Promise<TxResponse>;
+        return await this.contract.functions.initiate(orders, amounts, signatures) as TxResponse;
     }
 
     /**
@@ -96,7 +90,7 @@ export class EthersSwivelContract implements SwivelContract {
         const amounts = a.map(amount => prepareAmount(amount));
         const signatures = s.map(signature => splitSignature(signature));
 
-        return await this.contract.functions.exit(orders, amounts, signatures) as Promise<TxResponse>;
+        return await this.contract.functions.exit(orders, amounts, signatures) as TxResponse;
     }
 
     /**
@@ -108,6 +102,6 @@ export class EthersSwivelContract implements SwivelContract {
         const order = prepareOrder(o);
         const signature = splitSignature(s);
 
-        return await this.contract.functions.cancel(order, signature) as Promise<TxResponse>;
+        return await this.contract.functions.cancel(order, signature) as TxResponse;
     }
 }

@@ -1,5 +1,6 @@
 import { Contract, Signer } from 'ethers';
 import { ABI, Market, MarketplaceContract, TxResponse } from '../../../interfaces';
+import { unwrap } from '../utils';
 
 export class EthersMarketplaceContract implements MarketplaceContract {
 
@@ -25,7 +26,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async admin (): Promise<string> {
 
-        return await this.contract.functions.admin() as Promise<string>;
+        return unwrap<string>(await this.contract.functions.admin());
     }
 
     /**
@@ -33,7 +34,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async swivel (): Promise<string> {
 
-        return await this.contract.functions.swivel() as Promise<string>;
+        return unwrap<string>(await this.contract.functions.swivel());
     }
 
     /**
@@ -43,7 +44,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async markets (u: string): Promise<Market> {
 
-        return await this.contract.functions.markets(u) as Promise<Market>;
+        return unwrap<Market>(await this.contract.functions.markets(u));
     }
 
     /**
@@ -53,7 +54,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async mature (u: string): Promise<boolean> {
 
-        return await this.contract.functions.mature(u) as Promise<boolean>;
+        return unwrap<boolean>(await this.contract.functions.mature(u));
     }
 
     /**
@@ -63,7 +64,8 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async maturityRate (u: string): Promise<number> {
 
-        return await this.contract.functions.maturityRate(u) as Promise<number>;
+        // TODO: this returns a uint256 which might be returned as `BigNumber`
+        return unwrap<number>(await this.contract.functions.maturityRate(u));
     }
 
     /**
@@ -72,7 +74,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async matureMarket (u: string, m: number): Promise<TxResponse> {
 
-        return await this.contract.functions.matureMarket(u, m) as Promise<TxResponse>;
+        return await this.contract.functions.matureMarket(u, m) as TxResponse;
     }
 
     /**
@@ -82,7 +84,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async redeemZcToken (u: string, m: number, a: number): Promise<TxResponse> {
 
-        return await this.contract.functions.redeemZcToken(u, m, a) as Promise<TxResponse>;
+        return await this.contract.functions.redeemZcToken(u, m, a) as TxResponse;
     }
 
     /**
@@ -91,7 +93,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async redeemVaultInterest (u: string, m: number): Promise<TxResponse> {
 
-        return await this.contract.functions.redeemVaultInterest(u, m) as Promise<TxResponse>;
+        return await this.contract.functions.redeemVaultInterest(u, m) as TxResponse;
     }
 
     /**
@@ -102,6 +104,6 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      */
     async transferVaultNotional (u: string, m: number, t: string, a: number): Promise<TxResponse> {
 
-        return await this.contract.functions.transferVaultNotional(u, m, t, a) as Promise<TxResponse>;
+        return await this.contract.functions.transferVaultNotional(u, m, t, a) as TxResponse;
     }
 }
