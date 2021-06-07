@@ -11,6 +11,16 @@ export interface MarketplaceContract {
     address?: string;
 
     /**
+     * Returns the admin address.
+     */
+    admin (): Promise<string>;
+
+    /**
+     * Returns the associated swivel contract address.
+     */
+    swivel (): Promise<string>;
+
+    /**
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market

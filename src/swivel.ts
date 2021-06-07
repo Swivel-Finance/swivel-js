@@ -21,6 +21,7 @@ export class Swivel implements SwivelContract {
     /**
      * Create a new swivel instance
      *
+     * // TODO: update parameter description
      * @param v - a vendor instance (ethers.js or web3.js vendor)
      * @param i - optional chain-id for the deployed smart contract; NOTE: signOrder requires this be set
      * @param c - optional address of a deployed verifying contract; NOTE: signOrder requires this be set
@@ -29,7 +30,6 @@ export class Swivel implements SwivelContract {
 
         this.vendor = v;
 
-        // TODO: what is the verifying contract?
         this.chainId = i;
         this.verifyingContract = c;
     }
@@ -82,6 +82,69 @@ export class Swivel implements SwivelContract {
         if (!this.chainId || !this.verifyingContract) throw CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED;
 
         return await this.vendor.signOrder(o, this.chainId, this.verifyingContract);
+    }
+
+    // ============================
+    // Contract getters and methods
+    // ============================
+
+    /**
+     * Returns the associated marketplace contract address.
+     */
+    async NAME (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.NAME();
+    }
+
+    async VERSION (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.VERSION();
+    }
+
+    async DOMAIN (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.DOMAIN();
+    }
+
+    /**
+     * Returns the associated marketplace contract address.
+     */
+    async marketPlace (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.marketPlace();
+    }
+
+    /**
+     * Checks if an order was cancelled.
+     *
+     * @param k - the key of the order
+     */
+    async cancelled (k: string): Promise<boolean> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.cancelled(k);
+    }
+
+    /**
+     * // TODO: How to describe this correctly?
+     * Retrieves an order's filled volume.
+     *
+     * @param k - the key of the order
+     */
+    async filled (k: string): Promise<number> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.filled(k);
     }
 
     /**

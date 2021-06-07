@@ -8,7 +8,6 @@ export class Marketplace implements MarketplaceContract {
 
     protected options?: TxOptions;
 
-    // TODO: create the marketplace abi
     protected abi = MARKETPLACE_ABI;
 
     address?: string;
@@ -30,7 +29,6 @@ export class Marketplace implements MarketplaceContract {
 
         this.vendor = v;
 
-        // TODO: what is the verifying contract?
         this.chainId = i;
         this.verifyingContract = c;
     }
@@ -66,6 +64,30 @@ export class Marketplace implements MarketplaceContract {
         this.options = o;
 
         return this;
+    }
+
+    // ============================
+    // Contract getters and methods
+    // ============================
+
+    /**
+     * Returns the admin address.
+     */
+    async admin (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.admin();
+    }
+
+    /**
+     * Returns the associated swivel contract address.
+     */
+    async swivel (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.swivel();
     }
 
     /**

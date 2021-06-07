@@ -1,6 +1,6 @@
 import { Contract, Signer } from 'ethers';
-import { ABI, Order, SwivelContract, TxResponse } from '../../../interfaces';
-import { prepareOrder, splitSignature } from '../utils';
+import { Abi, Order, SwivelContract, TxResponse } from '../../../interfaces';
+import { prepareAmount, prepareOrder, splitSignature, unwrap } from '../utils';
 
 export class EthersSwivelContract implements SwivelContract {
 
@@ -15,20 +15,54 @@ export class EthersSwivelContract implements SwivelContract {
      * @param abi - the abi of the swivel contract
      * @param s - an ethers.js signer instance
      */
-    constructor (address: string, abi: ABI, s: Signer) {
+    constructor (address: string, abi: Abi, s: Signer) {
 
         this.contract = new Contract(address, abi, s);
         this.address = this.contract.address;
     }
 
+    async NAME (): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.NAME());
+    }
+
+    async VERSION (): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.VERSION());
+    }
+
+    async DOMAIN (): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.DOMAIN());
+    }
+
     /**
-     * @param o - array of offline swivel orders
-     * @param a - array of order volume (principal) amounts relative to passed orders
-     * @param s - array of valid ECDSA signatures
+     * Returns the associated marketplace contract address.
      */
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+    async marketPlace (): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.marketPlace());
+    }
+
+    /**
+     * Checks if an order was cancelled.
+     *
+     * @param k - the key of the order
+     */
+    async cancelled (k: string): Promise<boolean> {
+
+        return unwrap<boolean>(await this.contract.functions.cancelled(k));
+    }
+
+    /**
+     * // TODO: How to describe this correctly?
+     * Retrieves an order's filled volume.
+     *
+     * @param k - the key of the order
+     */
+    async filled (k: string): Promise<number> {
+
+        return unwrap<number>(await this.contract.functions.filled(k));
     }
 
     /**
@@ -36,9 +70,27 @@ export class EthersSwivelContract implements SwivelContract {
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    // eslint-disable-next-line @typescript-eslint/require-await
+    async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
+
+        const orders = o.map(order => prepareOrder(order));
+        const amounts = a.map(amount => prepareAmount(amount));
+        const signatures = s.map(signature => splitSignature(signature));
+
+        return await this.contract.functions.initiate(orders, amounts, signatures) as TxResponse;
+    }
+
+    /**
+     * @param o - array of offline swivel orders
+     * @param a - array of order volume (principal) amounts relative to passed orders
+     * @param s - array of valid ECDSA signatures
+     */
     async exit (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+
+        const orders = o.map(order => prepareOrder(order));
+        const amounts = a.map(amount => prepareAmount(amount));
+        const signatures = s.map(signature => splitSignature(signature));
+
+        return await this.contract.functions.exit(orders, amounts, signatures) as TxResponse;
     }
 
     /**
@@ -50,6 +102,6 @@ export class EthersSwivelContract implements SwivelContract {
         const order = prepareOrder(o);
         const signature = splitSignature(s);
 
-        return await this.contract.functions.cancel(order, signature) as Promise<TxResponse>;
+        return await this.contract.functions.cancel(order, signature) as TxResponse;
     }
 }
