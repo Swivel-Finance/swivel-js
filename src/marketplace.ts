@@ -68,6 +68,30 @@ export class Marketplace implements MarketplaceContract {
         return this;
     }
 
+    // ============================
+    // Contract getters and methods
+    // ============================
+
+    /**
+     * Returns the admin address.
+     */
+    async admin (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.admin();
+    }
+
+    /**
+     * Returns the associated swivel contract address.
+     */
+    async swivel (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+
+        return await this.contract.swivel();
+    }
+
     /**
      * Retrieve the market information.
      *

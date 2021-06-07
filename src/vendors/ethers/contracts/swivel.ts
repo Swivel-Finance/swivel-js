@@ -1,6 +1,6 @@
 import { Contract, Signer } from 'ethers';
 import { ABI, Order, SwivelContract, TxResponse } from '../../../interfaces';
-import { prepareOrder, splitSignature } from '../utils';
+import { prepareAmount, prepareOrder, splitSignature } from '../utils';
 
 export class EthersSwivelContract implements SwivelContract {
 
@@ -21,14 +21,54 @@ export class EthersSwivelContract implements SwivelContract {
         this.address = this.contract.address;
     }
 
+    async NAME (): Promise<string> {
+
+        return await this.contract.functions.NAME() as Promise<string>;
+    }
+
+    async VERSION (): Promise<string> {
+
+        return await this.contract.functions.VERSION() as Promise<string>;
+    }
+
+    async DOMAIN (): Promise<string> {
+
+        return await this.contract.functions.DOMAIN() as Promise<string>;
+    }
+
     /**
-     * @param o - array of offline swivel orders
-     * @param a - array of order volume (principal) amounts relative to passed orders
-     * @param s - array of valid ECDSA signatures
+     * Returns the associated marketplace contract address.
      */
-    // eslint-disable-next-line @typescript-eslint/require-await
-    async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+    async marketPlace (): Promise<string> {
+
+        return await this.contract.functions.marketPlace() as Promise<string>;
+    }
+
+    /**
+     * Checks if an order was cancelled.
+     *
+     * @param k - the key of the order
+     */
+    async cancelled (k: string): Promise<boolean> {
+
+        // TODO: do we need to convert the order key `k`?
+        // the order key should probably be formatted correctly already
+        // const key = ethers.utils.formatBytes32String(k);
+        return await this.contract.functions.cancelled(k) as Promise<boolean>;
+    }
+
+    /**
+     * // TODO: How to describe this correctly?
+     * Retrieves an order's filled volume.
+     *
+     * @param k - the key of the order
+     */
+    async filled (k: string): Promise<number> {
+
+        // TODO: do we need to convert the order key `k`?
+        // the order key should probably be formatted correctly already
+        // const key = ethers.utils.formatBytes32String(k);
+        return await this.contract.functions.filled(k) as Promise<number>;
     }
 
     /**
@@ -36,9 +76,27 @@ export class EthersSwivelContract implements SwivelContract {
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    // eslint-disable-next-line @typescript-eslint/require-await
+    async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
+
+        const orders = o.map(order => prepareOrder(order));
+        const amounts = a.map(amount => prepareAmount(amount));
+        const signatures = s.map(signature => splitSignature(signature));
+
+        return await this.contract.functions.initiate(orders, amounts, signatures) as Promise<TxResponse>;
+    }
+
+    /**
+     * @param o - array of offline swivel orders
+     * @param a - array of order volume (principal) amounts relative to passed orders
+     * @param s - array of valid ECDSA signatures
+     */
     async exit (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
-        throw new Error('Method not implemented.');
+
+        const orders = o.map(order => prepareOrder(order));
+        const amounts = a.map(amount => prepareAmount(amount));
+        const signatures = s.map(signature => splitSignature(signature));
+
+        return await this.contract.functions.exit(orders, amounts, signatures) as Promise<TxResponse>;
     }
 
     /**

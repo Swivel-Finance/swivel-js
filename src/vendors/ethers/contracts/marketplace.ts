@@ -21,6 +21,22 @@ export class EthersMarketplaceContract implements MarketplaceContract {
     }
 
     /**
+     * Returns the admin address.
+     */
+    async admin (): Promise<string> {
+
+        return await this.contract.functions.admin() as Promise<string>;
+    }
+
+    /**
+     * Returns the associated swivel contract address.
+     */
+    async swivel (): Promise<string> {
+
+        return await this.contract.functions.swivel() as Promise<string>;
+    }
+
+    /**
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
