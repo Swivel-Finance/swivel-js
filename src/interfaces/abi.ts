@@ -1,6 +1,7 @@
 export interface AbiInput {
     readonly name: string;
     readonly type: string;
+    readonly internalType?: string;
     readonly components?: Readonly<AbiInput[]>;
 }
 
