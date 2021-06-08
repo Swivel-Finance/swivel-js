@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-next.2](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.1...v2.0.0-next.2) (2021-06-08)
+
+
+### Bug Fixes
+
+* don't import abis from `.json` files ([c9b781e](https://github.com/Swivel-Finance/swivel-js/commit/c9b781e151a187ce317615cfa01feb94978a2eeb)), closes [#54](https://github.com/Swivel-Finance/swivel-js/issues/54)
+
 ## [2.0.0-next.1](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.0...v2.0.0-next.1) (2021-06-07)
 
 
