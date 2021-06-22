@@ -1,6 +1,6 @@
-import { Contract, Signer } from 'ethers';
-import { Abi, Market, MarketplaceContract, TxResponse } from '../../../interfaces';
-import { unwrap } from '../utils';
+import { Contract, ethers, Signer } from 'ethers';
+import { Abi, Market, MarketplaceContract, TxResponse, uint256 } from '../../../interfaces';
+import { fromBigNumber, toBigNumber, unwrap } from '../utils';
 
 export class EthersMarketplaceContract implements MarketplaceContract {
 
@@ -41,40 +41,68 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    async markets (u: string): Promise<Market> {
+    async markets (u: string, m: uint256): Promise<Market> {
 
-        return unwrap<Market>(await this.contract.functions.markets(u));
+        // when a contract returns a struct, ethers.js returns it kinda unwrapped!
+        // [
+        //   '0x6D7F0754FFeb405d23C51CE938289d4835bE3b14',
+        //   '0xc4a28965e4d852eEeEC492Efbc42d1f92fB741ba',
+        //   '0xD319d0EfdB6c44bd7559938624fce7a466bDcfF8',
+        //   cTokenAddr: '0x6D7F0754FFeb405d23C51CE938289d4835bE3b14',
+        //   zcTokenAddr: '0xc4a28965e4d852eEeEC492Efbc42d1f92fB741ba',
+        //   vaultAddr: '0xD319d0EfdB6c44bd7559938624fce7a466bDcfF8'
+        // ]
+
+        const maturity = toBigNumber(m);
+
+        const market = await this.contract.functions.markets(u, maturity) as string[] & Market;
+
+        return {
+            cTokenAddr: market.cTokenAddr,
+            zcTokenAddr: market.zcTokenAddr,
+            vaultAddr: market.vaultAddr,
+        };
     }
 
     /**
      * Checks if a market is mature.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    async mature (u: string): Promise<boolean> {
+    async mature (u: string, m: uint256): Promise<boolean> {
 
-        return unwrap<boolean>(await this.contract.functions.mature(u));
+        const maturity = toBigNumber(m);
+
+        return unwrap<boolean>(await this.contract.functions.mature(u, maturity));
     }
 
     /**
      * Retrieve the market maturity.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    async maturityRate (u: string): Promise<number> {
+    async maturityRate (u: string, m: uint256): Promise<string> {
 
-        // TODO: this returns a uint256 which might be returned as `BigNumber`
-        return unwrap<number>(await this.contract.functions.maturityRate(u));
+        const maturity = toBigNumber(m);
+
+        const maturityRate = unwrap<ethers.BigNumber>(await this.contract.functions.maturityRate(u, maturity));
+
+        return fromBigNumber(maturityRate);
     }
 
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
-    async matureMarket (u: string, m: number): Promise<TxResponse> {
+    async matureMarket (u: string, m: uint256): Promise<TxResponse> {
 
-        return await this.contract.functions.matureMarket(u, m) as TxResponse;
+        const maturity = toBigNumber(m);
+
+        return await this.contract.functions.matureMarket(u, maturity) as TxResponse;
     }
 
     /**
@@ -82,18 +110,23 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      * @param m - maturity timestamp of the market
      * @param a - amount of zcTokens being redeemed
      */
-    async redeemZcToken (u: string, m: number, a: number): Promise<TxResponse> {
+    async redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse> {
 
-        return await this.contract.functions.redeemZcToken(u, m, a) as TxResponse;
+        const maturity = toBigNumber(m);
+        const amount = toBigNumber(a);
+
+        return await this.contract.functions.redeemZcToken(u, maturity, amount) as TxResponse;
     }
 
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
-    async redeemVaultInterest (u: string, m: number): Promise<TxResponse> {
+    async redeemVaultInterest (u: string, m: uint256): Promise<TxResponse> {
 
-        return await this.contract.functions.redeemVaultInterest(u, m) as TxResponse;
+        const maturity = toBigNumber(m);
+
+        return await this.contract.functions.redeemVaultInterest(u, maturity) as TxResponse;
     }
 
     /**
@@ -102,8 +135,11 @@ export class EthersMarketplaceContract implements MarketplaceContract {
      * @param t - target to be transferred to
      * @param a - amount of notional to be transferred
      */
-    async transferVaultNotional (u: string, m: number, t: string, a: number): Promise<TxResponse> {
+    async transferVaultNotional (u: string, m: uint256, t: string, a: uint256): Promise<TxResponse> {
 
-        return await this.contract.functions.transferVaultNotional(u, m, t, a) as TxResponse;
+        const maturity = toBigNumber(m);
+        const amount = toBigNumber(a);
+
+        return await this.contract.functions.transferVaultNotional(u, maturity, t, amount) as TxResponse;
     }
 }

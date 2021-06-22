@@ -1,6 +1,6 @@
 import { SWIVEL_ABI } from './constants';
 import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { Order, SwivelContract, TxOptions, TxResponse, Vendor } from './interfaces';
+import { Order, SwivelContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces';
 
 export class Swivel implements SwivelContract {
 
@@ -74,8 +74,6 @@ export class Swivel implements SwivelContract {
      * https://eips.ethereum.org/EIPS/eip-712
      *
      * @param o - order to sign
-     * @param i - chain-id for the deployed smart contract
-     * @param c - address of a deployed verifying contract
      */
     async signOrder (o: Order): Promise<string> {
 
@@ -140,7 +138,7 @@ export class Swivel implements SwivelContract {
      *
      * @param k - the key of the order
      */
-    async filled (k: string): Promise<number> {
+    async filled (k: string): Promise<string> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
@@ -152,7 +150,7 @@ export class Swivel implements SwivelContract {
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
+    async initiate (o: Order[], a: uint256[], s: string[]): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
@@ -164,7 +162,7 @@ export class Swivel implements SwivelContract {
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    async exit (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
+    async exit (o: Order[], a: uint256[], s: string[]): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 

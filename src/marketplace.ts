@@ -1,6 +1,6 @@
 import { MARKETPLACE_ABI } from './constants';
 import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { Market, MarketplaceContract, TxOptions, TxResponse, Vendor } from './interfaces';
+import { Market, MarketplaceContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces';
 
 export class Marketplace implements MarketplaceContract {
 
@@ -94,43 +94,46 @@ export class Marketplace implements MarketplaceContract {
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    async markets (u: string): Promise<Market> {
+    async markets (u: string, m: uint256): Promise<Market> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
-        return await this.contract.markets(u);
+        return await this.contract.markets(u, m);
     }
 
     /**
      * Checks if a market is mature.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    async mature (u: string): Promise<boolean> {
+    async mature (u: string, m: uint256): Promise<boolean> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
-        return await this.contract.mature(u);
+        return await this.contract.mature(u, m);
     }
 
     /**
      * Retrieve the market maturity.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    async maturityRate (u: string): Promise<number> {
+    async maturityRate (u: string, m: uint256): Promise<string> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
-        return await this.contract.maturityRate(u);
+        return await this.contract.maturityRate(u, m);
     }
 
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
-    async matureMarket (u: string, m: number): Promise<TxResponse> {
+    async matureMarket (u: string, m: uint256): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
@@ -142,7 +145,7 @@ export class Marketplace implements MarketplaceContract {
      * @param m - maturity timestamp of the market
      * @param a - amount of zcTokens being redeemed
      */
-    async redeemZcToken (u: string, m: number, a: number): Promise<TxResponse> {
+    async redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
@@ -153,7 +156,7 @@ export class Marketplace implements MarketplaceContract {
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
-    async redeemVaultInterest (u: string, m: number): Promise<TxResponse> {
+    async redeemVaultInterest (u: string, m: uint256): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 
@@ -166,7 +169,7 @@ export class Marketplace implements MarketplaceContract {
      * @param t - target to be transferred to
      * @param a - amount of notional to be transferred
      */
-    async transferVaultNotional (u: string, m: number, t: string, a: number): Promise<TxResponse> {
+    async transferVaultNotional (u: string, m: uint256, t: string, a: uint256): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
 

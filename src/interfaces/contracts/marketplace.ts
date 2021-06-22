@@ -1,4 +1,5 @@
 import { TxResponse } from '../transaction';
+import { uint256 } from '../uint256';
 
 export interface Market {
     cTokenAddr: string;
@@ -24,41 +25,44 @@ export interface MarketplaceContract {
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    markets (u: string): Promise<Market>;
+    markets (u: string, m: uint256): Promise<Market>;
 
     /**
      * Checks if a market is mature.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    mature (u: string): Promise<boolean>;
+    mature (u: string, m: uint256): Promise<boolean>;
 
     /**
      * Retrieve the market maturity.
      *
      * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      */
-    maturityRate (u: string): Promise<number>;
+    maturityRate (u: string, m: uint256): Promise<string>;
 
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
-    matureMarket (u: string, m: number): Promise<TxResponse>;
+    matureMarket (u: string, m: uint256): Promise<TxResponse>;
 
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param a - amount of zcTokens being redeemed
      */
-    redeemZcToken (u: string, m: number, a: number): Promise<TxResponse>;
+    redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse>;
 
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
-    redeemVaultInterest (u: string, m: number): Promise<TxResponse>;
+    redeemVaultInterest (u: string, m: uint256): Promise<TxResponse>;
 
     /**
      * @param u - underlying token address associated with the market
@@ -66,5 +70,5 @@ export interface MarketplaceContract {
      * @param t - target to be transferred to
      * @param a - amount of notional to be transferred
      */
-    transferVaultNotional (u: string, m: number, t: string, a: number): Promise<TxResponse>;
+    transferVaultNotional (u: string, m: uint256, t: string, a: uint256): Promise<TxResponse>;
 }
