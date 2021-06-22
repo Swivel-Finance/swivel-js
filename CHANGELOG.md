@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-next.3](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.2...v2.0.0-next.3) (2021-06-22)
+
+
+### Bug Fixes
+
+* marketplace getters for mappings ([4742469](https://github.com/Swivel-Finance/swivel-js/commit/4742469fd8548c7c0100fdf25313fb6bca13a816)), closes [#57](https://github.com/Swivel-Finance/swivel-js/issues/57) [#58](https://github.com/Swivel-Finance/swivel-js/issues/58) [#59](https://github.com/Swivel-Finance/swivel-js/issues/59) [#56](https://github.com/Swivel-Finance/swivel-js/issues/56)
+
 ## [2.0.0-next.2](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.1...v2.0.0-next.2) (2021-06-08)
 
 
