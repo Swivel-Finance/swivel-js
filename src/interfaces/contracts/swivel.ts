@@ -1,5 +1,6 @@
 import { Order } from '../order';
 import { TxResponse } from '../transaction';
+import { uint256 } from '../uint256';
 
 export interface SwivelContract {
 
@@ -29,21 +30,21 @@ export interface SwivelContract {
      *
      * @param k - the key of the order
      */
-    filled (k: string): Promise<number>;
+    filled (k: string): Promise<string>;
 
     /**
      * @param o - array of offline swivel orders
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    initiate (o: Order[], a: (number | string)[], s: string[]): Promise<TxResponse>;
+    initiate (o: Order[], a: uint256[], s: string[]): Promise<TxResponse>;
 
     /**
      * @param o - array of offline swivel orders
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    exit (o: Order[], a: (number | string)[], s: string[]): Promise<TxResponse>;
+    exit (o: Order[], a: uint256[], s: string[]): Promise<TxResponse>;
 
     /**
      * @param o - offline swivel order

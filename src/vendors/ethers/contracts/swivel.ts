@@ -1,6 +1,6 @@
-import { Contract, Signer } from 'ethers';
-import { Abi, Order, SwivelContract, TxResponse } from '../../../interfaces';
-import { prepareAmount, prepareOrder, splitSignature, unwrap } from '../utils';
+import { Contract, ethers, Signer } from 'ethers';
+import { Abi, Order, SwivelContract, TxResponse, uint256 } from '../../../interfaces';
+import { fromBigNumber, prepareOrder, splitSignature, toBigNumber, unwrap } from '../utils';
 
 export class EthersSwivelContract implements SwivelContract {
 
@@ -60,9 +60,11 @@ export class EthersSwivelContract implements SwivelContract {
      *
      * @param k - the key of the order
      */
-    async filled (k: string): Promise<number> {
+    async filled (k: string): Promise<string> {
 
-        return unwrap<number>(await this.contract.functions.filled(k));
+        const filled = unwrap<ethers.BigNumber>(await this.contract.functions.filled(k));
+
+        return fromBigNumber(filled);
     }
 
     /**
@@ -70,10 +72,10 @@ export class EthersSwivelContract implements SwivelContract {
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    async initiate (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
+    async initiate (o: Order[], a: uint256[], s: string[]): Promise<TxResponse> {
 
         const orders = o.map(order => prepareOrder(order));
-        const amounts = a.map(amount => prepareAmount(amount));
+        const amounts = a.map(amount => toBigNumber(amount));
         const signatures = s.map(signature => splitSignature(signature));
 
         return await this.contract.functions.initiate(orders, amounts, signatures) as TxResponse;
@@ -84,10 +86,10 @@ export class EthersSwivelContract implements SwivelContract {
      * @param a - array of order volume (principal) amounts relative to passed orders
      * @param s - array of valid ECDSA signatures
      */
-    async exit (o: Order[], a: number[], s: string[]): Promise<TxResponse> {
+    async exit (o: Order[], a: uint256[], s: string[]): Promise<TxResponse> {
 
         const orders = o.map(order => prepareOrder(order));
-        const amounts = a.map(amount => prepareAmount(amount));
+        const amounts = a.map(amount => toBigNumber(amount));
         const signatures = s.map(signature => splitSignature(signature));
 
         return await this.contract.functions.exit(orders, amounts, signatures) as TxResponse;

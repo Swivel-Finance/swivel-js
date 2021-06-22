@@ -4,7 +4,7 @@ import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
 import { BigNumber, ethers, utils } from 'ethers';
 import { MARKETPLACE_ABI, Order, SWIVEL_ABI } from '../../../src';
-import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, prepareAmount, prepareOrder, Result, splitSignature, unwrap } from '../../../src/vendors/ethers';
+import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, toBigNumber, prepareOrder, Result, splitSignature, unwrap, fromBigNumber } from '../../../src/vendors/ethers';
 
 describe('vendors/ethers', () => {
 
@@ -72,21 +72,43 @@ describe('vendors/ethers', () => {
 
     describe('utils', () => {
 
-        // TODO: Does this test even make sense? It literally re-implements the prepareAmount function.
-        it('prepares an amount', () => {
+        describe('toBigNumber', () => {
 
-            const amountString = '37';
-            const amountNumber = 37;
+            // TODO: Does this test even make sense? It literally re-implements the prepareAmount function.
+            it('converts a uint256 to BigNumber', () => {
 
-            let preparedAmount = prepareAmount(amountString);
+                const valueString = '37';
+                const valueNumber = 37;
+                const valueArray = [3, 7];
 
-            assert.instanceOf(preparedAmount, BigNumber);
-            assert.deepEqual(preparedAmount, BigNumber.from(amountString));
+                let value = toBigNumber(valueString);
 
-            preparedAmount = prepareAmount(amountNumber);
+                assert.instanceOf(value, BigNumber);
+                assert.deepEqual(value, BigNumber.from(valueString));
 
-            assert.instanceOf(preparedAmount, BigNumber);
-            assert.deepEqual(preparedAmount, BigNumber.from(amountNumber));
+                value = toBigNumber(valueNumber);
+
+                assert.instanceOf(value, BigNumber);
+                assert.deepEqual(value, BigNumber.from(valueNumber));
+
+                value = toBigNumber(valueArray);
+
+                assert.instanceOf(value, BigNumber);
+                assert.deepEqual(value, BigNumber.from(valueArray));
+            });
+        });
+
+        describe('fromBigNumber', () => {
+
+            it('converts a BigNumber to string', () => {
+
+                const valueBigNumber = BigNumber.from('37');
+
+                const value = fromBigNumber(valueBigNumber);
+
+                assert.strictEqual(typeof value, 'string');
+                assert.strictEqual(value, '37');
+            });
         });
 
         // TODO: Does this test even make sense? It literally re-implements the prepareOrder function.

@@ -2,10 +2,11 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
+import { ethers } from 'ethers';
 import { stub } from 'sinon';
 import { Order, Swivel, TxResponse } from '../src';
 import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } from '../src/errors';
-import { EthersSwivelContract, EthersVendor, prepareAmount, prepareOrder, Result, splitSignature } from '../src/vendors/ethers';
+import { EthersSwivelContract, EthersVendor, prepareOrder, Result, splitSignature, toBigNumber } from '../src/vendors/ethers';
 import { TEST_HELPERS } from './test-helpers';
 
 describe('swivel', () => {
@@ -333,7 +334,7 @@ describe('swivel', () => {
             const orderKey = '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01';
 
             let error: string | undefined;
-            let response: number | undefined;
+            let response: string | undefined;
 
             try {
 
@@ -359,12 +360,13 @@ describe('swivel', () => {
 
             // stub the filled getter of the `ethers.Contract`
             const mock = stub(contract.functions, 'filled');
-            const mockResponse = [1000] as Result<[number]>;
+            // `filled` returns a `BigNumber`
+            const mockResponse = [ethers.BigNumber.from(1000)] as Result<[ethers.BigNumber]>;
             mock.resolves(mockResponse);
 
             const response = await swivel.filled(orderKey);
 
-            assert.strictEqual(response, 1000);
+            assert.strictEqual(response, '1000');
         });
     });
 
@@ -494,7 +496,7 @@ describe('swivel', () => {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const [passedOrders, passedAmounts, passedSignatures] = mock.getCall(0).args;
             const expectedOrders = [prepareOrder(order)];
-            const expectedAmounts = [prepareAmount(1000)];
+            const expectedAmounts = [toBigNumber(1000)];
             const expectedSignatures = [splitSignature(signature)];
 
             assert.deepEqual(passedOrders, expectedOrders);
@@ -563,7 +565,7 @@ describe('swivel', () => {
             // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
             const [passedOrders, passedAmounts, passedSignatures] = mock.getCall(0).args;
             const expectedOrders = [prepareOrder(order)];
-            const expectedAmounts = [prepareAmount(1000)];
+            const expectedAmounts = [toBigNumber(1000)];
             const expectedSignatures = [splitSignature(signature)];
 
             assert.deepEqual(passedOrders, expectedOrders);
