@@ -21,10 +21,9 @@ export class Swivel implements SwivelContract {
     /**
      * Create a new swivel instance
      *
-     * // TODO: update parameter description
      * @param v - a vendor instance (ethers.js or web3.js vendor)
-     * @param i - optional chain-id for the deployed smart contract; NOTE: signOrder requires this be set
-     * @param c - optional address of a deployed verifying contract; NOTE: signOrder requires this be set
+     * @param i - chain-id for the deployed smart contract; NOTE: signOrder requires this be set
+     * @param c - address of a deployed verifying contract (this is usually the swivel contract address); NOTE: signOrder requires this be set
      */
     constructor (v: Vendor, i?: number, c?: string) {
 
@@ -42,18 +41,24 @@ export class Swivel implements SwivelContract {
      * and wraps it in a generic contract representation.
      *
      * @example
-     * // TODO: make a good example
      * ```
-     * const ethersProvider = getDefaultProvider();
-     * const signer = Wallet.createRandom().connect(ethersProvider);
-     * const vendor = new EthersVendor(ethersProvider, signer);
-     * const swivel = new Swivel(vendor, 1, '0x123').at('0xabc');
+     * // using ethers.js with MetaMask, create a provider and signer
+     * const provider = new ethers.providers.Web3Provider(window.ethereum);
+     * const signer = provider.getSigner();
+     *
+     * // create a new EthersVendor instance
+     * const vendor = new EthersVendor(provider, signer);
+     *
+     * // create a Swivel instance with the EtherVendor instance
+     * const chainId = 4;
+     * const swivelAddress = '0x123';
+     * const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
      * ```
      *
      * @param a - ETH address of the already deployed swivel smart contract
      * @param o - optional transaction options
      *
-     * @returns the swivel instance for chaining
+     * @returns the swivel instance
      */
     at (a: string, o?: TxOptions): Swivel {
 
