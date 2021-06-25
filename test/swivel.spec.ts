@@ -9,7 +9,7 @@ import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } fr
 import { EthersSwivelContract, EthersVendor, prepareOrder, Result, splitSignature, toBigNumber } from '../src/vendors/ethers';
 import { TEST_HELPERS } from './test-helpers';
 
-describe('swivel', () => {
+describe('Swivel', () => {
 
     let provider: Provider;
     let signer: Signer;
