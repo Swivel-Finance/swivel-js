@@ -7,7 +7,7 @@ export interface Market {
     vaultAddr: string;
 }
 
-export interface MarketplaceContract {
+export interface MarketPlaceContract {
 
     address?: string;
 

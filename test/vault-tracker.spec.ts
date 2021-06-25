@@ -21,7 +21,7 @@ const assertThrows = async (vaultTracker: VaultTracker, method: keyof VaultTrack
     }
 
     assert.notOk(response);
-    assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('vault tracker'));
+    assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('vault-tracker'));
 };
 
 describe('VaultTracker', () => {

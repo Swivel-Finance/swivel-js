@@ -1,18 +1,10 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
 import { domain, TYPES } from '../../constants';
-import { Abi, MarketplaceContract, Order, SwivelContract, VaultTrackerContract, Vendor } from '../../interfaces';
-import { EthersMarketplaceContract, EthersSwivelContract, EthersVaultTrackerContract } from './contracts';
+import { Abi, MarketPlaceContract, Order, SwivelContract, VaultTrackerContract, Vendor } from '../../interfaces';
+import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from './contracts';
 
 export class EthersVendor implements Vendor {
-
-    // TODO: we might not need to cache contract instances on the vendor
-    // the swivel and marketplace libs cache them already
-    protected marketplace?: MarketplaceContract;
-
-    protected swivel?: SwivelContract;
-
-    protected vaultTracker?: VaultTrackerContract;
 
     provider: Provider;
 
@@ -20,14 +12,14 @@ export class EthersVendor implements Vendor {
 
     contracts = {
         /**
-         * Factory for creating an ethers.js specific marketplace contract wrapper.
+         * Factory for creating an ethers.js specific market place contract wrapper.
          *
-         * @param address - address of the deployed marketplace contract
-         * @param abi - the abi of the marketplace contract
+         * @param address - address of the deployed market place contract
+         * @param abi - the abi of the market place contract
          */
-        marketplace: (address: string, abi: Abi): MarketplaceContract => {
-            this.marketplace = new EthersMarketplaceContract(address, abi, this.signer);
-            return this.marketplace;
+        marketPlace: (address: string, abi: Abi): MarketPlaceContract => {
+
+            return new EthersMarketPlaceContract(address, abi, this.signer);
         },
         /**
          * Factory for creating an ethers.js specific swivel contract wrapper.
@@ -36,8 +28,8 @@ export class EthersVendor implements Vendor {
          * @param abi - the abi of the swivel contract
          */
         swivel: (address: string, abi: Abi): SwivelContract => {
-            this.swivel = new EthersSwivelContract(address, abi, this.signer);
-            return this.swivel;
+
+            return new EthersSwivelContract(address, abi, this.signer);
         },
         /**
          * Factory for creating an ethers.js specific vault tracker contract wrapper.
@@ -46,8 +38,8 @@ export class EthersVendor implements Vendor {
          * @param abi - the abi of the vault tracker contract
          */
         vaultTracker: (address: string, abi: Abi): VaultTrackerContract => {
-            this.vaultTracker = new EthersVaultTrackerContract(address, abi, this.signer);
-            return this.vaultTracker;
+
+            return new EthersVaultTrackerContract(address, abi, this.signer);
         },
     };
 
@@ -63,12 +55,13 @@ export class EthersVendor implements Vendor {
         this.signer = s;
     }
 
-    // TODO: Should the generic Order be signed or the vendor specific EthersOrder?
     /**
      * Sign an order using EIP-712.
      *
      * @remarks
      * https://eips.ethereum.org/EIPS/eip-712
+     * `_signTypedData` takes care of converting the `Order` properties to the types
+     * specified in the `TypedData` metadata object.
      *
      * @param o - order to sign
      * @param i - chain-id for the deployed smart contract

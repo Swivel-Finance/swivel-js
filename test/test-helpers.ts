@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts';
-import { Marketplace, Swivel, VaultTracker } from '../src';
-import { EthersMarketplaceContract, EthersSwivelContract, EthersVaultTrackerContract } from '../src/vendors/ethers';
+import { MarketPlace, Swivel, VaultTracker } from '../src';
+import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from '../src/vendors/ethers';
 
 interface HasContract<TContract> {
     contract: TContract;
@@ -26,12 +26,12 @@ export const TEST_HELPERS = {
         },
         web3: {},
     },
-    marketplace: {
+    marketPlace: {
         ethers: {
-            getWrappedContract (s: Marketplace): EthersMarketplaceContract {
-                return (s as unknown as HasContract<EthersMarketplaceContract>).contract;
+            getWrappedContract (s: MarketPlace): EthersMarketPlaceContract {
+                return (s as unknown as HasContract<EthersMarketPlaceContract>).contract;
             },
-            getVendorContract (s: Marketplace): Contract {
+            getVendorContract (s: MarketPlace): Contract {
                 return (this.getWrappedContract(s) as unknown as HasContract<Contract>).contract;
             },
         },

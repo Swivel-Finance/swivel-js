@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbstractProvider, provider } from 'web3-core';
 import { JsonRpcPayload } from 'web3-core-helpers';
 import { domain, TYPES } from '../../constants';
-import { Abi, MarketplaceContract, Order, SwivelContract, TxOptions, VaultTrackerContract, Vendor } from '../../interfaces';
+import { Abi, MarketPlaceContract, Order, SwivelContract, TxOptions, VaultTrackerContract, Vendor } from '../../interfaces';
 
 export class Web3Vendor implements Vendor {
 
@@ -19,7 +19,7 @@ export class Web3Vendor implements Vendor {
          * @param o - optional default transaction options
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        marketplace: (address: string, abi: Abi, o?: TxOptions): MarketplaceContract => {
+        marketPlace: (address: string, abi: Abi, o?: TxOptions): MarketPlaceContract => {
             throw new Error('Method not implemented.');
         },
         /**

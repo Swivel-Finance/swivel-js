@@ -1,18 +1,29 @@
 import { Contract, ethers, Signer } from 'ethers';
-import { Abi, Market, MarketplaceContract, TxResponse, uint256 } from '../../../interfaces';
+import { Abi, Market, MarketPlaceContract, TxResponse, uint256 } from '../../../interfaces';
 import { fromBigNumber, toBigNumber, unwrap } from '../utils';
 
-export class EthersMarketplaceContract implements MarketplaceContract {
+/**
+ * An internal type solely for ethers.js market struct response.
+ *
+ * @internal
+ */
+type MarketResponse = string[] & {
+    cTokenAddr: string;
+    zcTokenAddr: string;
+    vaultAddr: string;
+};
+
+export class EthersMarketPlaceContract implements MarketPlaceContract {
 
     protected contract: Contract;
 
     address: string;
 
     /**
-     * Creates a new ethers.js specific marketplace contract wrapper.
+     * Creates a new ethers.js specific market place contract wrapper.
      *
-     * @param address - address of the deployed marketplace contract
-     * @param abi - the abi of the marketplace contract
+     * @param address - address of the deployed market place contract
+     * @param abi - the abi of the market place contract
      * @param s - an ethers.js signer instance
      */
     constructor (address: string, abi: Abi, s: Signer) {
@@ -57,7 +68,7 @@ export class EthersMarketplaceContract implements MarketplaceContract {
 
         const maturity = toBigNumber(m);
 
-        const market = await this.contract.functions.markets(u, maturity) as string[] & Market;
+        const market = await this.contract.functions.markets(u, maturity) as MarketResponse;
 
         return {
             cTokenAddr: market.cTokenAddr,

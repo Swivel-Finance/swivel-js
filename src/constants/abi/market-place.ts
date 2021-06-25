@@ -1,6 +1,6 @@
 import { Abi } from '../../interfaces';
 
-export const MARKETPLACE_ABI = [
+export const MARKET_PLACE_ABI = [
     {
         'anonymous': false,
         'inputs': [
