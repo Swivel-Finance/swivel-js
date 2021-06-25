@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-next.4](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.3...v2.0.0-next.4) (2021-06-25)
+
+
+### Features
+
+* add vault tracker HOC ([20e683d](https://github.com/Swivel-Finance/swivel-js/commit/20e683d4fc627b530ede5aafd5a70a84a2f36a51)), closes [#43](https://github.com/Swivel-Finance/swivel-js/issues/43)
+
+
+### Bug Fixes
+
+* clean up MarketPlace HOC ([ee79cc5](https://github.com/Swivel-Finance/swivel-js/commit/ee79cc55a78ac9841fe3117373fe1fdafffdc937)), closes [#62](https://github.com/Swivel-Finance/swivel-js/issues/62)
+
 ## [2.0.0-next.3](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.2...v2.0.0-next.3) (2021-06-22)
 
 
