@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts';
-import { Marketplace, Swivel } from '../src';
-import { EthersMarketplaceContract, EthersSwivelContract } from '../src/vendors/ethers';
+import { Marketplace, Swivel, VaultTracker } from '../src';
+import { EthersMarketplaceContract, EthersSwivelContract, EthersVaultTrackerContract } from '../src/vendors/ethers';
 
 interface HasContract<TContract> {
     contract: TContract;
@@ -35,6 +35,25 @@ export const TEST_HELPERS = {
                 return (this.getWrappedContract(s) as unknown as HasContract<Contract>).contract;
             },
         },
+    },
+    vaultTracker: {
+        ethers: {
+            // the vendor specific contract wrapper is not exposed by vault tracker
+            // to access it during tests, we need to access a protected property
+            // as protected properties are only meaningful to TypeScript, we can do some type-casting
+            getWrappedContract (s: VaultTracker): EthersVaultTrackerContract {
+                return (s as unknown as HasContract<EthersVaultTrackerContract>).contract;
+            },
+            getVendorContract (s: VaultTracker): Contract {
+                return (this.getWrappedContract(s) as unknown as HasContract<Contract>).contract;
+            },
+            stubVendorContract (s: VaultTracker): Contract {
+                const stubbableContract = clone(this.getVendorContract(s)) as Contract;
+                (this.getWrappedContract(s) as unknown as HasContract<Contract>).contract = stubbableContract;
+                return stubbableContract;
+            },
+        },
+        web3: {},
     },
 };
 
