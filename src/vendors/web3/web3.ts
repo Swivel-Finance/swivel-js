@@ -2,7 +2,7 @@ import Web3 from 'web3';
 import { AbstractProvider, provider } from 'web3-core';
 import { JsonRpcPayload } from 'web3-core-helpers';
 import { domain, TYPES } from '../../constants';
-import { Abi, MarketplaceContract, Order, SwivelContract, TxOptions, Vendor } from '../../interfaces';
+import { Abi, MarketplaceContract, Order, SwivelContract, TxOptions, VaultTrackerContract, Vendor } from '../../interfaces';
 
 export class Web3Vendor implements Vendor {
 
@@ -31,6 +31,17 @@ export class Web3Vendor implements Vendor {
          */
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         swivel: (address: string, abi: Abi, o?: TxOptions): SwivelContract => {
+            throw new Error('Method not implemented.');
+        },
+        /**
+         * Factory for creating a web3.js specific vault tracker contract wrapper.
+         *
+         * @param address - address of the deployed vault tracker contract
+         * @param abi - the abi of the vault tracker contract
+         * @param o - optional default transaction options
+         */
+        // eslint-disable-next-line @typescript-eslint/no-unused-vars
+        vaultTracker: (address: string, abi: Abi, o?: TxOptions): VaultTrackerContract => {
             throw new Error('Method not implemented.');
         },
     };
