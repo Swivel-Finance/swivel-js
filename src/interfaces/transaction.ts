@@ -1,9 +1,11 @@
+import { uint256 } from './uint256';
+
 export interface TxOptions {
     to?: string;
     from?: string;
-    gasPrice?: number | string;
-    gasLimit?: number | string;
-    value?: number | string;
+    gasPrice?: uint256;
+    gasLimit?: uint256;
+    value?: uint256;
     data?: unknown;
 }
 
