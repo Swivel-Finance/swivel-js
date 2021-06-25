@@ -1,5 +1,5 @@
 import { Abi } from './abi';
-import { MarketplaceContract, SwivelContract, VaultTrackerContract } from './contracts';
+import { MarketPlaceContract, SwivelContract, VaultTrackerContract } from './contracts';
 import { Order } from './order';
 import { TxOptions } from './transaction';
 
@@ -10,13 +10,13 @@ export interface Vendor {
      */
     contracts: {
         /**
-         * Factory for creating a vendor specific marketplace contract wrapper.
+         * Factory for creating a vendor specific market place contract wrapper.
          *
-         * @param address - address of the deployed marketplace contract
-         * @param abi - the abi of the marketplace contract
+         * @param address - address of the deployed market place contract
+         * @param abi - the abi of the market place contract
          * @param o - optional default transaction options
          */
-        marketplace: (address: string, abi: Abi, o?: TxOptions) => MarketplaceContract;
+        marketPlace: (address: string, abi: Abi, o?: TxOptions) => MarketPlaceContract;
         /**
          * Factory for creating a vendor specific swivel contract wrapper.
          *

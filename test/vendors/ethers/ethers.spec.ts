@@ -3,8 +3,8 @@ import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
 import { BigNumber, ethers, utils } from 'ethers';
-import { MARKETPLACE_ABI, Order, SWIVEL_ABI } from '../../../src';
-import { EthersMarketplaceContract, EthersSwivelContract, EthersVendor, toBigNumber, prepareOrder, Result, splitSignature, unwrap, fromBigNumber } from '../../../src/vendors/ethers';
+import { MARKET_PLACE_ABI, Order, SWIVEL_ABI } from '../../../src';
+import { EthersMarketPlaceContract, EthersSwivelContract, EthersVendor, toBigNumber, prepareOrder, Result, splitSignature, unwrap, fromBigNumber } from '../../../src/vendors/ethers';
 
 describe('vendors/ethers', () => {
 
@@ -55,9 +55,9 @@ describe('vendors/ethers', () => {
 
         const vendor = new EthersVendor(provider, signer);
         const address = '0x123';
-        const contract = vendor.contracts.marketplace(address, MARKETPLACE_ABI);
+        const contract = vendor.contracts.marketPlace(address, MARKET_PLACE_ABI);
 
-        assert.instanceOf(contract, EthersMarketplaceContract);
+        assert.instanceOf(contract, EthersMarketPlaceContract);
         assert.equal(contract.address, address);
     });
 

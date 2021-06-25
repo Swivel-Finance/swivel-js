@@ -33,22 +33,27 @@ export class VaultTracker implements VaultTrackerContract {
      *
      * @example
      * ```
-     * const ethersProvider = getDefaultProvider();
-     * const signer = Wallet.createRandom().connect(ethersProvider);
-     * const vendor = new EthersVendor(ethersProvider, signer);
-     * const vaultTracker = new VaultTracker(vendor).at('0xabc');
+     * // using ethers.js with MetaMask, create a provider and signer
+     * const provider = new ethers.providers.Web3Provider(window.ethereum);
+     * const signer = provider.getSigner();
+     *
+     * // create a new EthersVendor instance
+     * const vendor = new EthersVendor(provider, signer);
+     *
+     * // create a VaultTracker instance with the EtherVendor instance
+     * const vaultTracker = new VaultTracker(vendor).at('0x123');
      * ```
      *
      * @param a - ETH address of the deployed vault tracker smart contract
      * @param o - optional transaction options
      *
-     * @returns the vault tracker instance for chaining
+     * @returns the vault tracker instance
      */
     at (a: string, o?: TxOptions): VaultTracker {
 
         this.contract = this.vendor.contracts.vaultTracker(a, this.abi, o);
 
-        if (!this.contract) throw CONTRACT_INSTANTIATION_FAILED('vault tracker', a);
+        if (!this.contract) throw CONTRACT_INSTANTIATION_FAILED('vault-tracker', a);
 
         this.address = this.contract.address;
         this.options = o;
@@ -68,7 +73,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async admin (): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.admin();
     }
@@ -78,7 +83,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async maturity (): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.maturity();
     }
@@ -88,7 +93,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async matured (): Promise<boolean> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.matured();
     }
@@ -98,7 +103,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async maturityRate (): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.maturityRate();
     }
@@ -108,7 +113,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async cTokenAddr (): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.cTokenAddr();
     }
@@ -121,7 +126,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async vaults (o: string): Promise<Vault> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.vaults(o);
     }
@@ -134,7 +139,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async balancesOf (o: string): Promise<[string, string]> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.balancesOf(o);
     }
@@ -144,7 +149,7 @@ export class VaultTracker implements VaultTrackerContract {
      */
     async matureVault (): Promise<TxResponse> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault tracker');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.matureVault();
     }

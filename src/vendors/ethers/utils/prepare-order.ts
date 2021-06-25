@@ -1,5 +1,6 @@
 import { ethers, utils } from 'ethers';
 import { Order } from '../../../interfaces';
+import { toBigNumber } from './big-number';
 
 /**
  * The `ethers.js` specific version of an {@link Order}.
@@ -29,9 +30,9 @@ export function prepareOrder (o: Order): EthersOrder {
         underlying: o.underlying,
         vault: o.vault,
         exit: o.exit,
-        principal: ethers.BigNumber.from(o.principal),
-        premium: ethers.BigNumber.from(o.premium),
-        maturity: ethers.BigNumber.from(o.maturity),
-        expiry: ethers.BigNumber.from(o.expiry),
+        principal: toBigNumber(o.principal),
+        premium: toBigNumber(o.premium),
+        maturity: toBigNumber(o.maturity),
+        expiry: toBigNumber(o.expiry),
     };
 }

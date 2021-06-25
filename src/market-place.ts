@@ -1,64 +1,59 @@
-import { MARKETPLACE_ABI } from './constants';
+import { MARKET_PLACE_ABI } from './constants';
 import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { Market, MarketplaceContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces';
+import { Market, MarketPlaceContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces';
 
-export class Marketplace implements MarketplaceContract {
+export class MarketPlace implements MarketPlaceContract {
 
-    protected contract?: MarketplaceContract;
+    protected contract?: MarketPlaceContract;
 
     protected options?: TxOptions;
 
-    protected abi = MARKETPLACE_ABI;
+    protected abi = MARKET_PLACE_ABI;
 
     address?: string;
 
     vendor: Vendor;
 
-    chainId?: number;
-
-    verifyingContract?: string;
-
     /**
-     * Create a new marketplace instance
+     * Create a new market place instance
      *
      * @param v - a vendor instance (ethers.js or web3.js vendor)
-     * @param i - optional chain-id for the deployed smart contract
-     * @param c - optional address of a deployed verifying contract
      */
-    constructor (v: Vendor, i?: number, c?: string) {
+    constructor (v: Vendor) {
 
         this.vendor = v;
-
-        this.chainId = i;
-        this.verifyingContract = c;
     }
 
     /**
      * Set the deployed smart contract address
      *
      * @remarks
-     * Creates a vendor specific instance of the deployed marketplace smart contract
+     * Creates a vendor specific instance of the deployed market place smart contract
      * and wraps it in a generic contract representation.
      *
      * @example
-     * // TODO: make a good example
      * ```
-     * const ethersProvider = getDefaultProvider();
-     * const signer = Wallet.createRandom().connect(ethersProvider);
-     * const vendor = new EthersVendor(ethersProvider, signer);
-     * const marketplace = new Marketplace(vendor, 1, '0x123').at('0xabc');
+     * // using ethers.js with MetaMask, create a provider and signer
+     * const provider = new ethers.providers.Web3Provider(window.ethereum);
+     * const signer = provider.getSigner();
+     *
+     * // create a new EthersVendor instance
+     * const vendor = new EthersVendor(provider, signer);
+     *
+     * // create a MarketPlace instance with the EtherVendor instance
+     * const marketPlace = new MarketPlace(vendor).at('0x123');
      * ```
      *
-     * @param a - ETH address of the already deployed marketplace smart contract
+     * @param a - ETH address of the deployed market place smart contract
      * @param o - optional transaction options
      *
-     * @returns the marketplace instance for chaining
+     * @returns the market place instance
      */
-    at (a: string, o?: TxOptions): Marketplace {
+    at (a: string, o?: TxOptions): MarketPlace {
 
-        this.contract = this.vendor.contracts.marketplace(a, this.abi, o);
+        this.contract = this.vendor.contracts.marketPlace(a, this.abi, o);
 
-        if (!this.contract) throw CONTRACT_INSTANTIATION_FAILED('marketplace', a);
+        if (!this.contract) throw CONTRACT_INSTANTIATION_FAILED('market-place', a);
 
         this.address = this.contract.address;
         this.options = o;
@@ -75,7 +70,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async admin (): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.admin();
     }
@@ -85,7 +80,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async swivel (): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.swivel();
     }
@@ -98,7 +93,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async markets (u: string, m: uint256): Promise<Market> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.markets(u, m);
     }
@@ -111,7 +106,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async mature (u: string, m: uint256): Promise<boolean> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.mature(u, m);
     }
@@ -124,7 +119,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async maturityRate (u: string, m: uint256): Promise<string> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.maturityRate(u, m);
     }
@@ -135,7 +130,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async matureMarket (u: string, m: uint256): Promise<TxResponse> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.matureMarket(u, m);
     }
@@ -147,7 +142,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.redeemZcToken(u, m, a);
     }
@@ -158,7 +153,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async redeemVaultInterest (u: string, m: uint256): Promise<TxResponse> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.redeemVaultInterest(u, m);
     }
@@ -171,7 +166,7 @@ export class Marketplace implements MarketplaceContract {
      */
     async transferVaultNotional (u: string, m: uint256, t: string, a: uint256): Promise<TxResponse> {
 
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('marketplace');
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.transferVaultNotional(u, m, t, a);
     }
