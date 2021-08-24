@@ -51,4 +51,18 @@ export interface SwivelContract {
      * @param a - valid ECDSA signature
      */
     cancel (o: Order, s: string): Promise<TxResponse>;
+
+    /**
+     * @param u - underlying address
+     * @param m - maturity timestamp
+     * @param a - valid ECDSA signature
+     */
+    splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+
+    /**
+     * @param u - underlying address
+     * @param m - maturity timestamp
+     * @param a - valid ECDSA signature
+     */
+     combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse>;
 }
