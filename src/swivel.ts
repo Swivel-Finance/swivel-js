@@ -194,7 +194,7 @@ export class Swivel implements SwivelContract {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
-        return await this.contract.splitUnderlying(u, m, a) as TxResponse;
+        return await this.contract.splitUnderlying(u, m, a);
     }    
 
     /**
@@ -206,6 +206,6 @@ export class Swivel implements SwivelContract {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
-        return await this.contract.combineTokens(u, m, a) as TxResponse;
+        return await this.contract.combineTokens(u, m, a);
     }    
 }
