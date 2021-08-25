@@ -123,7 +123,7 @@ export class EthersSwivelContract implements SwivelContract {
     /**
      * @param u - underlying address
      * @param m - maturity timestamp
-     * @param a - valid ECDSA signature
+     * @param a - amount to combine
      */
     async combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse> {
 
@@ -132,5 +132,4 @@ export class EthersSwivelContract implements SwivelContract {
 
         return await this.contract.functions.combineTokens(u, maturity, amount) as TxResponse;
     }
-
 }

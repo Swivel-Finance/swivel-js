@@ -188,24 +188,24 @@ export class Swivel implements SwivelContract {
     /**
      * @param u - underlying address
      * @param m - maturity timestamp
-     * @param a - valid ECDSA signature
+     * @param a - amount to split
      */
-     async splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+    async splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
         return await this.contract.splitUnderlying(u, m, a);
-    }    
+    }
 
     /**
      * @param u - underlying address
      * @param m - maturity timestamp
-     * @param a - valid ECDSA signature
+     * @param a - amount to combine
      */
     async combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
         return await this.contract.combineTokens(u, m, a);
-    }    
+    }
 }

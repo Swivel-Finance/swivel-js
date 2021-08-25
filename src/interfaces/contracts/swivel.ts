@@ -48,21 +48,21 @@ export interface SwivelContract {
 
     /**
      * @param o - offline swivel order
-     * @param a - valid ECDSA signature
+     * @param s - valid ECDSA signature
      */
     cancel (o: Order, s: string): Promise<TxResponse>;
 
     /**
      * @param u - underlying address
      * @param m - maturity timestamp
-     * @param a - valid ECDSA signature
+     * @param a - amount to split
      */
     splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse>;
 
     /**
      * @param u - underlying address
      * @param m - maturity timestamp
-     * @param a - valid ECDSA signature
+     * @param a - amount to combine
      */
-     combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+    combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse>;
 }
