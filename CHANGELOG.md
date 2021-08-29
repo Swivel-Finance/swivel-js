@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-next.5](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.4...v2.0.0-next.5) (2021-08-29)
+
+
+### Bug Fixes
+
+* linting issues and doc comments ([5291f46](https://github.com/Swivel-Finance/swivel-js/commit/5291f46b90605f36eea7a22313b66de859b91245))
+* rename `DOMAIN` getter to `domain` ([19be364](https://github.com/Swivel-Finance/swivel-js/commit/19be36487fa0a61336f2fa8e29d39e9764d45664))
+* update ABIs to latest version ([7754e9b](https://github.com/Swivel-Finance/swivel-js/commit/7754e9bdba1935ef52d1f63121922aeac660082f))
+
 ## [2.0.0-next.4](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.3...v2.0.0-next.4) (2021-06-25)
 
 
