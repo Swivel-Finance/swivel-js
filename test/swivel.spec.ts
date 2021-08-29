@@ -197,7 +197,7 @@ describe('Swivel', () => {
         });
     });
 
-    describe('DOMAIN', () => {
+    describe('domain', () => {
 
         it('throws if deployed contract is not wrapped', async () => {
 
@@ -209,7 +209,7 @@ describe('Swivel', () => {
 
             try {
 
-                response = await swivel.DOMAIN();
+                response = await swivel.domain();
 
             } catch (e) {
 
@@ -228,12 +228,12 @@ describe('Swivel', () => {
             // get a stubbable (configurable) clone of the underlying `ethers.Contract`
             const contract = TEST_HELPERS.swivel.ethers.stubVendorContract(swivel);
 
-            // stub the DOMAIN getter of the `ethers.Contract`
-            const mock = stub(contract.functions, 'DOMAIN');
+            // stub the domain getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'domain');
             const mockResponse = ['0xff994c6dc7681610e2df3e5851876850c586a3d189b9c6924c06dd497726a16c'] as Result<[string]>;
             mock.resolves(mockResponse);
 
-            const response = await swivel.DOMAIN();
+            const response = await swivel.domain();
 
             assert.strictEqual(response, '0xff994c6dc7681610e2df3e5851876850c586a3d189b9c6924c06dd497726a16c');
         });
@@ -571,6 +571,132 @@ describe('Swivel', () => {
             assert.deepEqual(passedOrders, expectedOrders);
             assert.deepEqual(passedAmounts, expectedAmounts);
             assert.deepEqual(passedSignatures, expectedSignatures);
+        });
+    });
+
+    describe('splitUnderlying', () => {
+
+        it('throws if deployed contract is not wrapped', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor, chainId, verifyingContract);
+
+            let error: string | undefined;
+            let response: TxResponse | undefined;
+
+            try {
+
+                response = await swivel.splitUnderlying('0x1234', '12345', '1000000000000000000');
+
+            } catch (e) {
+
+                error = e as string;
+            }
+
+            assert.notOk(response);
+
+            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+        });
+
+        it('converts arguments and passes them to vendor specific contract instance', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor, chainId, verifyingContract).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.swivel.ethers.stubVendorContract(swivel);
+
+            // stub the splitUnderlying function of the `ethers.Contract`
+            const mock = stub(contract.functions, 'splitUnderlying');
+            const mockResponse: TxResponse = { hash: '0xresponse' };
+            mock.resolves(mockResponse);
+
+            const underlying = '0x1234';
+            const maturity = '12345';
+            const amount = '1000000000000000000';
+
+            const response = await swivel.splitUnderlying(underlying, maturity, amount);
+
+            // we should receive the mocked response
+            assert.equal(response, mockResponse);
+            assert.isTrue(mock.calledOnce);
+
+            /**
+             * The underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
+             */
+
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const [passedAddress, passedMaturity, passedAmount] = mock.getCall(0).args;
+            const expectedUnderlying = underlying;
+            const expectedMaturity = toBigNumber(maturity);
+            const expectedAmount = toBigNumber(amount);
+
+            assert.deepEqual(passedAddress, expectedUnderlying);
+            assert.deepEqual(passedMaturity, expectedMaturity);
+            assert.deepEqual(passedAmount, expectedAmount);
+        });
+    });
+
+    describe('combineTokens', () => {
+
+        it('throws if deployed contract is not wrapped', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor, chainId, verifyingContract);
+
+            let error: string | undefined;
+            let response: TxResponse | undefined;
+
+            try {
+
+                response = await swivel.combineTokens('0x1234', '12345', '1000000000000000000');
+
+            } catch (e) {
+
+                error = e as string;
+            }
+
+            assert.notOk(response);
+
+            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+        });
+
+        it('converts arguments and passes them to vendor specific contract instance', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor, chainId, verifyingContract).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.swivel.ethers.stubVendorContract(swivel);
+
+            // stub the combineTokens function of the `ethers.Contract`
+            const mock = stub(contract.functions, 'combineTokens');
+            const mockResponse: TxResponse = { hash: '0xresponse' };
+            mock.resolves(mockResponse);
+
+            const underlying = '0x1234';
+            const maturity = '12345';
+            const amount = '1000000000000000000';
+
+            const response = await swivel.combineTokens(underlying, maturity, amount);
+
+            // we should receive the mocked response
+            assert.equal(response, mockResponse);
+            assert.isTrue(mock.calledOnce);
+
+            /**
+             * The underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
+             */
+
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const [passedAddress, passedMaturity, passedAmount] = mock.getCall(0).args;
+            const expectedUnderlying = underlying;
+            const expectedMaturity = toBigNumber(maturity);
+            const expectedAmount = toBigNumber(amount);
+
+            assert.deepEqual(passedAddress, expectedUnderlying);
+            assert.deepEqual(passedMaturity, expectedMaturity);
+            assert.deepEqual(passedAmount, expectedAmount);
         });
     });
 });
