@@ -91,9 +91,6 @@ export class Swivel implements SwivelContract {
     // Contract getters and methods
     // ============================
 
-    /**
-     * Returns the associated marketplace contract address.
-     */
     async NAME (): Promise<string> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
@@ -108,11 +105,11 @@ export class Swivel implements SwivelContract {
         return await this.contract.VERSION();
     }
 
-    async DOMAIN (): Promise<string> {
+    async domain (): Promise<string> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
-        return await this.contract.DOMAIN();
+        return await this.contract.domain();
     }
 
     /**

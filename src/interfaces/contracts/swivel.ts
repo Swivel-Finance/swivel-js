@@ -10,7 +10,7 @@ export interface SwivelContract {
 
     VERSION (): Promise<string>;
 
-    DOMAIN (): Promise<string>;
+    domain (): Promise<string>;
 
     /**
      * Returns the associated marketplace contract address.

@@ -31,9 +31,9 @@ export class EthersSwivelContract implements SwivelContract {
         return unwrap<string>(await this.contract.functions.VERSION());
     }
 
-    async DOMAIN (): Promise<string> {
+    async domain (): Promise<string> {
 
-        return unwrap<string>(await this.contract.functions.DOMAIN());
+        return unwrap<string>(await this.contract.functions.domain());
     }
 
     /**
