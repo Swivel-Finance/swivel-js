@@ -31,9 +31,9 @@ export class EthersSwivelContract implements SwivelContract {
         return unwrap<string>(await this.contract.functions.VERSION());
     }
 
-    async DOMAIN (): Promise<string> {
+    async domain (): Promise<string> {
 
-        return unwrap<string>(await this.contract.functions.DOMAIN());
+        return unwrap<string>(await this.contract.functions.domain());
     }
 
     /**
@@ -105,5 +105,31 @@ export class EthersSwivelContract implements SwivelContract {
         const signature = splitSignature(s);
 
         return await this.contract.functions.cancel(order, signature) as TxResponse;
+    }
+
+    /**
+     * @param u - underlying address
+     * @param m - maturity timestamp
+     * @param a - amount to split
+     */
+    async splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+
+        const maturity = toBigNumber(m);
+        const amount = toBigNumber(a);
+
+        return await this.contract.functions.splitUnderlying(u, maturity, amount) as TxResponse;
+    }
+
+    /**
+     * @param u - underlying address
+     * @param m - maturity timestamp
+     * @param a - amount to combine
+     */
+    async combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+
+        const maturity = toBigNumber(m);
+        const amount = toBigNumber(a);
+
+        return await this.contract.functions.combineTokens(u, maturity, amount) as TxResponse;
     }
 }

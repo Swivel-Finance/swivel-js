@@ -124,13 +124,32 @@ export const SWIVEL_ABI = [
         'type': 'event',
     },
     {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'token',
+                'type': 'address',
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'hold',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'WithdrawalScheduled',
+        'type': 'event',
+    },
+    {
         'inputs': [],
-        'name': 'DOMAIN',
+        'name': 'HOLD',
         'outputs': [
             {
-                'internalType': 'bytes32',
+                'internalType': 'uint256',
                 'name': '',
-                'type': 'bytes32',
+                'type': 'uint256',
             },
         ],
         'stateMutability': 'view',
@@ -160,6 +179,32 @@ export const SWIVEL_ABI = [
             },
         ],
         'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [],
+        'name': 'admin',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'e',
+                'type': 'address',
+            },
+        ],
+        'name': 'blockWithdrawal',
+        'outputs': [],
+        'stateMutability': 'nonpayable',
         'type': 'function',
     },
     {
@@ -272,6 +317,48 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'combineTokens',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [],
+        'name': 'domain',
+        'outputs': [
+            {
+                'internalType': 'bytes32',
+                'name': '',
+                'type': 'bytes32',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
                 'components': [
                     {
                         'internalType': 'bytes32',
@@ -360,6 +447,25 @@ export const SWIVEL_ABI = [
             },
         ],
         'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'fenominator',
+        'outputs': [
+            {
+                'internalType': 'uint16',
+                'name': '',
+                'type': 'uint16',
+            },
+        ],
+        'stateMutability': 'view',
         'type': 'function',
     },
     {
@@ -482,6 +588,104 @@ export const SWIVEL_ABI = [
                 'internalType': 'address',
                 'name': '',
                 'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'e',
+                'type': 'address',
+            },
+        ],
+        'name': 'scheduleWithdrawal',
+        'outputs': [],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint16',
+                'name': 't',
+                'type': 'uint16',
+            },
+            {
+                'internalType': 'uint16',
+                'name': 'd',
+                'type': 'uint16',
+            },
+        ],
+        'name': 'setFee',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'splitUnderlying',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'e',
+                'type': 'address',
+            },
+        ],
+        'name': 'withdraw',
+        'outputs': [],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'name': 'withdrawals',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
             },
         ],
         'stateMutability': 'view',

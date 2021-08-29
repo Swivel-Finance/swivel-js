@@ -2,6 +2,13 @@ import { Abi } from '../../interfaces';
 
 export const MARKET_PLACE_ABI = [
     {
+        'inputs': [
+
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'constructor',
+    },
+    {
         'anonymous': false,
         'inputs': [
             {
@@ -26,6 +33,12 @@ export const MARKET_PLACE_ABI = [
                 'indexed': false,
                 'internalType': 'address',
                 'name': 'zcToken',
+                'type': 'address',
+            },
+            {
+                'indexed': false,
+                'internalType': 'address',
+                'name': 'vaultTracker',
                 'type': 'address',
             },
         ],
@@ -321,6 +334,40 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
+                'name': 't',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'burnZcTokenRemovingNotional',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
                 'name': 'a',
                 'type': 'address',
             },
@@ -367,6 +414,11 @@ export const MARKET_PLACE_ABI = [
                 'internalType': 'string',
                 'name': 's',
                 'type': 'string',
+            },
+            {
+                'internalType': 'uint8',
+                'name': 'd',
+                'type': 'uint8',
             },
         ],
         'name': 'createMarket',
@@ -578,6 +630,40 @@ export const MARKET_PLACE_ABI = [
             },
             {
                 'internalType': 'address',
+                'name': 't',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'mintZcTokenAddingNotional',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
                 'name': 'f',
                 'type': 'address',
             },
@@ -751,6 +837,40 @@ export const MARKET_PLACE_ABI = [
             },
         ],
         'name': 'transferVaultNotional',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
+                'name': 'f',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'transferVaultNotionalFee',
         'outputs': [
             {
                 'internalType': 'bool',

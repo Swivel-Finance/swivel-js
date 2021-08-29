@@ -13,6 +13,11 @@ export const VAULT_TRACKER_ABI = [
                 'name': 'c',
                 'type': 'address',
             },
+            {
+                'internalType': 'address',
+                'name': 's',
+                'type': 'address',
+            },
         ],
         'stateMutability': 'nonpayable',
         'type': 'constructor',
@@ -187,15 +192,23 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
+        'inputs': [],
+        'name': 'swivel',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
         'inputs': [
             {
                 'internalType': 'address',
                 'name': 'f',
-                'type': 'address',
-            },
-            {
-                'internalType': 'address',
-                'name': 't',
                 'type': 'address',
             },
             {
@@ -204,7 +217,7 @@ export const VAULT_TRACKER_ABI = [
                 'type': 'uint256',
             },
         ],
-        'name': 'transferNotional',
+        'name': 'transferNotionalFee',
         'outputs': [
             {
                 'internalType': 'bool',

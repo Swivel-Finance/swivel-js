@@ -91,9 +91,6 @@ export class Swivel implements SwivelContract {
     // Contract getters and methods
     // ============================
 
-    /**
-     * Returns the associated marketplace contract address.
-     */
     async NAME (): Promise<string> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
@@ -108,11 +105,11 @@ export class Swivel implements SwivelContract {
         return await this.contract.VERSION();
     }
 
-    async DOMAIN (): Promise<string> {
+    async domain (): Promise<string> {
 
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
-        return await this.contract.DOMAIN();
+        return await this.contract.domain();
     }
 
     /**
@@ -183,5 +180,29 @@ export class Swivel implements SwivelContract {
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
         return await this.contract.cancel(o, s);
+    }
+
+    /**
+     * @param u - underlying address
+     * @param m - maturity timestamp
+     * @param a - amount to split
+     */
+    async splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.splitUnderlying(u, m, a);
+    }
+
+    /**
+     * @param u - underlying address
+     * @param m - maturity timestamp
+     * @param a - amount to combine
+     */
+    async combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.combineTokens(u, m, a);
     }
 }
