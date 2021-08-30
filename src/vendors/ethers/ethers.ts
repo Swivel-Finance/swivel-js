@@ -1,7 +1,7 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
 import { domain, TYPES } from '../../constants';
-import { Abi, MarketPlaceContract, Order, SwivelContract, VaultTrackerContract, Vendor } from '../../interfaces';
+import { Abi, MarketPlaceContract, Order, SwivelContract, VaultTrackerContract, UTokenContract, Vendor } from '../../interfaces';
 import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract, EthersUTokenContract } from './contracts';
 
 export class EthersVendor implements Vendor {
@@ -48,7 +48,7 @@ export class EthersVendor implements Vendor {
          * @param address - address of the deployed vault tracker contract
          * @param abi - the abi of the vault tracker contract
          */
-         utoken: (address: string, abi: Abi): VaultTrackerContract => {
+         utoken: (address: string, abi: Abi): UTokenContract => {
 
             return new EthersUTokenContract(address, abi, this.signer);
         },
