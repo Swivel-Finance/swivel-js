@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
 import { domain, TYPES } from '../../constants';
 import { Abi, MarketPlaceContract, Order, SwivelContract, VaultTrackerContract, Vendor } from '../../interfaces';
-import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from './contracts';
+import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract, EthersCTokenContract } from './contracts';
 
 export class EthersVendor implements Vendor {
 
@@ -40,6 +40,17 @@ export class EthersVendor implements Vendor {
         vaultTracker: (address: string, abi: Abi): VaultTrackerContract => {
 
             return new EthersVaultTrackerContract(address, abi, this.signer);
+        },
+        
+        /**
+         * Factory for creating an ethers.js specific vault tracker contract wrapper.
+         *
+         * @param address - address of the deployed vault tracker contract
+         * @param abi - the abi of the vault tracker contract
+         */
+         ctoken: (address: string, abi: Abi): VaultTrackerContract => {
+
+            return new EthersCTokenContract(address, abi, this.signer);
         },
     };
 

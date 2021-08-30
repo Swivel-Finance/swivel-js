@@ -1,5 +1,5 @@
 import { Abi } from './abi';
-import { MarketPlaceContract, SwivelContract, VaultTrackerContract } from './contracts';
+import { MarketPlaceContract, SwivelContract, VaultTrackerContract, CTokenContract } from './contracts';
 import { Order } from './order';
 import { TxOptions } from './transaction';
 
@@ -33,6 +33,14 @@ export interface Vendor {
          * @param o - optional default transaction options
          */
         vaultTracker: (address: string, abi: Abi, o?: TxOptions) => VaultTrackerContract;
+        /**
+        * Factory for creating a vendor specific swivel contract wrapper.
+        *
+        * @param address - address of the deployed vault tracker contract
+        * @param abi - the abi of the vault tracker contract
+        * @param o - optional default transaction options
+        */
+       ctoken: (address: string, abi: Abi, o?: TxOptions) => CTokenContract;
     };
 
     /**
