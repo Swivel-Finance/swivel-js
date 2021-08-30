@@ -1,6 +1,6 @@
 import { Abi } from '../../interfaces';
 
-export const CTOKEN_ABI = [
+export const UTOKEN_ABI = [
     {
         'inputs': [
 

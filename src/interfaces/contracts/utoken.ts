@@ -1,7 +1,7 @@
 import { TxResponse } from '../transaction';
 import { uint256 } from '../uint256';
 
-export interface CTokenContract {
+export interface UTokenContract {
 
     address?: string;
 

@@ -1,8 +1,8 @@
 import { Contract, ethers, Signer } from 'ethers';
-import { Abi, Order, SwivelContract, TxResponse, uint256 } from '../../../interfaces';
-import { fromBigNumber, prepareOrder, splitSignature, toBigNumber, unwrap } from '../utils';
+import { Abi, UTokenContract, TxResponse, uint256 } from '../../../interfaces';
+import { toBigNumber, } from '../utils';
 
-export class EthersCTokenContract implements CTokenContract {
+export class EthersUTokenContract implements UTokenContract {
 
     protected contract: Contract;
 

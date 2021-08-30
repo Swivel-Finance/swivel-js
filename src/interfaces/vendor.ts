@@ -1,5 +1,5 @@
 import { Abi } from './abi';
-import { MarketPlaceContract, SwivelContract, VaultTrackerContract, CTokenContract } from './contracts';
+import { MarketPlaceContract, SwivelContract, VaultTrackerContract, UTokenContract } from './contracts';
 import { Order } from './order';
 import { TxOptions } from './transaction';
 
@@ -40,7 +40,7 @@ export interface Vendor {
         * @param abi - the abi of the vault tracker contract
         * @param o - optional default transaction options
         */
-       ctoken: (address: string, abi: Abi, o?: TxOptions) => CTokenContract;
+       utoken: (address: string, abi: Abi, o?: TxOptions) => UTokenContract;
     };
 
     /**
