@@ -1,6 +1,6 @@
-import { Contract, ethers, Signer } from 'ethers';
+import { Contract, Signer } from 'ethers';
 import { Abi, UTokenContract, TxResponse, uint256 } from '../../../interfaces';
-import { toBigNumber, } from '../utils';
+import { toBigNumber } from '../utils';
 
 export class EthersUTokenContract implements UTokenContract {
 

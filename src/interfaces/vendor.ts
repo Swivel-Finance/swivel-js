@@ -40,7 +40,7 @@ export interface Vendor {
         * @param abi - the abi of the vault tracker contract
         * @param o - optional default transaction options
         */
-       utoken: (address: string, abi: Abi, o?: TxOptions) => UTokenContract;
+        utoken: (address: string, abi: Abi, o?: TxOptions) => UTokenContract;
     };
 
     /**

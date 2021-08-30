@@ -48,7 +48,7 @@ export class EthersVendor implements Vendor {
          * @param address - address of the deployed vault tracker contract
          * @param abi - the abi of the vault tracker contract
          */
-         utoken: (address: string, abi: Abi): UTokenContract => {
+        utoken: (address: string, abi: Abi): UTokenContract => {
 
             return new EthersUTokenContract(address, abi, this.signer);
         },
