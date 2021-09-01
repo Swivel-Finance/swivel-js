@@ -47,6 +47,14 @@ export class EthersVaultTrackerContract implements VaultTrackerContract {
     }
 
     /**
+     * Returns the associated swivel contract address.
+     */
+    async swivel (): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.swivel());
+    }
+
+    /**
      * Returns the maturity timestamp.
      */
     async maturity (): Promise<string> {

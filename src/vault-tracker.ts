@@ -79,6 +79,16 @@ export class VaultTracker implements VaultTrackerContract {
     }
 
     /**
+     * Returns the associated swivel contract address.
+     */
+    async swivel (): Promise<string> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
+
+        return await this.contract.swivel();
+    }
+
+    /**
      * Returns the maturity timestamp.
      */
     async maturity (): Promise<string> {
