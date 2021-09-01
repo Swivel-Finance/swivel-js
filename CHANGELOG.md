@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0-next.6](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.5...v2.0.0-next.6) (2021-09-01)
+
+
+### Bug Fixes
+
+* add `EthersVendor` to entry module's exports ([f8d30dd](https://github.com/Swivel-Finance/swivel-js/commit/f8d30dd79d6052821a8d462f96dc1f8182827fee)), closes [#65](https://github.com/Swivel-Finance/swivel-js/issues/65)
+* add `swivel` getter to VaultTracker HOC ([6f28653](https://github.com/Swivel-Finance/swivel-js/commit/6f286537b1e5aef0ee89c92717b86e5d274de99f)), closes [#67](https://github.com/Swivel-Finance/swivel-js/issues/67)
+* move `redeem` methods to swivel HOC ([c62944b](https://github.com/Swivel-Finance/swivel-js/commit/c62944b8387e726374ad14529a699d3aafb233b0)), closes [#69](https://github.com/Swivel-Finance/swivel-js/issues/69)
+
 ## [2.0.0-next.5](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.4...v2.0.0-next.5) (2021-08-29)
 
 
