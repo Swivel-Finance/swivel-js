@@ -740,13 +740,18 @@ export const MARKET_PLACE_ABI = [
                 'name': 'm',
                 'type': 'uint256',
             },
+            {
+                'internalType': 'address',
+                'name': 't',
+                'type': 'address',
+            },
         ],
         'name': 'redeemVaultInterest',
         'outputs': [
             {
-                'internalType': 'bool',
+                'internalType': 'uint256',
                 'name': '',
-                'type': 'bool',
+                'type': 'uint256',
             },
         ],
         'stateMutability': 'nonpayable',
@@ -765,6 +770,11 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
             {
+                'internalType': 'address',
+                'name': 't',
+                'type': 'address',
+            },
+            {
                 'internalType': 'uint256',
                 'name': 'a',
                 'type': 'uint256',
@@ -773,9 +783,9 @@ export const MARKET_PLACE_ABI = [
         'name': 'redeemZcToken',
         'outputs': [
             {
-                'internalType': 'bool',
+                'internalType': 'uint256',
                 'name': '',
-                'type': 'bool',
+                'type': 'uint256',
             },
         ],
         'stateMutability': 'nonpayable',

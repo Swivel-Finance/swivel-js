@@ -119,30 +119,6 @@ export class EthersMarketPlaceContract implements MarketPlaceContract {
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
-     * @param a - amount of zcTokens being redeemed
-     */
-    async redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse> {
-
-        const maturity = toBigNumber(m);
-        const amount = toBigNumber(a);
-
-        return await this.contract.functions.redeemZcToken(u, maturity, amount) as TxResponse;
-    }
-
-    /**
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    async redeemVaultInterest (u: string, m: uint256): Promise<TxResponse> {
-
-        const maturity = toBigNumber(m);
-
-        return await this.contract.functions.redeemVaultInterest(u, maturity) as TxResponse;
-    }
-
-    /**
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
      * @param t - target to be transferred to
      * @param a - amount of notional to be transferred
      */
