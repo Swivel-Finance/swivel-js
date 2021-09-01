@@ -25,7 +25,6 @@ export interface SwivelContract {
     cancelled (k: string): Promise<boolean>;
 
     /**
-     * // TODO: How to describe this correctly?
      * Retrieves an order's filled volume.
      *
      * @param k - the key of the order
@@ -65,4 +64,17 @@ export interface SwivelContract {
      * @param a - amount to combine
      */
     combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+
+    /**
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     * @param a - amount of zcTokens being redeemed
+     */
+    redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+
+    /**
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     */
+    redeemVaultInterest (u: string, m: uint256): Promise<TxResponse>;
 }

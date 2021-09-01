@@ -9,6 +9,24 @@ import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } fr
 import { EthersSwivelContract, EthersVendor, prepareOrder, Result, splitSignature, toBigNumber } from '../src/vendors/ethers';
 import { TEST_HELPERS } from './test-helpers';
 
+const assertThrows = async (swivel: Swivel, method: keyof Swivel, ...args: unknown[]) => {
+
+    let error: string | undefined;
+    let response: unknown;
+
+    try {
+
+        response = await (swivel[method] as (...args: unknown[]) => Promise<unknown>)(...args);
+
+    } catch (e) {
+
+        error = e as string;
+    }
+
+    assert.notOk(response);
+    assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+};
+
 describe('Swivel', () => {
 
     let provider: Provider;
@@ -120,20 +138,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let error: string | undefined;
-            let response: string | undefined;
-
-            try {
-
-                response = await swivel.NAME();
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-            assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'NAME');
         });
 
         it('unwraps the contract `Result`', async () => {
@@ -162,20 +167,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let error: string | undefined;
-            let response: string | undefined;
-
-            try {
-
-                response = await swivel.VERSION();
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-            assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'VERSION');
         });
 
         it('unwraps the contract `Result`', async () => {
@@ -204,20 +196,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let error: string | undefined;
-            let response: string | undefined;
-
-            try {
-
-                response = await swivel.domain();
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-            assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'domain');
         });
 
         it('unwraps the contract `Result`', async () => {
@@ -246,20 +225,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let error: string | undefined;
-            let response: string | undefined;
-
-            try {
-
-                response = await swivel.marketPlace();
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-            assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'marketPlace');
         });
 
         it('unwraps the contract `Result`', async () => {
@@ -287,22 +253,8 @@ describe('Swivel', () => {
 
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
-            const orderKey = '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01';
 
-            let error: string | undefined;
-            let response: boolean | undefined;
-
-            try {
-
-                response = await swivel.cancelled(orderKey);
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-            assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'cancelled');
         });
 
         it('unwraps the contract `Result`', async () => {
@@ -331,22 +283,8 @@ describe('Swivel', () => {
 
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
-            const orderKey = '0xfb1700b125bdb80a6c11c181325a5a744fe00a098f379aa31fcbcdfb1d6d1c01';
 
-            let error: string | undefined;
-            let response: string | undefined;
-
-            try {
-
-                response = await swivel.filled(orderKey);
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-            assert.strictEqual(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'filled');
         });
 
         it('unwraps the contract `Result`', async () => {
@@ -377,26 +315,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let signature: string | undefined;
-            let error: string | undefined;
-            let response: TxResponse | undefined;
-
-            try {
-
-                signature = await swivel.signOrder(order);
-                response = await swivel.cancel(order, signature);
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.isTrue(typeof signature === 'string');
-            assert.isNotEmpty(signature);
-
-            assert.notOk(response);
-
-            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'cancel');
         });
 
         it('converts arguments and passes them to vendor specific contract instance', async () => {
@@ -443,26 +362,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let signature: string | undefined;
-            let error: string | undefined;
-            let response: TxResponse | undefined;
-
-            try {
-
-                signature = await swivel.signOrder(order);
-                response = await swivel.initiate([order], [1000], [signature]);
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.isTrue(typeof signature === 'string');
-            assert.isNotEmpty(signature);
-
-            assert.notOk(response);
-
-            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'initiate');
         });
 
         it('converts arguments and passes them to vendor specific contract instance', async () => {
@@ -512,26 +412,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let signature: string | undefined;
-            let error: string | undefined;
-            let response: TxResponse | undefined;
-
-            try {
-
-                signature = await swivel.signOrder(order);
-                response = await swivel.exit([order], [1000], [signature]);
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.isTrue(typeof signature === 'string');
-            assert.isNotEmpty(signature);
-
-            assert.notOk(response);
-
-            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'exit');
         });
 
         it('converts arguments and passes them to vendor specific contract instance', async () => {
@@ -581,21 +462,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let error: string | undefined;
-            let response: TxResponse | undefined;
-
-            try {
-
-                response = await swivel.splitUnderlying('0x1234', '12345', '1000000000000000000');
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-
-            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'splitUnderlying');
         });
 
         it('converts arguments and passes them to vendor specific contract instance', async () => {
@@ -644,21 +511,7 @@ describe('Swivel', () => {
             const vendor = new EthersVendor(provider, signer);
             const swivel = new Swivel(vendor, chainId, verifyingContract);
 
-            let error: string | undefined;
-            let response: TxResponse | undefined;
-
-            try {
-
-                response = await swivel.combineTokens('0x1234', '12345', '1000000000000000000');
-
-            } catch (e) {
-
-                error = e as string;
-            }
-
-            assert.notOk(response);
-
-            assert.equal(error, MISSING_CONTRACT_ADDRESS('swivel'));
+            await assertThrows(swivel, 'combineTokens');
         });
 
         it('converts arguments and passes them to vendor specific contract instance', async () => {
@@ -697,6 +550,93 @@ describe('Swivel', () => {
             assert.deepEqual(passedAddress, expectedUnderlying);
             assert.deepEqual(passedMaturity, expectedMaturity);
             assert.deepEqual(passedAmount, expectedAmount);
+        });
+    });
+
+    describe('redeemZcToken', () => {
+
+        it('throws if deployed contract is not wrapped', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor);
+
+            await assertThrows(swivel, 'redeemZcToken');
+        });
+
+        it('converts arguments and passes them to vendor specific contract instance', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.swivel.ethers.stubVendorContract(swivel);
+
+            // stub the redeemZcToken function of the `ethers.Contract`
+            const mock = stub(contract.functions, 'redeemZcToken');
+            const mockResponse: TxResponse = { hash: '0xresponse' };
+            mock.resolves(mockResponse);
+
+            const underlying = '0xunderlying';
+            const maturity = 1640987320;
+            const amount = '1000';
+            const response = await swivel.redeemZcToken(underlying, maturity, amount);
+
+            // we should receive the mocked response
+            assert.deepStrictEqual(response, mockResponse);
+            assert.isTrue(mock.calledOnce);
+
+            // the underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const [passedUnderlying, passedMaturity, passedAmount] = mock.getCall(0).args;
+            const expectedUnderlying = underlying;
+            const expectedMaturity = ethers.BigNumber.from(maturity);
+            const expectedAmount = ethers.BigNumber.from(amount);
+
+            assert.deepStrictEqual(passedUnderlying, expectedUnderlying);
+            assert.deepStrictEqual(passedMaturity, expectedMaturity);
+            assert.deepStrictEqual(passedAmount, expectedAmount);
+        });
+    });
+
+    describe('redeemVaultInterest', () => {
+
+        it('throws if deployed contract is not wrapped', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor);
+
+            await assertThrows(swivel, 'redeemVaultInterest');
+        });
+
+        it('converts arguments and passes them to vendor specific contract instance', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const swivel = new Swivel(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.swivel.ethers.stubVendorContract(swivel);
+
+            // stub the redeemVaultInterest function of the `ethers.Contract`
+            const mock = stub(contract.functions, 'redeemVaultInterest');
+            const mockResponse: TxResponse = { hash: '0xresponse' };
+            mock.resolves(mockResponse);
+
+            const underlying = '0xunderlying';
+            const maturity = 1640987320;
+            const response = await swivel.redeemVaultInterest(underlying, maturity);
+
+            // we should receive the mocked response
+            assert.deepStrictEqual(response, mockResponse);
+            assert.isTrue(mock.calledOnce);
+
+            // the underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
+            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
+            const [passedUnderlying, passedMaturity] = mock.getCall(0).args;
+            const expectedUnderlying = underlying;
+            const expectedMaturity = ethers.BigNumber.from(maturity);
+
+            assert.deepStrictEqual(passedUnderlying, expectedUnderlying);
+            assert.deepStrictEqual(passedMaturity, expectedMaturity);
         });
     });
 });

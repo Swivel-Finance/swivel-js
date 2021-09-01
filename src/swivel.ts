@@ -135,7 +135,6 @@ export class Swivel implements SwivelContract {
     }
 
     /**
-     * // TODO: How to describe this correctly?
      * Retrieves an order's filled volume.
      *
      * @param k - the key of the order
@@ -204,5 +203,28 @@ export class Swivel implements SwivelContract {
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
 
         return await this.contract.combineTokens(u, m, a);
+    }
+
+    /**
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     * @param a - amount of zcTokens being redeemed
+     */
+    async redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.redeemZcToken(u, m, a);
+    }
+
+    /**
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     */
+    async redeemVaultInterest (u: string, m: uint256): Promise<TxResponse> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('swivel');
+
+        return await this.contract.redeemVaultInterest(u, m);
     }
 }

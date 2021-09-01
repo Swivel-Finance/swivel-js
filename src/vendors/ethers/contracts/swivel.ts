@@ -55,7 +55,6 @@ export class EthersSwivelContract implements SwivelContract {
     }
 
     /**
-     * // TODO: How to describe this correctly?
      * Retrieves an order's filled volume.
      *
      * @param k - the key of the order
@@ -131,5 +130,29 @@ export class EthersSwivelContract implements SwivelContract {
         const amount = toBigNumber(a);
 
         return await this.contract.functions.combineTokens(u, maturity, amount) as TxResponse;
+    }
+
+    /**
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     * @param a - amount of zcTokens being redeemed
+     */
+    async redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse> {
+
+        const maturity = toBigNumber(m);
+        const amount = toBigNumber(a);
+
+        return await this.contract.functions.redeemZcToken(u, maturity, amount) as TxResponse;
+    }
+
+    /**
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     */
+    async redeemVaultInterest (u: string, m: uint256): Promise<TxResponse> {
+
+        const maturity = toBigNumber(m);
+
+        return await this.contract.functions.redeemVaultInterest(u, maturity) as TxResponse;
     }
 }

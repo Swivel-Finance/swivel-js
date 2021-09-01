@@ -54,19 +54,6 @@ export interface MarketPlaceContract {
     /**
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
-     * @param a - amount of zcTokens being redeemed
-     */
-    redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse>;
-
-    /**
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    redeemVaultInterest (u: string, m: uint256): Promise<TxResponse>;
-
-    /**
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
      * @param t - target to be transferred to
      * @param a - amount of notional to be transferred
      */

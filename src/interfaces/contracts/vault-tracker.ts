@@ -22,6 +22,11 @@ export interface VaultTrackerContract {
     admin (): Promise<string>;
 
     /**
+     * Returns the associated swivel contract address.
+     */
+    swivel (): Promise<string>;
+
+    /**
      * Returns the maturity timestamp.
      */
     maturity (): Promise<string>;

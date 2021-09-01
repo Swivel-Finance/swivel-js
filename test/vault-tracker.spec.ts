@@ -1,9 +1,10 @@
 import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { assert } from 'chai';
 import { Signer, Wallet } from 'ethers';
+import { stub } from 'sinon';
 import { VaultTracker } from '../src';
 import { MISSING_CONTRACT_ADDRESS } from '../src/errors';
-import { EthersVaultTrackerContract, EthersVendor } from '../src/vendors/ethers';
+import { EthersVaultTrackerContract, EthersVendor, Result } from '../src/vendors/ethers';
 import { TEST_HELPERS } from './test-helpers';
 
 const assertThrows = async (vaultTracker: VaultTracker, method: keyof VaultTracker, ...args: unknown[]) => {
@@ -85,6 +86,53 @@ describe('VaultTracker', () => {
             const vaultTracker = new VaultTracker(vendor);
 
             await assertThrows(vaultTracker, 'admin');
+        });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the vaultTracker getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'admin');
+            const mockResponse = ['0xadminAddress'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await vaultTracker.admin();
+
+            assert.strictEqual(response, '0xadminAddress');
+        });
+    });
+
+    describe('swivel', () => {
+
+        it('throws if deployed contract is not wrapped', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor);
+
+            await assertThrows(vaultTracker, 'swivel');
+        });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the vaultTracker getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'swivel');
+            const mockResponse = ['0xswivelAddress'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await vaultTracker.swivel();
+
+            assert.strictEqual(response, '0xswivelAddress');
         });
     });
 
