@@ -1,5 +1,5 @@
 import { Contract, ethers, Signer } from 'ethers';
-import { Abi, TxResponse, Vault, VaultTrackerContract } from '../../../interfaces';
+import { Abi, Vault, VaultTrackerContract } from '../../../interfaces';
 import { fromBigNumber, unwrap } from '../utils';
 
 /**
@@ -120,13 +120,5 @@ export class EthersVaultTrackerContract implements VaultTrackerContract {
         const [notional, redeemable] = await this.contract.functions.balancesOf(o) as [ethers.BigNumber, ethers.BigNumber];
 
         return [fromBigNumber(notional), fromBigNumber(redeemable)];
-    }
-
-    /**
-     * Matures a vault.
-     */
-    async matureVault (): Promise<TxResponse> {
-
-        return await this.contract.functions.matureVault() as TxResponse;
     }
 }

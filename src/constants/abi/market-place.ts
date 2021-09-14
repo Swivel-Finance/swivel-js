@@ -2,9 +2,7 @@ import { Abi } from '../../interfaces';
 
 export const MARKET_PLACE_ABI = [
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'stateMutability': 'nonpayable',
         'type': 'constructor',
     },

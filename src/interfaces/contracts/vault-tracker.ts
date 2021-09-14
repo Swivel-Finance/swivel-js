@@ -1,5 +1,3 @@
-import { TxResponse } from '../transaction';
-
 export interface Vault {
     notional: string;
     redeemable: string;
@@ -61,9 +59,4 @@ export interface VaultTrackerContract {
      * @returns a tuple containing the notional and redeemable balance
      */
     balancesOf (o: string): Promise<[string, string]>;
-
-    /**
-     * Matures a vault.
-     */
-    matureVault (): Promise<TxResponse>;
 }
