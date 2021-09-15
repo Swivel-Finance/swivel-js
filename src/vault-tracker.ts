@@ -1,6 +1,6 @@
 import { VAULT_TRACKER_ABI } from './constants';
 import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { TxOptions, TxResponse, Vault, VaultTrackerContract, Vendor } from './interfaces';
+import { TxOptions, Vault, VaultTrackerContract, Vendor } from './interfaces';
 
 export class VaultTracker implements VaultTrackerContract {
 
@@ -152,15 +152,5 @@ export class VaultTracker implements VaultTrackerContract {
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
 
         return await this.contract.balancesOf(o);
-    }
-
-    /**
-     * Matures a vault.
-     */
-    async matureVault (): Promise<TxResponse> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
-
-        return await this.contract.matureVault();
     }
 }

@@ -201,15 +201,4 @@ describe('VaultTracker', () => {
             await assertThrows(vaultTracker, 'balancesOf');
         });
     });
-
-    describe('matureVault', () => {
-
-        it('throws if deployed contract is not wrapped', async () => {
-
-            const vendor = new EthersVendor(provider, signer);
-            const vaultTracker = new VaultTracker(vendor);
-
-            await assertThrows(vaultTracker, 'matureVault');
-        });
-    });
 });
