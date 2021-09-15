@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.0.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.6...v2.0.0) (2021-09-15)
+
+
+### Bug Fixes
+
+* remove `matureVault` from VaultTracker HOC ([7250525](https://github.com/Swivel-Finance/swivel-js/commit/7250525681f7a8a6afa4a566a01b8cee97a85f76)), closes [#72](https://github.com/Swivel-Finance/swivel-js/issues/72)
+
 ## [2.0.0-next.6](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.5...v2.0.0-next.6) (2021-09-01)
 
 
