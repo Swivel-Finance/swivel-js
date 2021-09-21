@@ -125,7 +125,8 @@ const vaultAddress = addresses.vaultAddr;
 const vaultTracker = new VaultTracker(vendor).at(vaultAddress);
 ```
 ### Code Example: Consuming an order
-```
+
+```typescript
 import { ethers } from "ethers";
 import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
 import { DAI_ABI } from './constants.js';
