@@ -133,25 +133,31 @@ import { DAI_ABI } from './constants.js';
 
 // @param amount of volume to fill
 async marketOrderFixed(amount) {
+
   //initialize ethers provider & signer
   const provider = new ethers.providers.Web3Provider(window.ethereum);
   const signer = provider.getSigner();
+  
   // initialize EthersVender for Swivel consumpion
   const vendor = new EthersVendor(provider, signer);
+  
   // constants for Swivel on rinkeby
   const chainId = 4;
   const swivelAddress = '0xDe9a819630094dF6dA6FF7CCc77E04Fd3ad0ACFE';
   const daiAddress = '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa';
   const verifyingContract = swivelAddress;
+  
   // initialize swivel wrapper and DAI contract
   const swivel = new Swivel(vendor, chainId, verifyingContract).at(swivelAddress);
   const DAI = new ethers.Contract(daiAddress, DAI_ABI, provider);
+  
   // check approvals, if not approved approve max uint
   const approvalAmount = await DAI.allowance(window.ethereum.selectedAddress,swivelAddress);
   if (approvalAmount < amount) {
   const approve = await this._Dai.approve(swivelAddress, constants.MaxUint256);
   await approve.wait();
   }
+  
   // hardcoded nToken purchase order (vault initiate) + signature valid on rinkeby. Can replace with FillPreview API fetch.
   var order = 
     {
