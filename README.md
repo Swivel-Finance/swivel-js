@@ -158,7 +158,7 @@ async marketOrderFixed(amount) {
   await approve.wait();
   }
   
-  // hardcoded nToken purchase order (vault initiate) + signature valid on rinkeby. Can replace with FillPreview API fetch.
+  // hardcoded nToken purchase order (the order being filled) + signature valid on rinkeby. Can replace with FillPreview API fetch.
   var order = 
     {
       key: "0x3449db081da0329d51b6757809ce4c1042ea0c110b8980628e46cb4d4b8297fb",
