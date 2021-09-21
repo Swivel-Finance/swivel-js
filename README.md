@@ -124,6 +124,57 @@ const vaultAddress = addresses.vaultAddr;
 // create a VaultTracker instance using the EtherVendor instance
 const vaultTracker = new VaultTracker(vendor).at(vaultAddress);
 ```
+### Code Example: Consuming an order
+```
+import { ethers } from "ethers";
+import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { DAI_ABI } from './constants.js';
+
+// @param amount of volume to fill
+async marketOrderFixed(amount) {
+  //initialize ethers provider & signer
+  const provider = new ethers.providers.Web3Provider(window.ethereum);
+  const signer = provider.getSigner();
+  // initialize EthersVender for Swivel consumpion
+  const vendor = new EthersVendor(provider, signer);
+  // constants for Swivel on rinkeby
+  const chainId = 4;
+  const swivelAddress = '0xDe9a819630094dF6dA6FF7CCc77E04Fd3ad0ACFE';
+  const daiAddress = '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa';
+  const verifyingContract = swivelAddress;
+  // initialize swivel wrapper and DAI contract
+  const swivel = new Swivel(vendor, chainId, verifyingContract).at(swivelAddress);
+  const DAI = new ethers.Contract(daiAddress, DAI_ABI, provider);
+  // check approvals, if not approved approve max uint
+  const approvalAmount = await DAI.allowance(window.ethereum.selectedAddress,swivelAddress);
+  if (approvalAmount < amount) {
+  const approve = await this._Dai.approve(swivelAddress, constants.MaxUint256);
+  await approve.wait();
+  }
+  // hardcoded nToken purchase order (vault initiate) + signature valid on rinkeby. Can replace with FillPreview API fetch.
+  var order = 
+    {
+      key: "0x3449db081da0329d51b6757809ce4c1042ea0c110b8980628e46cb4d4b8297fb",
+      maker: "0x3f60008Dfd0EfC03F476D9B489D6C5B13B3eBF2C",
+      underlying: "0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa",
+      vault: true,
+      exit: false,
+      principal: "40000000000000000000000",
+      premium: "2000000000000000000000",
+      maturity: "1662089767",
+      expiry: "1633324220",
+    };
+  var signature = "0x2ab021d3577a940b6d2b2f47288dc240fb003c24d0af93751bd3b9354e1df0d03e6d2c47a7bf566d6ec887b6884edb80c80f0890d247a363eb31b1e99d5636ae1c";
+
+  // amount, normalized for 18 decimals of DAI, transformed into easily consumable string.
+  const normalizedAmount = (amount*10e18).toString();
+
+  // fill the hardcoded order by initiating your position. Each param is within an array, as multiple orders can be filled at once.
+  const tx = await swivel.initiate([order],[normalizedAmount],[signature]);
+  console.log(tx);
+  const receipt = await tx.wait();
+}
+```
 
 ### Deployed Contract Addresses
 To connect a Swivel or MarketPlace instance to the deployed contract on the Ethereum network, you'll need to know the contract address. You can find the currently deployed addresses here: https://github.com/Swivel-Finance/swivel#current-deployments
