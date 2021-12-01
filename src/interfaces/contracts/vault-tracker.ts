@@ -30,11 +30,6 @@ export interface VaultTrackerContract {
     maturity (): Promise<string>;
 
     /**
-     * Checks if the maturity date is reached.
-     */
-    matured (): Promise<boolean>;
-
-    /**
      * Returns the maturity rate.
      */
     maturityRate (): Promise<string>;

@@ -96,7 +96,7 @@ describe('VaultTracker', () => {
             // get a stubbable (configurable) clone of the underlying `ethers.Contract`
             const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
 
-            // stub the vaultTracker getter of the `ethers.Contract`
+            // stub the admin getter of the `ethers.Contract`
             const mock = stub(contract.functions, 'admin');
             const mockResponse = ['0xadminAddress'] as Result<[string]>;
             mock.resolves(mockResponse);
@@ -125,7 +125,7 @@ describe('VaultTracker', () => {
             // get a stubbable (configurable) clone of the underlying `ethers.Contract`
             const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
 
-            // stub the vaultTracker getter of the `ethers.Contract`
+            // stub the swivel getter of the `ethers.Contract`
             const mock = stub(contract.functions, 'swivel');
             const mockResponse = ['0xswivelAddress'] as Result<[string]>;
             mock.resolves(mockResponse);
@@ -145,16 +145,23 @@ describe('VaultTracker', () => {
 
             await assertThrows(vaultTracker, 'maturity');
         });
-    });
 
-    describe('matured', () => {
-
-        it('throws if deployed contract is not wrapped', async () => {
+        it('unwraps the contract `Result`', async () => {
 
             const vendor = new EthersVendor(provider, signer);
-            const vaultTracker = new VaultTracker(vendor);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
 
-            await assertThrows(vaultTracker, 'matured');
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the maturity getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'maturity');
+            const mockResponse = ['123456'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await vaultTracker.maturity();
+
+            assert.strictEqual(response, '123456');
         });
     });
 
@@ -167,6 +174,24 @@ describe('VaultTracker', () => {
 
             await assertThrows(vaultTracker, 'maturityRate');
         });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the maturityRate getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'maturityRate');
+            const mockResponse = ['1'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await vaultTracker.maturityRate();
+
+            assert.strictEqual(response, '1');
+        });
     });
 
     describe('cTokenAddr', () => {
@@ -177,6 +202,24 @@ describe('VaultTracker', () => {
             const vaultTracker = new VaultTracker(vendor);
 
             await assertThrows(vaultTracker, 'cTokenAddr');
+        });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the cTokenAddr getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'cTokenAddr');
+            const mockResponse = ['0xcToken'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await vaultTracker.cTokenAddr();
+
+            assert.strictEqual(response, '0xcToken');
         });
     });
 
@@ -189,6 +232,29 @@ describe('VaultTracker', () => {
 
             await assertThrows(vaultTracker, 'vaults');
         });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the vaults method of the `ethers.Contract`
+            const mock = stub(contract.functions, 'vaults');
+            const mockResponse = {
+                notional: '0',
+                redeemable: '0',
+                exchangeRate: '1',
+            };
+            mock.resolves(mockResponse);
+
+            const owner = '0xowner';
+            const response = await vaultTracker.vaults(owner);
+
+            assert.deepStrictEqual(response, mockResponse);
+        });
     });
 
     describe('balancesOf', () => {
@@ -199,6 +265,25 @@ describe('VaultTracker', () => {
             const vaultTracker = new VaultTracker(vendor);
 
             await assertThrows(vaultTracker, 'balancesOf');
+        });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const vaultTracker = new VaultTracker(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.vaultTracker.ethers.stubVendorContract(vaultTracker);
+
+            // stub the balancesOf method of the `ethers.Contract`
+            const mock = stub(contract.functions, 'balancesOf');
+            const mockResponse = ['0', '0'] as [string, string];
+            mock.resolves(mockResponse);
+
+            const owner = '0xowner';
+            const response = await vaultTracker.balancesOf(owner);
+
+            assert.deepStrictEqual(response, mockResponse);
         });
     });
 });

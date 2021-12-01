@@ -86,6 +86,16 @@ export class MarketPlace implements MarketPlaceContract {
     }
 
     /**
+     * Returns the paused status.
+     */
+    async paused (): Promise<boolean> {
+
+        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
+
+        return await this.contract.paused();
+    }
+
+    /**
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
@@ -96,32 +106,6 @@ export class MarketPlace implements MarketPlaceContract {
         if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
 
         return await this.contract.markets(u, m);
-    }
-
-    /**
-     * Checks if a market is mature.
-     *
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    async mature (u: string, m: uint256): Promise<boolean> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
-
-        return await this.contract.mature(u, m);
-    }
-
-    /**
-     * Retrieve the market maturity.
-     *
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    async maturityRate (u: string, m: uint256): Promise<string> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('market-place');
-
-        return await this.contract.maturityRate(u, m);
     }
 
     /**

@@ -87,6 +87,24 @@ describe('MarketPlace', () => {
 
             await assertThrows(marketPlace, 'admin');
         });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const marketPlace = new MarketPlace(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.marketPlace.ethers.stubVendorContract(marketPlace);
+
+            // stub the admin getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'admin');
+            const mockResponse = ['0xadmin'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await marketPlace.admin();
+
+            assert.strictEqual(response, '0xadmin');
+        });
     });
 
     describe('swivel', () => {
@@ -97,6 +115,53 @@ describe('MarketPlace', () => {
             const marketPlace = new MarketPlace(vendor);
 
             await assertThrows(marketPlace, 'swivel');
+        });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const marketPlace = new MarketPlace(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.marketPlace.ethers.stubVendorContract(marketPlace);
+
+            // stub the swivel getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'swivel');
+            const mockResponse = ['0xswivel'] as Result<[string]>;
+            mock.resolves(mockResponse);
+
+            const response = await marketPlace.swivel();
+
+            assert.strictEqual(response, '0xswivel');
+        });
+    });
+
+    describe('paused', () => {
+
+        it('throws if deployed contract is not wrapped', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const marketPlace = new MarketPlace(vendor);
+
+            await assertThrows(marketPlace, 'paused');
+        });
+
+        it('unwraps the contract `Result`', async () => {
+
+            const vendor = new EthersVendor(provider, signer);
+            const marketPlace = new MarketPlace(vendor).at(deployedAddress);
+
+            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
+            const contract = TEST_HELPERS.marketPlace.ethers.stubVendorContract(marketPlace);
+
+            // stub the paused getter of the `ethers.Contract`
+            const mock = stub(contract.functions, 'paused');
+            const mockResponse = [true] as Result<[boolean]>;
+            mock.resolves(mockResponse);
+
+            const response = await marketPlace.paused();
+
+            assert.strictEqual(response, true);
         });
     });
 
@@ -124,6 +189,7 @@ describe('MarketPlace', () => {
                 cTokenAddr: '0xcToken',
                 zcTokenAddr: '0xzcToken',
                 vaultAddr: '0xvault',
+                maturityRate: '1',
             };
             mock.resolves(mockResponse);
 
@@ -133,90 +199,6 @@ describe('MarketPlace', () => {
 
             // we should receive the mocked response
             assert.deepStrictEqual(response, mockResponse);
-            assert.isTrue(mock.calledOnce);
-
-            // the underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const [passedUnderlying, passedMaturity] = mock.getCall(0).args;
-            const expectedUnderlying = underlying;
-            const expectedMaturity = ethers.BigNumber.from(maturity);
-
-            assert.deepStrictEqual(passedUnderlying, expectedUnderlying);
-            assert.deepStrictEqual(passedMaturity, expectedMaturity);
-        });
-    });
-
-    describe('mature', () => {
-
-        it('throws if deployed contract is not wrapped', async () => {
-
-            const vendor = new EthersVendor(provider, signer);
-            const marketPlace = new MarketPlace(vendor);
-
-            await assertThrows(marketPlace, 'mature');
-        });
-
-        it('converts arguments and passes them to vendor specific contract instance', async () => {
-
-            const vendor = new EthersVendor(provider, signer);
-            const marketPlace = new MarketPlace(vendor).at(deployedAddress);
-
-            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
-            const contract = TEST_HELPERS.marketPlace.ethers.stubVendorContract(marketPlace);
-
-            // stub the mature function of the `ethers.Contract`
-            const mock = stub(contract.functions, 'mature');
-            const mockResponse = [true] as Result<[boolean]>;
-            mock.resolves(mockResponse);
-
-            const underlying = '0xunderlying';
-            const maturity = 1640987320;
-            const response = await marketPlace.mature(underlying, maturity);
-
-            // we should receive the unwrapped mocked response
-            assert.strictEqual(response, true);
-            assert.isTrue(mock.calledOnce);
-
-            // the underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
-            // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
-            const [passedUnderlying, passedMaturity] = mock.getCall(0).args;
-            const expectedUnderlying = underlying;
-            const expectedMaturity = ethers.BigNumber.from(maturity);
-
-            assert.deepStrictEqual(passedUnderlying, expectedUnderlying);
-            assert.deepStrictEqual(passedMaturity, expectedMaturity);
-        });
-    });
-
-    describe('maturityRate', () => {
-
-        it('throws if deployed contract is not wrapped', async () => {
-
-            const vendor = new EthersVendor(provider, signer);
-            const marketPlace = new MarketPlace(vendor);
-
-            await assertThrows(marketPlace, 'maturityRate');
-        });
-
-        it('converts arguments and passes them to vendor specific contract instance', async () => {
-
-            const vendor = new EthersVendor(provider, signer);
-            const marketPlace = new MarketPlace(vendor).at(deployedAddress);
-
-            // get a stubbable (configurable) clone of the underlying `ethers.Contract`
-            const contract = TEST_HELPERS.marketPlace.ethers.stubVendorContract(marketPlace);
-
-            // stub the maturityRate function of the `ethers.Contract`
-            const mock = stub(contract.functions, 'maturityRate');
-            const mockResponse = [ethers.BigNumber.from(0)] as Result<[ethers.BigNumber]>;
-            mock.resolves(mockResponse);
-
-            const underlying = '0xunderlying';
-            const maturity = 1640987320;
-            const response = await marketPlace.maturityRate(underlying, maturity);
-
-            // we should receive the unwrapped mocked response
-            assert.strictEqual(response, '0');
             assert.isTrue(mock.calledOnce);
 
             // the underlying `ethers.Contract` should be invoked with vendor specific conversions of the arguments
