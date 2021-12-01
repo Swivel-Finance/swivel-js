@@ -99,16 +99,6 @@ export class VaultTracker implements VaultTrackerContract {
     }
 
     /**
-     * Checks if the maturity date is reached.
-     */
-    async matured (): Promise<boolean> {
-
-        if (!this.contract) throw MISSING_CONTRACT_ADDRESS('vault-tracker');
-
-        return await this.contract.matured();
-    }
-
-    /**
      * Returns the maturity rate.
      */
     async maturityRate (): Promise<string> {

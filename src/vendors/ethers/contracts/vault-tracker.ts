@@ -65,14 +65,6 @@ export class EthersVaultTrackerContract implements VaultTrackerContract {
     }
 
     /**
-     * Checks if the maturity date is reached.
-     */
-    async matured (): Promise<boolean> {
-
-        return unwrap<boolean>(await this.contract.functions.matured());
-    }
-
-    /**
      * Returns the maturity rate.
      */
     async maturityRate (): Promise<string> {

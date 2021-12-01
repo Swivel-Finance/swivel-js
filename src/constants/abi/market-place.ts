@@ -366,7 +366,7 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'internalType': 'address',
-                'name': 'a',
+                'name': 'u',
                 'type': 'address',
             },
             {
@@ -389,11 +389,6 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
-                'internalType': 'address',
-                'name': 'u',
-                'type': 'address',
-            },
-            {
                 'internalType': 'uint256',
                 'name': 'm',
                 'type': 'uint256',
@@ -412,11 +407,6 @@ export const MARKET_PLACE_ABI = [
                 'internalType': 'string',
                 'name': 's',
                 'type': 'string',
-            },
-            {
-                'internalType': 'uint8',
-                'name': 'd',
-                'type': 'uint8',
             },
         ],
         'name': 'createMarket',
@@ -538,29 +528,10 @@ export const MARKET_PLACE_ABI = [
                 'name': 'vaultAddr',
                 'type': 'address',
             },
-        ],
-        'stateMutability': 'view',
-        'type': 'function',
-    },
-    {
-        'inputs': [
-            {
-                'internalType': 'address',
-                'name': '',
-                'type': 'address',
-            },
             {
                 'internalType': 'uint256',
-                'name': '',
+                'name': 'maturityRate',
                 'type': 'uint256',
-            },
-        ],
-        'name': 'mature',
-        'outputs': [
-            {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool',
             },
         ],
         'stateMutability': 'view',
@@ -588,30 +559,6 @@ export const MARKET_PLACE_ABI = [
             },
         ],
         'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [
-            {
-                'internalType': 'address',
-                'name': '',
-                'type': 'address',
-            },
-            {
-                'internalType': 'uint256',
-                'name': '',
-                'type': 'uint256',
-            },
-        ],
-        'name': 'maturityRate',
-        'outputs': [
-            {
-                'internalType': 'uint256',
-                'name': '',
-                'type': 'uint256',
-            },
-        ],
-        'stateMutability': 'view',
         'type': 'function',
     },
     {
@@ -729,6 +676,38 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'bool',
+                'name': 'b',
+                'type': 'bool',
+            },
+        ],
+        'name': 'pause',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [],
+        'name': 'paused',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
                 'internalType': 'address',
                 'name': 'u',
                 'type': 'address',
@@ -819,6 +798,25 @@ export const MARKET_PLACE_ABI = [
             },
         ],
         'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+        ],
+        'name': 'transferAdmin',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
         'type': 'function',
     },
     {

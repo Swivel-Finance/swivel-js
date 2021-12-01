@@ -11,6 +11,7 @@ type MarketResponse = string[] & {
     cTokenAddr: string;
     zcTokenAddr: string;
     vaultAddr: string;
+    maturityRate: ethers.BigNumber;
 };
 
 export class EthersMarketPlaceContract implements MarketPlaceContract {
@@ -49,6 +50,14 @@ export class EthersMarketPlaceContract implements MarketPlaceContract {
     }
 
     /**
+     * Returns the associated swivel contract address.
+     */
+    async paused (): Promise<boolean> {
+
+        return unwrap<boolean>(await this.contract.functions.paused());
+    }
+
+    /**
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
@@ -74,35 +83,8 @@ export class EthersMarketPlaceContract implements MarketPlaceContract {
             cTokenAddr: market.cTokenAddr,
             zcTokenAddr: market.zcTokenAddr,
             vaultAddr: market.vaultAddr,
+            maturityRate: fromBigNumber(market.maturityRate),
         };
-    }
-
-    /**
-     * Checks if a market is mature.
-     *
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    async mature (u: string, m: uint256): Promise<boolean> {
-
-        const maturity = toBigNumber(m);
-
-        return unwrap<boolean>(await this.contract.functions.mature(u, maturity));
-    }
-
-    /**
-     * Retrieve the market maturity.
-     *
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    async maturityRate (u: string, m: uint256): Promise<string> {
-
-        const maturity = toBigNumber(m);
-
-        const maturityRate = unwrap<ethers.BigNumber>(await this.contract.functions.maturityRate(u, maturity));
-
-        return fromBigNumber(maturityRate);
     }
 
     /**

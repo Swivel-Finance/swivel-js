@@ -5,6 +5,7 @@ export interface Market {
     cTokenAddr: string;
     zcTokenAddr: string;
     vaultAddr: string;
+    maturityRate: string;
 }
 
 export interface MarketPlaceContract {
@@ -22,28 +23,17 @@ export interface MarketPlaceContract {
     swivel (): Promise<string>;
 
     /**
+     * Returns the paused status.
+     */
+    paused (): Promise<boolean>;
+
+    /**
      * Retrieve the market information.
      *
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      */
     markets (u: string, m: uint256): Promise<Market>;
-
-    /**
-     * Checks if a market is mature.
-     *
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    mature (u: string, m: uint256): Promise<boolean>;
-
-    /**
-     * Retrieve the market maturity.
-     *
-     * @param u - underlying token address associated with the market
-     * @param m - maturity timestamp of the market
-     */
-    maturityRate (u: string, m: uint256): Promise<string>;
 
     /**
      * @param u - underlying token address associated with the market

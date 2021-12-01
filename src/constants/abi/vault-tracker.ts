@@ -97,7 +97,13 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+            {
+                'internalType': 'uint256',
+                'name': 'c',
+                'type': 'uint256',
+            },
+        ],
         'name': 'matureVault',
         'outputs': [
             {
@@ -107,19 +113,6 @@ export const VAULT_TRACKER_ABI = [
             },
         ],
         'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [],
-        'name': 'matured',
-        'outputs': [
-            {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool',
-            },
-        ],
-        'stateMutability': 'view',
         'type': 'function',
     },
     {
