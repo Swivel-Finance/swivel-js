@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0...v2.1.0) (2021-12-01)
+
+
+### ⚠ BREAKING CHANGES
+
+* `mature()` and `maturityRate()` have been removed from `MarketPlace` contract;
+* `matured()` has been removed from `VaultTracker` contract;
+the `Market` interface now has an additional property `maturityRate`
+
+### Bug Fixes
+
+* update contracts post audit ([c8d1135](https://github.com/Swivel-Finance/swivel-js/commit/c8d1135508a933c246fc84e22f1015f4413a4b65))
+
 ## [2.0.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0-next.6...v2.0.0) (2021-09-15)
 
 
