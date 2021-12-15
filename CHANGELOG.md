@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0-next.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.1.0...v2.2.0-next.0) (2021-12-15)
+
+
+### Features
+
+* add custom gas limit to contract calls ([2571b3a](https://github.com/Swivel-Finance/swivel-js/commit/2571b3a2b695a45b0fe6f57745994cd286e18912)), closes [#78](https://github.com/Swivel-Finance/swivel-js/issues/78)
+
 ## [2.1.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.0.0...v2.1.0) (2021-12-01)
 
 
