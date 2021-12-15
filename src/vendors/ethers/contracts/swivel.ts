@@ -1,6 +1,6 @@
 import { Contract, ethers, Signer } from 'ethers';
 import { Abi, Order, SwivelContract, TxResponse, uint256 } from '../../../interfaces';
-import { fromBigNumber, prepareOrder, splitSignature, toBigNumber, unwrap } from '../utils';
+import { fromBigNumber, gasOptions, prepareOrder, splitSignature, toBigNumber, unwrap } from '../utils';
 
 export class EthersSwivelContract implements SwivelContract {
 
@@ -77,7 +77,9 @@ export class EthersSwivelContract implements SwivelContract {
         const amounts = a.map(amount => toBigNumber(amount));
         const signatures = s.map(signature => splitSignature(signature));
 
-        return await this.contract.functions.initiate(orders, amounts, signatures) as TxResponse;
+        const options = await gasOptions(this.contract, 'initiate', orders, amounts, signatures);
+
+        return await this.contract.functions.initiate(orders, amounts, signatures, options) as TxResponse;
     }
 
     /**
@@ -91,7 +93,9 @@ export class EthersSwivelContract implements SwivelContract {
         const amounts = a.map(amount => toBigNumber(amount));
         const signatures = s.map(signature => splitSignature(signature));
 
-        return await this.contract.functions.exit(orders, amounts, signatures) as TxResponse;
+        const options = await gasOptions(this.contract, 'exit', orders, amounts, signatures);
+
+        return await this.contract.functions.exit(orders, amounts, signatures, options) as TxResponse;
     }
 
     /**
@@ -103,7 +107,9 @@ export class EthersSwivelContract implements SwivelContract {
         const order = prepareOrder(o);
         const signature = splitSignature(s);
 
-        return await this.contract.functions.cancel(order, signature) as TxResponse;
+        const options = await gasOptions(this.contract, 'cancel', order, signature);
+
+        return await this.contract.functions.cancel(order, signature, options) as TxResponse;
     }
 
     /**
@@ -116,7 +122,9 @@ export class EthersSwivelContract implements SwivelContract {
         const maturity = toBigNumber(m);
         const amount = toBigNumber(a);
 
-        return await this.contract.functions.splitUnderlying(u, maturity, amount) as TxResponse;
+        const options = await gasOptions(this.contract, 'splitUnderlying', u, maturity, amount);
+
+        return await this.contract.functions.splitUnderlying(u, maturity, amount, options) as TxResponse;
     }
 
     /**
@@ -129,7 +137,9 @@ export class EthersSwivelContract implements SwivelContract {
         const maturity = toBigNumber(m);
         const amount = toBigNumber(a);
 
-        return await this.contract.functions.combineTokens(u, maturity, amount) as TxResponse;
+        const options = await gasOptions(this.contract, 'combineTokens', u, maturity, amount);
+
+        return await this.contract.functions.combineTokens(u, maturity, amount, options) as TxResponse;
     }
 
     /**
@@ -142,7 +152,9 @@ export class EthersSwivelContract implements SwivelContract {
         const maturity = toBigNumber(m);
         const amount = toBigNumber(a);
 
-        return await this.contract.functions.redeemZcToken(u, maturity, amount) as TxResponse;
+        const options = await gasOptions(this.contract, 'redeemZcToken', u, maturity, amount);
+
+        return await this.contract.functions.redeemZcToken(u, maturity, amount, options) as TxResponse;
     }
 
     /**
@@ -153,6 +165,8 @@ export class EthersSwivelContract implements SwivelContract {
 
         const maturity = toBigNumber(m);
 
-        return await this.contract.functions.redeemVaultInterest(u, maturity) as TxResponse;
+        const options = await gasOptions(this.contract, 'redeemVaultInterest', u, maturity);
+
+        return await this.contract.functions.redeemVaultInterest(u, maturity, options) as TxResponse;
     }
 }
