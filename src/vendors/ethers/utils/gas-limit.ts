@@ -37,7 +37,7 @@ export const gasLimit = (e: ethers.BigNumber): ethers.BigNumber => {
  * @param a - The arguments for the contract call
  * @returns The {@link ethers.Overrides} object containing a custom gas limit for the specified contract call
  */
-export const gasOptions = async (c: ethers.Contract, m: string, ...a: unknown[]): Promise<{ gasLimit: ethers.BigNumber; } | void> => {
+export const gasOptions = async (c: ethers.Contract, m: string, ...a: unknown[]): Promise<{ gasLimit: ethers.BigNumber; } | undefined> => {
 
     let options;
 
