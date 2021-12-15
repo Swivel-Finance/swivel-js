@@ -1,6 +1,6 @@
 import { Contract, ethers, Signer } from 'ethers';
 import { Abi, Market, MarketPlaceContract, TxResponse, uint256 } from '../../../interfaces';
-import { fromBigNumber, toBigNumber, unwrap } from '../utils';
+import { fromBigNumber, gasOptions, toBigNumber, unwrap } from '../utils';
 
 /**
  * An internal type solely for ethers.js market struct response.
@@ -95,7 +95,9 @@ export class EthersMarketPlaceContract implements MarketPlaceContract {
 
         const maturity = toBigNumber(m);
 
-        return await this.contract.functions.matureMarket(u, maturity) as TxResponse;
+        const options = await gasOptions(this.contract, 'matureMarket', u, maturity);
+
+        return await this.contract.functions.matureMarket(u, maturity, options) as TxResponse;
     }
 
     /**
@@ -109,6 +111,8 @@ export class EthersMarketPlaceContract implements MarketPlaceContract {
         const maturity = toBigNumber(m);
         const amount = toBigNumber(a);
 
-        return await this.contract.functions.transferVaultNotional(u, maturity, t, amount) as TxResponse;
+        const options = await gasOptions(this.contract, 'transferVaultNotional', u, maturity, t, amount);
+
+        return await this.contract.functions.transferVaultNotional(u, maturity, t, amount, options) as TxResponse;
     }
 }
