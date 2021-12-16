@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.1](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.0...v2.2.1) (2021-12-16)
+
+
+### Bug Fixes
+
+* update gas limit optimizations ([b844893](https://github.com/Swivel-Finance/swivel-js/commit/b844893d067a78afcc7911582d8a7bf862a32c34)), closes [#80](https://github.com/Swivel-Finance/swivel-js/issues/80)
+
 ## [2.2.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.0-next.0...v2.2.0) (2021-12-15)
 
 
