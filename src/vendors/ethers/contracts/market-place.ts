@@ -95,9 +95,7 @@ export class EthersMarketPlaceContract implements MarketPlaceContract {
 
         const maturity = toBigNumber(m);
 
-        const options = await gasOptions(this.contract, 'matureMarket', u, maturity);
-
-        return await this.contract.functions.matureMarket(u, maturity, options) as TxResponse;
+        return await this.contract.functions.matureMarket(u, maturity) as TxResponse;
     }
 
     /**

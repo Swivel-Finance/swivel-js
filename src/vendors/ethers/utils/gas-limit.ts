@@ -1,32 +1,20 @@
 import { ethers } from 'ethers';
 
 /**
- * The factor by which to increase the gas limit based on the estimated gas.
- *
- * @remarks
- * For lack of a better estimate, we're increasing the gas limit by 5% over the estimated gas.
+ * This value has been calculated as the difference between estimated gas with caching on a single block
+ * and actual gas without caching on multiple blocks.
  */
-const GAS_LIMIT_FACTOR = 1.05;
+const GAS_LIMIT_DELTA = ethers.BigNumber.from('15000');
 
 /**
- * Calculates a gas limit which is 5% higher than the gas estimate.
+ * Calculates a higher gas limit to prevent out-of-gas errors in certain situations.
  *
  * @param e - The estimated gas for a contract call
- * @returns A gas limit 5% higher than the estimated gas
+ * @returns A gas limit higher than the estimated gas
  */
 export const gasLimit = (e: ethers.BigNumber): ethers.BigNumber => {
 
-    // we use the default format for FixedNumber which is 18 decimals
-    const estimate = ethers.FixedNumber.from(e);
-
-    // FixedNumber can't convert floats, we need to pass a string
-    const factor = ethers.FixedNumber.from(GAS_LIMIT_FACTOR.toFixed(2));
-
-    // calculate the new limit
-    const limit = estimate.mulUnsafe(factor);
-
-    // round up the FixedNumber and remove trailing '.0'
-    return ethers.BigNumber.from(limit.ceiling().toString().replace(/\..*$/, ''));
+    return e.add(GAS_LIMIT_DELTA);
 };
 
 /**
