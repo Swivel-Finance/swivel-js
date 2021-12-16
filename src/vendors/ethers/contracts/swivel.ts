@@ -107,9 +107,7 @@ export class EthersSwivelContract implements SwivelContract {
         const order = prepareOrder(o);
         const signature = splitSignature(s);
 
-        const options = await gasOptions(this.contract, 'cancel', order, signature);
-
-        return await this.contract.functions.cancel(order, signature, options) as TxResponse;
+        return await this.contract.functions.cancel(order, signature) as TxResponse;
     }
 
     /**
@@ -152,9 +150,7 @@ export class EthersSwivelContract implements SwivelContract {
         const maturity = toBigNumber(m);
         const amount = toBigNumber(a);
 
-        const options = await gasOptions(this.contract, 'redeemZcToken', u, maturity, amount);
-
-        return await this.contract.functions.redeemZcToken(u, maturity, amount, options) as TxResponse;
+        return await this.contract.functions.redeemZcToken(u, maturity, amount) as TxResponse;
     }
 
     /**
