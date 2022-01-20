@@ -1,6 +1,6 @@
 import { Contract, ethers, Signer } from 'ethers';
-import { Abi, Vault, VaultTrackerContract } from '../../../interfaces';
-import { fromBigNumber, unwrap } from '../utils';
+import { Abi, Vault, VaultTrackerContract } from '../../../interfaces/index.js';
+import { fromBigNumber, unwrap } from '../utils/index.js';
 
 /**
  * An internal type solely for ethers.js vault struct response.

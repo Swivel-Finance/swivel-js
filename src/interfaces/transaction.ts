@@ -1,4 +1,4 @@
-import { uint256 } from './uint256';
+import { uint256 } from './uint256.js';
 
 export interface TxOptions {
     to?: string;

@@ -2,10 +2,10 @@ import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { assert } from 'chai';
 import { ethers, Signer, Wallet } from 'ethers';
 import { stub } from 'sinon';
-import { Market, MarketPlace, TxResponse } from '../src';
-import { MISSING_CONTRACT_ADDRESS } from '../src/errors';
-import { EthersMarketPlaceContract, EthersVendor, Result } from '../src/vendors/ethers';
-import { TEST_HELPERS } from './test-helpers';
+import { MISSING_CONTRACT_ADDRESS } from '../src/errors/index.js';
+import { Market, MarketPlace, TxResponse } from '../src/index.js';
+import { EthersMarketPlaceContract, EthersVendor, Result } from '../src/vendors/ethers/index.js';
+import { TEST_HELPERS } from './test-helpers.js';
 
 const assertThrows = async (marketPlace: MarketPlace, method: keyof MarketPlace, ...args: unknown[]) => {
 

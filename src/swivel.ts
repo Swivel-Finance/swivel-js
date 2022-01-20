@@ -1,6 +1,6 @@
-import { SWIVEL_ABI } from './constants';
-import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { Order, SwivelContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces';
+import { SWIVEL_ABI } from './constants/index.js';
+import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors/index.js';
+import { Order, SwivelContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces/index.js';
 
 export class Swivel implements SwivelContract {
 

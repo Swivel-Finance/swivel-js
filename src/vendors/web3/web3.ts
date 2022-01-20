@@ -1,8 +1,8 @@
 import Web3 from 'web3';
 import { AbstractProvider, provider } from 'web3-core';
 import { JsonRpcPayload } from 'web3-core-helpers';
-import { domain, TYPES } from '../../constants';
-import { Abi, MarketPlaceContract, Order, SwivelContract, TxOptions, VaultTrackerContract, Vendor } from '../../interfaces';
+import { domain, TYPES } from '../../constants/index.js';
+import { Abi, MarketPlaceContract, Order, SwivelContract, TxOptions, VaultTrackerContract, Vendor } from '../../interfaces/index.js';
 
 export class Web3Vendor implements Vendor {
 

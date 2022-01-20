@@ -1,6 +1,6 @@
 import { Contract, ethers, Signer } from 'ethers';
-import { Abi, Order, SwivelContract, TxResponse, uint256 } from '../../../interfaces';
-import { fromBigNumber, gasOptions, prepareOrder, splitSignature, toBigNumber, unwrap } from '../utils';
+import { Abi, Order, SwivelContract, TxResponse, uint256 } from '../../../interfaces/index.js';
+import { fromBigNumber, gasOptions, prepareOrder, splitSignature, toBigNumber, unwrap } from '../utils/index.js';
 
 export class EthersSwivelContract implements SwivelContract {
 

@@ -1,5 +1,5 @@
 import { assert } from 'chai';
-import { domain, DOMAIN_NAME, DOMAIN_VERSION, TypedDataDomain } from '../../src';
+import { domain, DOMAIN_NAME, DOMAIN_VERSION, TypedDataDomain } from '../../src/index.js';
 
 describe('constants/domain', () => {
 

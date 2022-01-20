@@ -1,4 +1,4 @@
-import { TypedDataDomain } from '../interfaces/eip712';
+import { TypedDataDomain } from '../interfaces/index.js';
 
 /**
  * Swivel domain for EIP-712 signing.

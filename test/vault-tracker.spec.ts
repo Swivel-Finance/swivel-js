@@ -2,10 +2,10 @@ import { getDefaultProvider, Provider } from '@ethersproject/providers';
 import { assert } from 'chai';
 import { Signer, Wallet } from 'ethers';
 import { stub } from 'sinon';
-import { VaultTracker } from '../src';
-import { MISSING_CONTRACT_ADDRESS } from '../src/errors';
-import { EthersVaultTrackerContract, EthersVendor, Result } from '../src/vendors/ethers';
-import { TEST_HELPERS } from './test-helpers';
+import { MISSING_CONTRACT_ADDRESS } from '../src/errors/index.js';
+import { VaultTracker } from '../src/index.js';
+import { EthersVaultTrackerContract, EthersVendor, Result } from '../src/vendors/ethers/index.js';
+import { TEST_HELPERS } from './test-helpers.js';
 
 const assertThrows = async (vaultTracker: VaultTracker, method: keyof VaultTracker, ...args: unknown[]) => {
 

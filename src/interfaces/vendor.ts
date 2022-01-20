@@ -1,7 +1,7 @@
-import { Abi } from './abi';
-import { MarketPlaceContract, SwivelContract, VaultTrackerContract } from './contracts';
-import { Order } from './order';
-import { TxOptions } from './transaction';
+import { Abi } from './abi.js';
+import { MarketPlaceContract, SwivelContract, VaultTrackerContract } from './contracts/index.js';
+import { Order } from './order.js';
+import { TxOptions } from './transaction.js';
 
 export interface Vendor {
 

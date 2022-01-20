@@ -1,6 +1,6 @@
 import { Contract } from '@ethersproject/contracts';
-import { MarketPlace, Swivel, VaultTracker } from '../src';
-import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from '../src/vendors/ethers';
+import { MarketPlace, Swivel, VaultTracker } from '../src/index.js';
+import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from '../src/vendors/ethers/index.js';
 
 interface HasContract<TContract> {
     contract: TContract;

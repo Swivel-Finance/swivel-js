@@ -1,8 +1,8 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
-import { domain, TYPES } from '../../constants';
-import { Abi, MarketPlaceContract, Order, SwivelContract, VaultTrackerContract, Vendor } from '../../interfaces';
-import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from './contracts';
+import { domain, TYPES } from '../../constants/index.js';
+import { Abi, MarketPlaceContract, Order, SwivelContract, VaultTrackerContract, Vendor } from '../../interfaces/index.js';
+import { EthersMarketPlaceContract, EthersSwivelContract, EthersVaultTrackerContract } from './contracts/index.js';
 
 export class EthersVendor implements Vendor {
 

@@ -1,5 +1,5 @@
 import { ethers } from 'ethers';
-import { uint256 } from '../../../interfaces';
+import { uint256 } from '../../../interfaces/index.js';
 
 /**
  * Converts a {@link uint256} to an {@link ethers.BigNumber}.

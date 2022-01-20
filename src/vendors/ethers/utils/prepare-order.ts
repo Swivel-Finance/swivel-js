@@ -1,6 +1,6 @@
 import { ethers, utils } from 'ethers';
-import { Order } from '../../../interfaces';
-import { toBigNumber } from './big-number';
+import { Order } from '../../../interfaces/index.js';
+import { toBigNumber } from './big-number.js';
 
 /**
  * The `ethers.js` specific version of an {@link Order}.

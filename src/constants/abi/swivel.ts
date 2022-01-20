@@ -1,4 +1,4 @@
-import { Abi } from '../../interfaces';
+import { Abi } from '../../interfaces/index.js';
 
 export const SWIVEL_ABI = [
     {
