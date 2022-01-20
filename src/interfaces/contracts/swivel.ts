@@ -1,6 +1,6 @@
-import { Order } from '../order';
-import { TxResponse } from '../transaction';
-import { uint256 } from '../uint256';
+import { Order } from '../order.js';
+import { TxResponse } from '../transaction.js';
+import { uint256 } from '../uint256.js';
 
 export interface SwivelContract {
 

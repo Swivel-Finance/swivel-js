@@ -1,6 +1,6 @@
 import { assert } from 'chai';
 import { ethers } from 'ethers';
-import { gasLimit } from '../../../../src/vendors/ethers';
+import { gasLimit } from '../../../../src/vendors/ethers/index.js';
 
 describe('vendors/ethers/utils/gas-limit', () => {
 

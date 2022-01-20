@@ -1,4 +1,4 @@
-import { Result } from '../interfaces/result';
+import { Result } from '../interfaces/index.js';
 
 /**
  * Unwraps an ethers.js `Result` object.

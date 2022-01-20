@@ -1,6 +1,6 @@
 import { Contract, ethers, Signer } from 'ethers';
-import { Abi, Market, MarketPlaceContract, TxResponse, uint256 } from '../../../interfaces';
-import { fromBigNumber, gasOptions, toBigNumber, unwrap } from '../utils';
+import { Abi, Market, MarketPlaceContract, TxResponse, uint256 } from '../../../interfaces/index.js';
+import { fromBigNumber, gasOptions, toBigNumber, unwrap } from '../utils/index.js';
 
 /**
  * An internal type solely for ethers.js market struct response.

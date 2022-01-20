@@ -1,15 +1,9 @@
 {
-  "extension": [
-    ".ts"
-  ],
   "include": [
-    "src"
+    "build/src"
   ],
   "exclude": [
-    "test"
-  ],
-  "require": [
-    "ts-node/register"
+    "build/test"
   ],
   "reporter": [
     "html",

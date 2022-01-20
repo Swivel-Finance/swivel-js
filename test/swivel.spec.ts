@@ -4,10 +4,10 @@ import { Wallet } from '@ethersproject/wallet';
 import { assert } from 'chai';
 import { ethers } from 'ethers';
 import { stub } from 'sinon';
-import { Order, Swivel, TxResponse } from '../src';
-import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } from '../src/errors';
-import { EthersSwivelContract, EthersVendor, prepareOrder, Result, splitSignature, toBigNumber } from '../src/vendors/ethers';
-import { TEST_HELPERS } from './test-helpers';
+import { CHAIN_ID_AND_VERIFYING_CONTRACT_REQUIRED, MISSING_CONTRACT_ADDRESS } from '../src/errors/index.js';
+import { Order, Swivel, TxResponse } from '../src/index.js';
+import { EthersSwivelContract, EthersVendor, prepareOrder, Result, splitSignature, toBigNumber } from '../src/vendors/ethers/index.js';
+import { TEST_HELPERS } from './test-helpers.js';
 
 const assertThrows = async (swivel: Swivel, method: keyof Swivel, ...args: unknown[]) => {
 

@@ -1,14 +1,8 @@
 {
   "timeout": 3000,
-  "require": [
-    "ts-node/register"
-  ],
-  "extension": [
-    ".ts"
-  ],
-  "spec": "./test/**/*.spec.ts",
+  "spec": "./build/test/**/*.spec.js",
   "watch-files": [
-    "./src/**/*.ts",
-    "./test/**/*.ts"
+    "./build/src/**/*.js",
+    "./build/test/**/*.js"
   ]
 }

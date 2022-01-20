@@ -1,6 +1,6 @@
-import { VAULT_TRACKER_ABI } from './constants';
-import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { TxOptions, Vault, VaultTrackerContract, Vendor } from './interfaces';
+import { VAULT_TRACKER_ABI } from './constants/index.js';
+import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors/index.js';
+import { TxOptions, Vault, VaultTrackerContract, Vendor } from './interfaces/index.js';
 
 export class VaultTracker implements VaultTrackerContract {
 

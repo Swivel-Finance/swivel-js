@@ -1,4 +1,4 @@
-import { Abi } from '../../interfaces';
+import { Abi } from '../../interfaces/index.js';
 
 export const MARKET_PLACE_ABI = [
     {

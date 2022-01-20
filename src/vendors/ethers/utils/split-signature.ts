@@ -1,5 +1,5 @@
 import { utils } from 'ethers';
-import { Signature } from '../../../interfaces';
+import { Signature } from '../../../interfaces/index.js';
 
 /**
  * Split a signature hash into its components.

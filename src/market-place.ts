@@ -1,6 +1,6 @@
-import { MARKET_PLACE_ABI } from './constants';
-import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors';
-import { Market, MarketPlaceContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces';
+import { MARKET_PLACE_ABI } from './constants/index.js';
+import { CONTRACT_INSTANTIATION_FAILED, MISSING_CONTRACT_ADDRESS } from './errors/index.js';
+import { Market, MarketPlaceContract, TxOptions, TxResponse, uint256, Vendor } from './interfaces/index.js';
 
 export class MarketPlace implements MarketPlaceContract {
 
