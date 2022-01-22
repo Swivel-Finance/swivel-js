@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.2.3](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.2...v2.2.3) (2022-01-22)
+
+
+### Bug Fixes
+
+* contract function call error when `estimateGas` fails ([37b10e7](https://github.com/Swivel-Finance/swivel-js/commit/37b10e7d23097d9f8ec2502359778820ea08ff6b)), closes [#84](https://github.com/Swivel-Finance/swivel-js/issues/84)
+
 ### [2.2.2](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.2-next.0...v2.2.2) (2022-01-20)
 
 ### [2.2.2-next.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.1...v2.2.2-next.0) (2022-01-20)
