@@ -25,9 +25,9 @@ export const gasLimit = (e: ethers.BigNumber): ethers.BigNumber => {
  * @param a - The arguments for the contract call
  * @returns The {@link ethers.Overrides} object containing a custom gas limit for the specified contract call
  */
-export const gasOptions = async (c: ethers.Contract, m: string, ...a: unknown[]): Promise<{ gasLimit: ethers.BigNumber; } | undefined> => {
+export const gasOptions = async (c: ethers.Contract, m: string, ...a: unknown[]): Promise<Partial<{ gasLimit: ethers.BigNumber; }>> => {
 
-    let options;
+    let options = {};
 
     try {
 
