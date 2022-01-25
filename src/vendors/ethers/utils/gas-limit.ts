@@ -1,10 +1,10 @@
 import { ethers } from 'ethers';
 
 /**
- * This value has been calculated as the difference between estimated gas with caching on a single block
- * and actual gas without caching on multiple blocks.
+ * This value has been determined after testing all `order - fill` pairings and recording the difference
+ * between `ethers`' `estimateGas` and the tx's `gasUsed`.
  */
-const GAS_LIMIT_DELTA = ethers.BigNumber.from('15000');
+const GAS_LIMIT_DELTA = ethers.BigNumber.from('26000');
 
 /**
  * Calculates a higher gas limit to prevent out-of-gas errors in certain situations.
