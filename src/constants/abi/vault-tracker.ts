@@ -1,5 +1,3 @@
-import { Abi } from '../../interfaces/index.js';
-
 export const VAULT_TRACKER_ABI = [
     {
         'inputs': [
@@ -15,12 +13,32 @@ export const VAULT_TRACKER_ABI = [
             },
             {
                 'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
                 'name': 's',
                 'type': 'address',
             },
         ],
         'stateMutability': 'nonpayable',
         'type': 'constructor',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'adapterAddr',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
     },
     {
         'inputs': [
@@ -47,7 +65,9 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'admin',
         'outputs': [
             {
@@ -84,7 +104,9 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'cTokenAddr',
         'outputs': [
             {
@@ -116,7 +138,9 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'maturity',
         'outputs': [
             {
@@ -129,7 +153,9 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'maturityRate',
         'outputs': [
             {
@@ -185,7 +211,9 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'swivel',
         'outputs': [
             {
@@ -279,4 +307,4 @@ export const VAULT_TRACKER_ABI = [
         'stateMutability': 'view',
         'type': 'function',
     },
-] as Abi;
+];

@@ -1,11 +1,14 @@
-import { Abi } from '../../interfaces/index.js';
-
 export const SWIVEL_ABI = [
     {
         'inputs': [
             {
                 'internalType': 'address',
                 'name': 'm',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 'a',
                 'type': 'address',
             },
         ],
@@ -193,7 +196,9 @@ export const SWIVEL_ABI = [
         'type': 'event',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'HOLD',
         'outputs': [
             {
@@ -206,7 +211,9 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'MIN_FEENOMINATOR',
         'outputs': [
             {
@@ -219,7 +226,9 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'NAME',
         'outputs': [
             {
@@ -232,7 +241,9 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'VERSION',
         'outputs': [
             {
@@ -245,7 +256,24 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
+        'name': 'aaveAddr',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
         'name': 'admin',
         'outputs': [
             {
@@ -308,6 +336,11 @@ export const SWIVEL_ABI = [
                         'internalType': 'bytes32',
                         'name': 'key',
                         'type': 'bytes32',
+                    },
+                    {
+                        'internalType': 'uint8',
+                        'name': 'protocol',
+                        'type': 'uint8',
                     },
                     {
                         'internalType': 'address',
@@ -410,6 +443,11 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'address',
                 'name': 'u',
                 'type': 'address',
@@ -437,7 +475,9 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'domain',
         'outputs': [
             {
@@ -457,6 +497,11 @@ export const SWIVEL_ABI = [
                         'internalType': 'bytes32',
                         'name': 'key',
                         'type': 'bytes32',
+                    },
+                    {
+                        'internalType': 'uint8',
+                        'name': 'protocol',
+                        'type': 'uint8',
                     },
                     {
                         'internalType': 'address',
@@ -590,6 +635,11 @@ export const SWIVEL_ABI = [
                         'type': 'bytes32',
                     },
                     {
+                        'internalType': 'uint8',
+                        'name': 'protocol',
+                        'type': 'uint8',
+                    },
+                    {
                         'internalType': 'address',
                         'name': 'maker',
                         'type': 'address',
@@ -674,7 +724,9 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'marketPlace',
         'outputs': [
             {
@@ -688,6 +740,11 @@ export const SWIVEL_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -712,6 +769,11 @@ export const SWIVEL_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -761,6 +823,25 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+        ],
+        'name': 'setAdmin',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
                 'internalType': 'uint16',
                 'name': 'i',
                 'type': 'uint16',
@@ -785,6 +866,11 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'address',
                 'name': 'u',
                 'type': 'address',
@@ -801,25 +887,6 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'splitUnderlying',
-        'outputs': [
-            {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool',
-            },
-        ],
-        'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [
-            {
-                'internalType': 'address',
-                'name': 'a',
-                'type': 'address',
-            },
-        ],
-        'name': 'transferAdmin',
         'outputs': [
             {
                 'internalType': 'bool',
@@ -868,4 +935,4 @@ export const SWIVEL_ABI = [
         'stateMutability': 'view',
         'type': 'function',
     },
-] as Abi;
+];

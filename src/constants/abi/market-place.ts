@@ -1,14 +1,20 @@
-import { Abi } from '../../interfaces/index.js';
-
 export const MARKET_PLACE_ABI = [
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'stateMutability': 'nonpayable',
         'type': 'constructor',
     },
     {
         'anonymous': false,
         'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
             {
                 'indexed': true,
                 'internalType': 'address',
@@ -48,6 +54,12 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
+            {
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'underlying',
                 'type': 'address',
@@ -83,6 +95,12 @@ export const MARKET_PLACE_ABI = [
     {
         'anonymous': false,
         'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
             {
                 'indexed': true,
                 'internalType': 'address',
@@ -122,6 +140,12 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
+            {
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'underlying',
                 'type': 'address',
@@ -151,6 +175,12 @@ export const MARKET_PLACE_ABI = [
     {
         'anonymous': false,
         'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
             {
                 'indexed': true,
                 'internalType': 'address',
@@ -190,6 +220,12 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
+            {
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'underlying',
                 'type': 'address',
@@ -227,6 +263,12 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
+            {
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'underlying',
                 'type': 'address',
@@ -238,7 +280,7 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
             {
-                'indexed': true,
+                'indexed': false,
                 'internalType': 'address',
                 'name': 'sender',
                 'type': 'address',
@@ -252,6 +294,12 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
+            {
+                'indexed': true,
                 'internalType': 'address',
                 'name': 'underlying',
                 'type': 'address',
@@ -263,7 +311,7 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
             {
-                'indexed': true,
+                'indexed': false,
                 'internalType': 'address',
                 'name': 'sender',
                 'type': 'address',
@@ -281,6 +329,12 @@ export const MARKET_PLACE_ABI = [
     {
         'anonymous': false,
         'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'uint8',
+                'name': 'protocol',
+                'type': 'uint8',
+            },
             {
                 'indexed': true,
                 'internalType': 'address',
@@ -316,7 +370,9 @@ export const MARKET_PLACE_ABI = [
         'type': 'event',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'admin',
         'outputs': [
             {
@@ -330,6 +386,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -365,6 +426,11 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'address',
                 'name': 'u',
                 'type': 'address',
@@ -375,8 +441,13 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
         ],
-        'name': 'cTokenAddress',
+        'name': 'cTokenAndAdapterAddress',
         'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
             {
                 'internalType': 'address',
                 'name': '',
@@ -396,6 +467,11 @@ export const MARKET_PLACE_ABI = [
             {
                 'internalType': 'address',
                 'name': 'c',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 'a',
                 'type': 'address',
             },
             {
@@ -422,6 +498,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -462,6 +543,11 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'address',
                 'name': 'u',
                 'type': 'address',
@@ -501,6 +587,11 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': '',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'address',
                 'name': '',
                 'type': 'address',
@@ -520,12 +611,17 @@ export const MARKET_PLACE_ABI = [
             },
             {
                 'internalType': 'address',
-                'name': 'zcTokenAddr',
+                'name': 'adapterAddr',
                 'type': 'address',
             },
             {
                 'internalType': 'address',
-                'name': 'vaultAddr',
+                'name': 'zcToken',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 'vaultTracker',
                 'type': 'address',
             },
             {
@@ -539,6 +635,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -563,6 +664,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -597,6 +703,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -636,6 +747,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -693,7 +809,9 @@ export const MARKET_PLACE_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+
+        ],
         'name': 'paused',
         'outputs': [
             {
@@ -707,6 +825,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -736,6 +859,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -772,11 +900,11 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'internalType': 'address',
-                'name': 's',
+                'name': 'a',
                 'type': 'address',
             },
         ],
-        'name': 'setSwivelAddress',
+        'name': 'setAdmin',
         'outputs': [
             {
                 'internalType': 'bool',
@@ -788,7 +916,28 @@ export const MARKET_PLACE_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [],
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 's',
+                'type': 'address',
+            },
+        ],
+        'name': 'setSwivel',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
         'name': 'swivel',
         'outputs': [
             {
@@ -803,24 +952,10 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
-                'internalType': 'address',
-                'name': 'a',
-                'type': 'address',
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
             },
-        ],
-        'name': 'transferAdmin',
-        'outputs': [
-            {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool',
-            },
-        ],
-        'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -856,6 +991,11 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'address',
                 'name': 'u',
                 'type': 'address',
@@ -887,4 +1027,4 @@ export const MARKET_PLACE_ABI = [
         'stateMutability': 'nonpayable',
         'type': 'function',
     },
-] as Abi;
+];
