@@ -15,15 +15,15 @@ Find the official documentation for the Swivel protocol at: https://docs.swivel.
 
 # Installation
 
-## Installing ethers.js
+## Installing ethers
 
-To use Swivel-JS you'll need to install ethers.js (`^5.2.0`). 
+In order use `swivel-js` you'll need a compatible version (`^5.2.0`) of `ethers`. Being a peer dependency, you can use any compatible version of `ethers` you already have installed in your project. 
+
+If you haven't installed a compatible version of `ethers` in your project yet, run:
 
 ```bash
 npm install --save ethers
 ```
-
-> If demand for web3.js support is high, we'll consider supporting it in future releases.
 
 ## Installing swivel-js
 
@@ -43,35 +43,56 @@ In most cases you'll want to use the Swivel contract implementation to work with
 
 ## Usage
 
+### Protocols
+
+Swivel supports 6 different interest-generating protocols and each market on Swivel is tied to a specific protocol. You can select a Protocol using the `Protocols` enum:
+
+```typescript
+import { Protocols } from '@swivel-finance/swivel-js';
+
+const protocol = Protocols.Compound;
+```
+
+or you can use the Protocol's numeric value:
+
+```typescript
+/**
+ * The Protocol's numeric values
+ * 
+ * Erc4626  = 0
+ * Compound = 1
+ * Rari     = 2
+ * Yearn    = 3
+ * Aave     = 4
+ * Euler    = 5
+ */ 
+ 
+const protocol = 4; // Aave
+```
+
 ### Swivel
 
 #### Create a Swivel instance
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
-// you need the chain id of the network you want to use
-// this is necessary for signing offline orders
-const chainId = 1;
-// you need the address of the deployed swivel contract on that network
+// you need the address of the deployed swivel contract on the connected network
 const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
 
 // create an ethers provider and signer,...
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-// ...create a Vendor for the Swivel contract,
-const vendor = new EthersVendor(provider, signer);
-
-// ...and use the vendor to instantiate the Swivel contract
-const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
+// ...and use the signer to instantiate the Swivel contract
+const swivel = new Swivel(swivelAddress, signer);
 ```
 
 #### Sign an order
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers, utils } from 'ethers';
 
 // you need the chain id of the network you want to use
@@ -79,23 +100,19 @@ const chainId = 1;
 // you need the address of the deployed swivel contract on that network
 const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
 
-// create an ethers provider and signer,...
+// create an ethers provider and signer
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
-
-// ...create a Vendor for the Swivel contract,
-const vendor = new EthersVendor(provider, signer);
-// ...and use the vendor to instantiate the Swivel contract
-const swivel = new Swivel(vendor, chainId, swivelAddress);
 
 // the order maker is your account address
 const maker = await signer.getAddress();
 // the order key should be a hash of your account address and a timestamp
 const key = utils.keccak256(utils.toUtf8Bytes(`${ maker }${ Date.now() }`));
-// you will also need the underlying token address and maturity of a market
+// you will also need the underlying token address, maturity and protocol of a market
 // you can get them from the Swivel Exchange API
 const underlying = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 const maturity = '1648177200';
+const protocol = Protocols.Compound;
 
 // create an order
 const order: Order = {
@@ -103,21 +120,22 @@ const order: Order = {
     maker: maker,
     underlying: underlying,
     maturity: maturity,
+    protocol: protocol,
     vault: false,
     exit: false,
-    principal: '1000',
-    premium: '50',
-    expiry: '123456789',
+    principal: '10000000',
+    premium: '500000',
+    expiry: '1648177200',
 };
 
-// you can now sign the order
-const signature = await swivel.signOrder(order);
+// you can now sign the order using the Swivel class' static `signOrder` method
+const signature = await Swivel.signOrder(order, signer, swivelAddress, chainId);
 ```
 
 #### Fill an order
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
 // you need a subset of the ERC-20 ABI for token allowance and approval
@@ -140,16 +158,12 @@ export async function marketOrderFixed (amount: number): Promise<void> {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
-    // create an EthersVender for the Swivel wrapper
-    const vendor = new EthersVendor(provider, signer);
-
     // constants for Swivel on rinkeby (this might be outdated)
-    const chainId = 4;
     const swivelAddress = '0xDe9a819630094dF6dA6FF7CCc77E04Fd3ad0ACFE';
     const underlyingAddress = '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa';
 
-    // create the Swivel wrapper
-    const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
+    // create the Swivel contract
+    const swivel = new Swivel(swivelAddress, signer);
 
     // to fill an order with Swivel, we need to approve Swivel to transfer our tokens
     // in order to do this, we need to:
@@ -200,7 +214,7 @@ export async function marketOrderFixed (amount: number): Promise<void> {
 ### MarketPlace
 
 ```typescript
-import { EthersVendor, MarketPlace } from '@swivel-finance/swivel-js';
+import { MarketPlace } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
 // you need the address of the deployed MarketPlace contract
@@ -210,44 +224,39 @@ const marketPlaceAddress = '0x998689650D4d55822b4bDd4B7DB5F596bf6b3570';
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-// ...create a Vendor for the MarketPlace contract,
-const vendor = new EthersVendor(provider, signer);
-
-// ...and use the vendor to instantiate the MarketPlace contract
-const marketPlace = new MarketPlace(vendor).at(marketPlaceAddress);
+// ...and use the signer to instantiate the MarketPlace contract
+const marketPlace = new MarketPlace(marketPlaceAddress, signer);
 ```
 
 ### VaultTracker
 
 ```typescript
-import { EthersVendor, VaultTracker } from '@swivel-finance/swivel-js';
+import { Protocols, VaultTracker } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
-// create an ethers provider and signer,...
+// create an ethers provider and signer
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
-
-// ...create a Vendor for the VaultTracker contract,
-const vendor = new EthersVendor(provider, signer);
 
 // to create a VaultTracker instance you'll need the address of its
 // deployed contract - each market has it's own VaultTracker contract
 // you can retrieve the address of a VaultTracker by calling the 
-// `markets` method of the MarketPlace wrapper
+// `markets` method of the MarketPlace contract
 
-// you will need the underlying token address and maturity of a market
+// you will need the underlying token address, maturity and protocol of a market
 // you can get them from the Swivel Exchange API
 const underlying = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 const maturity = '1648177200';
+const protocol = Protocols.Compound;
 
 // assuming you already created a MarketPlace instance, 
 // retrieve the desired market information...
-const market = await marketPlace.markets(underlying, maturity);
-// ...and extract the `vaultAddress` of the market
-const vaultAddress = market.vaultAddr;
+const market = await marketPlace.markets(protocol, underlying, maturity);
+// ...and extract the `vaultTracker` of the market
+const vaultAddress = market.vaultTracker;
 
-// use the `vendor` and `vaultAdrress` to instantiate the VaultTracker
-const vaultTracker = new VaultTracker(vendor).at(vaultAddress);
+// use the `signer` and `vaultAdrress` to instantiate the VaultTracker
+const vaultTracker = new VaultTracker(vaultAddress, signer);
 ```
 
 ## Deployed Contract Addresses

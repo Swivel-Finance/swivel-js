@@ -1,14 +1,17 @@
 # Overview
 
-The Swivel contract wrapper allows a user to sign orders; initiate, exit, and cancel orders; as well as split, combine, and redeem their tokens.
-
-An order is a struct of the following shape:
+The Swivel contract allows a user to sign orders; initiate, exit, and cancel orders; as well as split, combine, and redeem their tokens and generated interest.
 
 ## Order
+
+Swivel works with an orderbook, as such you'll be interacting with orders frequently to initiate or exit positions.
+
+An order is a struct of the following shape:
 
 ```typescript
 interface Order {
     key: string;
+    protocol: Protocols;
     maker: string;
     underlying: string;
     vault: boolean;
@@ -20,30 +23,47 @@ interface Order {
 }
 ```
 
+## Protocol
+
+Swivel supports multiple yield-generating protocols, like Compound, Aave, or Rari to name a few. To identify a market on Swivel, the market's underlying token address, its maturity date as well as the yield-generating protocol are needed.
+
+A protocol is a member of the `Protocols` enum:
+
+```typescript
+const enum Protocols {
+    Erc4626,
+    Compound,
+    Rari,
+    Yearn,
+    Aave,
+    Euler,
+}
+```
+
 ## Creating a Swivel instance
 
 The snippet below illustrates how you can create a Swivel instance and what information you need to do so.
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
-// you need the chain id of the network you want to use
-// this is necessary for signing offline orders
-const chainId = 1;
-// you need the address of the deployed swivel contract on that network
+// you need the address of the deployed swivel contract on the connected network (chain)
 const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
 
 // create an ethers provider and signer,...
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-// ...create a Vendor for the Swivel contract,
-const vendor = new EthersVendor(provider, signer);
-
-// ...and use the vendor to instantiate the Swivel contract
-const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
+// ...and use the signer to instantiate the Swivel contract
+const swivel = new Swivel(swivelAddress, signer);
 ```
+
+
+
+## Transaction Overrides
+
+Each contract invocation accepts an optional transaction overrides object as the last argument. For additional information on transaction overrides, please refer to the [ethers documentation](https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend).
 
 
 
@@ -56,7 +76,7 @@ Holds the current contract address used by the Swivel instance.
 ### Signature
 
 ```typescript
-address?: string;
+address: string;
 ```
 
 
@@ -70,8 +90,14 @@ Allows a user to get the Swivel domain name for EIP-712 signing.
 ### Signature
 
 ```typescript
-NAME (): Promise<string>;
+NAME (t: CallOverrides = {}): Promise<string>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -86,8 +112,14 @@ Allows a user to get the Swivel domain version for EIP-712 signing.
 ### Signature
 
 ```typescript
-VERSION (): Promise<string>;
+VERSION (t: CallOverrides = {}): Promise<string>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -97,17 +129,120 @@ A promise that resolves with the domain version if the contract call succeeds an
 
 ## domain
 
-Allows a user to get the Swivel domain for EIP-712 signing.
+Allows a user to get the Swivel domain hash for EIP-712 signing.
 
 ### Signature
 
 ```typescript
-domain (): Promise<string>;
+domain (t: CallOverrides = {}): Promise<string>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with the domain if the contract call succeeds and rejects otherwise.
+A promise that resolves with the domain hash if the contract call succeeds and rejects otherwise.
+
+
+
+## HOLD
+
+Allows a user to get the the hold time between a scheduled withdrawal and the actual withdrawal.
+
+### Signature
+
+```typescript
+HOLD (t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the hold time if the contract call succeeds and rejects otherwise.
+
+
+
+## MIN_FEENOMINATOR
+
+Allows a user to get the minimum fee denominator for trade fees.
+
+### Signature
+
+```typescript
+MIN_FEENOMINATOR (t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the minimum fee denominator if the contract call succeeds and rejects otherwise.
+
+
+
+## feenominators
+
+Allows a user to get the fee denominators for [`zcTokenInitiate`, `zcTokenExit`, `vaultInitiate`, `vaultExit`] trade fees.
+
+Fee denominators are used to calculate trade fees for each of the above-mentioned trade types, e.g. for a `zcTokenInitiate` (filling a nToken buy order) the fees would be calculated like this:
+
+```solidity
+// zcTokenInitiate is the first fee denominator in the tuple
+uint16 feenominator = feenominators[0];
+// the fee is the order amount devided by the fee denominator
+uint256 fee = amount / feenominator;
+```
+
+### Signature
+
+```typescript
+feenominators (t: CallOverrides = {}): Promise<[number, number, number, number]>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with a tuple of fee denominators if the contract call succeeds and rejects otherwise. The fee denominators tuple has the following order: `zcTokenInitiate`, `zcTokenExit`, `vaultInitiate`, `vaultExit`.
+
+
+
+## admin
+
+Allows a user to get Swivel's admin address.
+
+### Signature
+
+```typescript
+admin (t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the admin address if the contract call succeeds and rejects otherwise.
 
 
 
@@ -118,12 +253,40 @@ Allows a user to get the associated MarketPlace contract address.
 ### Signature
 
 ```typescript
-marketPlace (): Promise<string>;
+marketPlace (t: CallOverrides = {}): Promise<string>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
 A promise that resolves with the MarketPlace contract's address if the contract call succeeds and rejects otherwise.
+
+
+
+## aaveAddr
+
+Allows a user to get the Swivel's Aave contract address.
+
+### Signature
+
+```typescript
+aaveAddr (t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the Aave contract address if the contract call succeeds and rejects otherwise.
 
 
 
@@ -133,89 +296,33 @@ A promise that resolves with the MarketPlace contract's address if the contract 
 
 Creates an instance of the Swivel smart contract wrapper.
 
-> After creating an instance of the Swivel contract it can be used to sign offline orders, however it cannot yet interact with the deployed Swivel smart contract on chain. You need to additionally invoke the `at()` method of the Swivel instance to connect the instance with the contract on chain.
-
-> Even though chain-id and contract address are optional parameters for the Swivel constructor, `signOrder()` requires these parameters to be set. If you want to use the Swivel instance to sign offline orders, you **must** provide the paramaters.
-
 ### Signature
 ```typescript
-constructor (v: Vendor, i?: number, c?: string): Swivel;
+constructor (a: string, s: Signer): Swivel;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|v|`Vendor`|A vendor instance (ethers.js or web3.js vendor) to use.|
-|i|`number`|The chain-id for the deployed Swivel smart contract.|
-|c|`string`|The address of the deployed Swivel smart contract.|
+|a|`string`|The address of the deployed Swivel contract.|
+|s|`Signer`|An ethers signer (a signer is needed for write methods and signing orders).|
 
 ### Example
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
-// you need the chain id of the network you want to use
-const chainId = 1;
-// you need the address of the deployed swivel contract on that network
+// you need the address of the deployed swivel contract on the connected network
 const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
 
 // create an ethers provider and signer,...
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-// ...create a Vendor for the Swivel contract,
-const vendor = new EthersVendor(provider, signer);
-
-// ...and use the vendor to instantiate the Swivel contract
-const swivel = new Swivel(vendor, chainId, swivelAddress);
-```
-
-
-
-## at
-
-Connects a Swivel instance to a deployed Swivel smart contract on chain.
-
-### Signature
-
-```typescript
-at (a: string, o?: TxOptions): Swivel;
-```
-
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|a|`string`|The address of the deployed Swivel smart contract.|
-|o|`TxOptions`|Optional transaction options to override ethers.js' default transaction options.|
-
-### Returns
-
-The connected Swivel instance.
-
-### Example
-
-```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
-import { ethers } from 'ethers';
-
-// you need the chain id of the network you want to use
-const chainId = 1;
-// you need the address of the deployed swivel contract on that network
-const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
-
-// create an ethers provider and signer,...
-const provider = new ethers.providers.Web3Provider(window.ethereum);
-const signer = provider.getSigner();
-
-// ...create a Vendor for the Swivel contract,
-const vendor = new EthersVendor(provider, signer);
-
-// ...and use the vendor to instantiate the Swivel contract
-// you can chain the `.at()` call directly to the constructor
-const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
+// ...and use the signer to instantiate the Swivel contract
+const swivel = new Swivel(swivelAddress, signer);
 ```
 
 
@@ -223,6 +330,29 @@ const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
 ## signOrder
 
 Allows a user to sign an offline order using EIP-712.
+
+The Swivel smart contract wrapper provides 2 ways to sign an order:
+- as a static method of the `Swivel` class
+- as a method of a `Swivel` instance
+
+When using the **static method**, the user must provide a signer to sign the order, the address of a deployed Swivel smart contract and the chain id of the network where the contract is deployed. This can be useful when orders should be signed for multiple different Swivel deployments (keep in mind though, that each order needs to specify an underlying, maturity and protocol which is actually available on the targeted Swivel deployment).
+
+When using the **instance method**, the instance's signer and address will be used and the chain id will be inferred from the signer's connected network.
+
+### Signature
+
+```typescript
+static signOrder (o: Order, s: Signer, a: string, c: number): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|o|`Order`|An order object to sign.|
+|s|`Signer`|An ethers signer to sign the order with.|
+|a|`string`|The address of the deployed swivel contract that will execute the order.|
+|c|`number`|The chain id of the network where the swivel contract is deployed.|
 
 ### Signature
 
@@ -243,11 +373,9 @@ A promise that resolves with the 132 byte ECDSA signature of the order.
 ### Example
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers, utils } from 'ethers';
 
-// you need the chain id of the network you want to use
-const chainId = 1;
 // you need the address of the deployed swivel contract on that network
 const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
 
@@ -255,19 +383,18 @@ const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-// ...create a Vendor for the Swivel contract,
-const vendor = new EthersVendor(provider, signer);
-// ...and use the vendor to instantiate the Swivel contract
-const swivel = new Swivel(vendor, chainId, swivelAddress);
+// ...and use the signer to instantiate the Swivel contract
+const swivel = new Swivel(swivelAddress, signer);
 
 // the order maker is your account address
 const maker = await signer.getAddress();
 // the order key should be a hash of your account address and a timestamp
 const key = utils.keccak256(utils.toUtf8Bytes(`${ maker }${ Date.now() }`));
-// you will also need the underlying token address and maturity of a market
+// you will also need the underlying token address, maturity and protocol of a market
 // you can get them from the Swivel Exchange API
 const underlying = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 const maturity = '1648177200';
+const protocol = Protocols.Compound;
 
 // create an order
 const order: Order = {
@@ -275,11 +402,12 @@ const order: Order = {
     maker: maker,
     underlying: underlying,
     maturity: maturity,
+    protocol: protocol,
     vault: false,
     exit: false,
     principal: '1000',
     premium: '50',
-    expiry: '123456789',
+    expiry: '1658177200',
 };
 
 // you can now sign the order
@@ -295,7 +423,7 @@ Allows a user to check if an order was cancelled.
 ### Signature
 
 ```typescript
-cancelled (k: string): Promise<boolean>;
+cancelled (k: string, t: CallOverrides = {}): Promise<boolean>;
 ```
 
 ### Parameters
@@ -303,6 +431,7 @@ cancelled (k: string): Promise<boolean>;
 |Paramater|Type|Description|
 |---------|----|-----------|
 |k|`string`|The key of the order to check.|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -317,7 +446,7 @@ Allows a user to retrieve an order's filled volume.
 ### Signature
 
 ```typescript
-filled (k: string): Promise<string>;
+filled (k: string, t: CallOverrides = {}): Promise<string>;
 ```
 
 ### Parameters
@@ -325,6 +454,7 @@ filled (k: string): Promise<string>;
 |Paramater|Type|Description|
 |---------|----|-----------|
 |k|`string`|The key of the order to check.|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -332,16 +462,41 @@ A promise that resolves with the orders filled volume if the contract call succe
 
 
 
-## initiate
+## withdrawals
 
-Allows a user to fill part or all of any number of orders by initiating a fixed-yield (zcToken) or amplified-yield (nToken) position.
+Allows a user to retrieve a token's withdrawal hold.
 
-Splits an array of `bytes32` signatures into R,S,V, and calls the initiate method on the Swivel.sol contract.
+When a token withdrawal is scheduled, a timestamp is generated using the current time plus the `HOLD` time and stored in the `withdrawals` map using the token address as key. This map lets a user access these scheduled withdrawal "holds" per token address.
 
 ### Signature
 
 ```typescript
-initiate (o: Order[], a: uint256[], s: string[]): Promise<TxResponse>;
+withdrawals (a: string, t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|a|`string`|The token address to check.|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the token's hold timestamp if the contract call succeeds and rejects otherwise. A hold timestamp of `'0'` indicates that no withdrawal is scheduled.
+
+
+
+## initiate
+
+Allows a user to fill part or all of any number of orders by initiating a fixed-yield (zcToken) or amplified-yield (nToken) position.
+
+Signatures can be supplied as an array of `string` (signature hashes), `Signature` (objects with R, S, V components) or `number[]` (byte arrays).
+
+### Signature
+
+```typescript
+initiate (o: Order[], a: BigNumberish[], s: SignatureLike[], t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
@@ -349,17 +504,18 @@ initiate (o: Order[], a: uint256[], s: string[]): Promise<TxResponse>;
 |Paramater|Type|Description|
 |---------|----|-----------|
 |o|`Order[]`|An array of order objects to be filled.|
-|a|`uint256[]`|An array of `uint256` amounts. The amount filled with each o[i] order submitted.|
-|s|`string[]`|An array of 132 byte ECDSA signatures associated with each o[i] order submitted.|
+|a|`BigNumberish[]`|An array of order volumes/amounts relative to the passed orders.|
+|s|`SignatureLike[]`|An array of valid 132 byte ECDSA signatures relative to the passed orders.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.
 
 ### Example
 
 ```typescript
-import { EthersVendor, Swivel } from '@swivel-finance/swivel-js';
+import { Swivel } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
 // you need a subset of the ERC-20 ABI for token allowance and approval
@@ -382,16 +538,12 @@ export async function marketOrderFixed (amount: number): Promise<void> {
     const provider = new ethers.providers.Web3Provider(window.ethereum);
     const signer = provider.getSigner();
 
-    // create an EthersVender for the Swivel wrapper
-    const vendor = new EthersVendor(provider, signer);
-
     // constants for Swivel on rinkeby (this might be outdated)
-    const chainId = 4;
     const swivelAddress = '0xDe9a819630094dF6dA6FF7CCc77E04Fd3ad0ACFE';
     const underlyingAddress = '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa';
 
-    // create the Swivel wrapper
-    const swivel = new Swivel(vendor, chainId, swivelAddress).at(swivelAddress);
+    // create the Swivel contract
+    const swivel = new Swivel(swivelAddress, signer);
 
     // to fill an order with Swivel, we need to approve Swivel to transfer our tokens
     // in order to do this, we need to:
@@ -445,12 +597,12 @@ export async function marketOrderFixed (amount: number): Promise<void> {
 
 Allows a user to fill part or all of any number of orders by exiting/selling off a zcToken or nToken position.
 
-Splits an array of `bytes32` signatures into R,S,V, and calls the exit method on the Swivel.sol contract.
+Signatures can be supplied as an array of `string` (signature hashes), `Signature` (objects with R, S, V components) or `number[]` (byte arrays).
 
 ### Signature
 
 ```typescript
-exit (o: Order[], a: uint256[], s: string[]): Promise<TxResponse>;
+exit (o: Order[], a: BigNumberish[], s: SignatureLike[], t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
@@ -458,12 +610,13 @@ exit (o: Order[], a: uint256[], s: string[]): Promise<TxResponse>;
 |Paramater|Type|Description|
 |---------|----|-----------|
 |o|`Order[]`|An array of order objects to be filled.|
-|a|`uint256[]`|An array of `uint256` amounts. The amount filled with each o[i] order submitted.|
-|s|`string[]`|An array of 132 byte ECDSA signatures associated with each o[i] order submitted.|
+|a|`BigNumberish[]`|An array of order volumes/amounts relative to the passed orders.|
+|s|`SignatureLike[]`|An array of valid 132 byte ECDSA signatures relative to the passed orders.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.
 
 
 
@@ -471,12 +624,12 @@ A promise that resolves with a `TxResponse` if the contract call succeeds and re
 
 Allows a user to cancel their order.
 
-Splits a `bytes32` signature into R,S,V, and calls the cancel method on the Swivel Brokerage contract. Can only be called by the order's maker.
+Signatures can be supplied as `string` (signature hash), `Signature` (object with R, S, V components) or `number[]` (byte arrays).
 
 ### Signature
 
 ```typescript
-cancel (o: Order, s: string): Promise<TxResponse>;
+cancel (o: Order, s: SignatureLike, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
@@ -484,11 +637,12 @@ cancel (o: Order, s: string): Promise<TxResponse>;
 |Paramater|Type|Description|
 |---------|----|-----------|
 |o|`Order`|An order object to be cancelled.|
-|s|`string`|The full 132 byte ECDSA signature associated with the order.|
+|s|`SignatureLike`|The full 132 byte ECDSA signature associated with the order.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.
 
 
 
@@ -499,44 +653,48 @@ Allows a user to split their underlying tokens into zcTokens and nTokens.
 ### Signature
 
 ```typescript
-splitUnderlying (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+splitUnderlying (p: Protocols, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the underlying token contract.|
-|m|`uint256`|The market's maturity.|
-|a|`uint256`|The amount of underlying to split.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|a|`BigNumberish`|The amount of underlying to split.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.
 
 
 
-## splitUnderlying
+## combineTokens
 
 Allows a user to combine an equal amount of their zcTokens and nTokens into underlying.
 
 ### Signature
 
 ```typescript
-combineTokens (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+combineTokens (p: Protocols, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the underlying token contract.|
-|m|`uint256`|The market's maturity.|
-|a|`uint256`|The amount of zcTokens/nTokens to combine.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|a|`BigNumberish`|The amount of zcTokens/nTokens to combine.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.
 
 
 
@@ -547,20 +705,22 @@ Allows a user to redeem their zcTokens at maturity.
 ### Signature
 
 ```typescript
-redeemZcToken (u: string, m: uint256, a: uint256): Promise<TxResponse>;
+redeemZcToken (p: Protocols, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the underlying token contract.|
-|m|`uint256`|The market's maturity.|
-|a|`uint256`|The amount of zcTokens to redeem.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|a|`BigNumberish`|The amount of zcTokens to redeem.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.
 
 
 
@@ -571,16 +731,18 @@ Allows a user to redeem the interest generated by their nTokens.
 ### Signature
 
 ```typescript
-redeemVaultInterest (u: string, m: uint256): Promise<TxResponse>;
+redeemVaultInterest (p: Protocols, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the underlying token contract.|
-|m|`uint256`|The market's maturity.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResponse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResponse` if the contract call succeeds and rejects otherwise.

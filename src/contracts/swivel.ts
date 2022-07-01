@@ -76,6 +76,10 @@ export class Swivel {
     /**
      * Get the hold period.
      *
+     * @remarks
+     * This is the period between scheduling a withdrawal and when the
+     * withdrawal will actually happen. (3 days by default)
+     *
      * @param t - optional transaction overrides
      */
     async HOLD (t: CallOverrides = {}): Promise<string> {
