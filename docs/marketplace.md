@@ -2,15 +2,16 @@
 
 The MarketPlace contract wrapper allows a user to fetch market information from the MarketPlace smart contract, mature a market or transfer their vault notional. 
 
-Market information is returned in a struct of the following shape:
-
 ## Market
+
+Market information is returned in a struct of the following shape:
 
 ```typescript
 interface Market {
     cTokenAddr: string;
-    zcTokenAddr: string;
-    vaultAddr: string;
+    adapterAddr: string;
+    zcToken: string;
+    vaultTracker: string;
     maturityRate: string;
 }
 ```
@@ -20,7 +21,7 @@ interface Market {
 The snippet below illustrates how you can create a MarketPlace instance and what information you need to do so.
 
 ```typescript
-import { EthersVendor, MarketPlace } from '@swivel-finance/swivel-js';
+import { MarketPlace } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
 
 // you need the address of the deployed MarketPlace contract
@@ -30,12 +31,13 @@ const marketPlaceAddress = '0x998689650D4d55822b4bDd4B7DB5F596bf6b3570';
 const provider = new ethers.providers.Web3Provider(window.ethereum);
 const signer = provider.getSigner();
 
-// ...create a Vendor for the MarketPlace contract,
-const vendor = new EthersVendor(provider, signer);
-
-// ...and use the vendor to instantiate the MarketPlace contract
-const marketPlace = new MarketPlace(vendor).at(marketPlaceAddress);
+// ...and use the signer to instantiate the MarketPlace contract
+const marketPlace = new MarketPlace(marketPlaceAddress, signer);
 ```
+
+## Transaction Overrides
+
+Each contract invocation accepts an optional transaction overrides object as the last argument. For additional information on transaction overrides, please refer to the [ethers documentation](https://docs.ethers.io/v5/api/contract/contract/#contract-functionsSend).
 
 
 
@@ -48,7 +50,7 @@ Holds the current contract address used by the MarketPlace instance.
 ### Signature
 
 ```typescript
-address?: string;
+address: string;
 ```
 
 
@@ -62,8 +64,14 @@ Allows a user to get the admin address of this MarketPlace.
 ### Signature
 
 ```typescript
-admin (): Promise<string>;
+admin (t: CallOverrides = {}): Promise<string>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -78,8 +86,14 @@ Allows a user to get the Swivel contract address associated with this MarketPlac
 ### Signature
 
 ```typescript
-swivel (): Promise<string>;
+swivel (t: CallOverrides = {}): Promise<string>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -94,8 +108,20 @@ Allows a user to check if this MarketPlace has been paused.
 ### Signature
 
 ```typescript
-paused (): Promise<boolean>;
+paused (t: CallOverrides = {}): Promise<boolean>;
 ```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -111,37 +137,32 @@ Creates an instance of the MarketPlace smart contract wrapper.
 
 ### Signature
 ```typescript
-constructor (v: Vendor): MarketPlace;
+constructor (a: string, s: Provider | Signer): MarketPlace;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|v|`Vendor`|A vendor instance (ethers.js or web3.js vendor) to use.|
+|a|`string`|The address of the deployed MarketPlace contract.|
+|s|`Provider \| Signer`|An ethers provider or signer (a signer is needed for write methods).|
 
-
-
-## at
-
-Connects a MarketPlace instance to a deployed MarketPlace smart contract on chain.
-
-### Signature
+### Example
 
 ```typescript
-at (a: string, o?: TxOptions): MarketPlace;
+import { MarketPlace } from '@swivel-finance/swivel-js';
+import { ethers } from 'ethers';
+
+// you need the address of the deployed MarketPlace contract
+const marketPlaceAddress = '0x998689650D4d55822b4bDd4B7DB5F596bf6b3570';
+
+// create an ethers provider and signer,...
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+
+// ...and use the signer to instantiate the MarketPlace contract
+const marketPlace = new MarketPlace(marketPlaceAddress, signer);
 ```
-
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|a|`string`|The address of the deployed MarketPlace smart contract.|
-|o|`TxOptions`|Optional transaction options to override ethers.js' default transaction options.|
-
-### Returns
-
-The connected MarketPlace instance.
 
 
 
@@ -152,15 +173,17 @@ Allows a user to retrieve market information from the MarketPlace.
 ### Signature
 
 ```typescript
-markets (u: string, m: uint256): Promise<Market>;
+markets (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<Market>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the market's underlying token.|
-|m|`uint256`|The market's maturity.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -173,16 +196,25 @@ Fetch the market information from one of Swivel's markets from the MarketPlace c
 A market is identified my its underlying token address and its maturity. You can use the Swivel Exchange API to fetch the available markets (underlying/maturity pairs).
 
 ```typescript
-// you will need the underlying token address and maturity of a market
+import { MarketPlace, Protocols } from '@swivel-finance/swivel-js';
+import { ethers } from 'ethers';
+
+// you will need the protocol, underlying token address and maturity of a market
+const protocol = Protocols.Compound;
 const underlying = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48';
 const maturity = '1648177200';
 
-// assuming you already created a MarketPlace instance (as shown above)
-// use the underlying and maturity to retrieve the market information
-const market = await marketPlace.markets(underlying, maturity);
+// create an ethers provider and signer,...
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
 
-// you now have access to the market's cTokenAddress, zcTokenAdress, 
-// vaultAddress and maturityRate, e.g.:
+// ...and use the signer to instantiate the MarketPlace contract
+const marketPlace = new MarketPlace('0x998689650D4d55822b4bDd4B7DB5F596bf6b3570', signer);
+
+// use the protocol, underlying and maturity to retrieve the market information
+const market = await marketPlace.markets(protocol, underlying, maturity);
+
+// you now have access to the market's information, e.g.:
 const cTokenAddress = market.cTokenAddress;
 const maturityRate = market.maturityRate;
 ```
@@ -196,19 +228,21 @@ Allows a user to mature a market in the MarketPlace.
 ### Signature
 
 ```typescript
-matureMarket (u: string, m: uint256): Promise<TxResponse>;
+matureMarket (p: Protocols, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the market's underlying token.|
-|m|`uint256`|The market's maturity.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
 
-A promise that resolves with a `TxResonse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResonse` if the contract call succeeds and rejects otherwise.
 
 
 
@@ -219,18 +253,21 @@ Allows a user to transfer the their notional from a market in the MarketPlace.
 ### Signature
 
 ```typescript
-transferVaultNotional (u: string, m: uint256, t: string, a: uint256): Promise<TxResponse>;
+transferVaultNotional (p: Protocols, u: string, m: BigNumberish, r: string, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|u|`string`|The address of the market's underlying token.|
-|m|`uint256`|The market's maturity.|
-|t|`string`|The target address to which to transfer the notional.|
-|a|`uint256`|The amount of notional to transfer.|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|r|`string`|The receiver address to which to transfer the notional.|
+|a|`BigNumberish`|The amount of notional to transfer.|
+|t|`PayableOverrides`|Optional transaction overrides.|
+
 
 ### Returns
 
-A promise that resolves with a `TxResonse` if the contract call succeeds and rejects otherwise.
+A promise that resolves with an ethers `TransactionResonse` if the contract call succeeds and rejects otherwise.
