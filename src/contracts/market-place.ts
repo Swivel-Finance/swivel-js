@@ -3,6 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber, BigNumberish, CallOverrides, Contract, PayableOverrides } from 'ethers';
 import { MARKET_PLACE_ABI } from '../constants/index.js';
 import { optimizeGas, unwrap } from '../helpers/index.js';
+import { getExchangeRate, getInterestRate } from '../internal/index.js';
 import { Market, Protocols } from '../types/index.js';
 
 /**
@@ -19,6 +20,54 @@ export type MarketResponse = unknown[] & {
 };
 
 export class MarketPlace {
+
+    /**
+     * Euler's `Markets` contract proxy addresses per chain.
+     *
+     * @remarks
+     * In order to retrieve the interest rate (supply APY) of a Euler market,
+     * we need the static proxy address of the `Markets` contract.
+     *
+     * Should this address change in the future, you can set it via this static
+     * property. The index of each entry is the chain id of Euler's Markets
+     * contract deployment, currently mainnet and ropsten have deploys.
+     *
+     * https://docs.euler.finance/protocol/addresses
+     */
+    static EULER_ADDRESSES: Record<number, Record<'MARKETS', string>> = {
+        1: {
+            MARKETS: '0x3520d5a913427E6F0D6A83E07ccD4A4da316e4d3',
+        },
+        3: {
+            MARKETS: '0x60Ec84902908f5c8420331300055A63E6284F522',
+        },
+    };
+
+    /**
+     * Retrieve the exchange rate for a lending protocol and cToken/pool.
+     *
+     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param a - address of the market's cToken
+     * @param s - ethers provider or signer
+     * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
+     */
+    static getExchangeRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined> {
+
+        return getExchangeRate(p, a, s, { Euler: { ADDRESSES: this.EULER_ADDRESSES } });
+    }
+
+    /**
+     * Retrieve the interest rate (supply APY) for a lending protocol and cToken/pool.
+     *
+     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param a - address of the market's cToken
+     * @param s - ethers provider or signer
+     * @returns the interest rate of the protocol's cToken/pool (as a fraction 1/100%)
+     */
+    static getInterestRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined> {
+
+        return getInterestRate(p, a, s, { Euler: { ADDRESSES: this.EULER_ADDRESSES } });
+    }
 
     protected contract: Contract;
 
@@ -101,6 +150,30 @@ export class MarketPlace {
             vaultTracker: market.vaultTracker,
             maturityRate: market.maturityRate.toString(),
         };
+    }
+
+    /**
+     * Retrieve the exchange rate for a lending protocol and cToken/pool using the connected provider.
+     *
+     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param a - address of the market's cToken
+     * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
+     */
+    getExchangeRate (p: Protocols, a: string): Promise<string | undefined> {
+
+        return (this.constructor as typeof MarketPlace).getExchangeRate(p, a, this.contract.provider);
+    }
+
+    /**
+     * Retrieve the interest rate (supply APY) for a lending protocol and cToken/pool using the connected provider.
+     *
+     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param a - address of the market's cToken
+     * @returns the interest rate of the protocol's cToken/pool (as a fraction 1/100%)
+     */
+    getInterestRate (p: Protocols, a: string): Promise<string | undefined> {
+
+        return (this.constructor as typeof MarketPlace).getInterestRate(p, a, this.contract.provider);
     }
 
     // TODO: this method might not remain here...

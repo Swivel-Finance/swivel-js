@@ -1,8 +1,7 @@
 import { BigNumber, utils } from 'ethers';
 import { Order } from '../types/index.js';
 
-// TODO: rename to ParsedOrder after everything is done... and move to `types/order`
-interface EthersOrder {
+interface ParsedOrder {
     key: Uint8Array;
     protocol: number;
     maker: string;
@@ -16,12 +15,12 @@ interface EthersOrder {
 }
 
 /**
- * // TODO: re-word the escription
- * Converts an {@link Order} into an `ethers.js` specific order.
+ * Parses an {@link Order} and converts the order key to a Uint8Array
+ * and order amounts to BigNumber.
  *
  * @param o - the order to convert
  */
-export const parseOrder = (o: Order): EthersOrder => {
+export const parseOrder = (o: Order): ParsedOrder => {
 
     return {
         key: utils.arrayify(o.key),
