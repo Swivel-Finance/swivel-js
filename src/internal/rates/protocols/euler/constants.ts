@@ -1,4 +1,4 @@
-import { RAY } from '../../helpers/constants.js';
+import { RAY } from '../../helpers/index.js';
 
 /**
  * A minimal subset of Euler's EToken ABI.

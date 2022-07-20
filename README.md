@@ -213,6 +213,8 @@ export async function marketOrderFixed (amount: number): Promise<void> {
 
 ### MarketPlace
 
+#### Create a MarketPlace instance
+
 ```typescript
 import { MarketPlace } from '@swivel-finance/swivel-js';
 import { ethers } from 'ethers';
@@ -226,6 +228,36 @@ const signer = provider.getSigner();
 
 // ...and use the signer to instantiate the MarketPlace contract
 const marketPlace = new MarketPlace(marketPlaceAddress, signer);
+```
+
+#### Get the interest rate (supply APY) of a market
+
+```typescript
+import { MarketPlace } from '@swivel-finance/swivel-js';
+import { ethers } from 'ethers';
+
+// you need the address of the deployed MarketPlace contract
+const marketPlaceAddress = '0x998689650D4d55822b4bDd4B7DB5F596bf6b3570';
+
+// create an ethers provider and signer,...
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+
+// ...and use the signer to instantiate the MarketPlace contract
+const marketPlace = new MarketPlace(marketPlaceAddress, signer);
+
+// you'll need to know the market's protocol (Compound in this example),
+const protocol = Protocols.Compound;
+// ...underlying (USDC in this example),
+const underlying = '0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48'
+// ... and maturity (30/9/2022 in this example)
+const maturity = 1664550000;
+
+// get the market info for a specific market
+const market = await marketPlace.markets(protocol, underlying, maturity);
+
+// get the market's interest rate (supply APY)
+const interestRate = await marketPlace.interestRate(protocol, market.cTokenAddr);
 ```
 
 ### VaultTracker

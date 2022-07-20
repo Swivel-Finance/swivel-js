@@ -51,7 +51,7 @@ export class MarketPlace {
      * @param s - ethers provider or signer
      * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
      */
-    static getExchangeRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined> {
+    static exchangeRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined> {
 
         return getExchangeRate(p, a, s, { Euler: { ADDRESSES: this.EULER_ADDRESSES } });
     }
@@ -64,7 +64,7 @@ export class MarketPlace {
      * @param s - ethers provider or signer
      * @returns the interest rate of the protocol's cToken/pool (as a fraction 1/100%)
      */
-    static getInterestRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined> {
+    static interestRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined> {
 
         return getInterestRate(p, a, s, { Euler: { ADDRESSES: this.EULER_ADDRESSES } });
     }
@@ -159,9 +159,9 @@ export class MarketPlace {
      * @param a - address of the market's cToken
      * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
      */
-    getExchangeRate (p: Protocols, a: string): Promise<string | undefined> {
+    exchangeRate (p: Protocols, a: string): Promise<string | undefined> {
 
-        return (this.constructor as typeof MarketPlace).getExchangeRate(p, a, this.contract.provider);
+        return (this.constructor as typeof MarketPlace).exchangeRate(p, a, this.contract.provider);
     }
 
     /**
@@ -171,9 +171,9 @@ export class MarketPlace {
      * @param a - address of the market's cToken
      * @returns the interest rate of the protocol's cToken/pool (as a fraction 1/100%)
      */
-    getInterestRate (p: Protocols, a: string): Promise<string | undefined> {
+    interestRate (p: Protocols, a: string): Promise<string | undefined> {
 
-        return (this.constructor as typeof MarketPlace).getInterestRate(p, a, this.contract.provider);
+        return (this.constructor as typeof MarketPlace).interestRate(p, a, this.contract.provider);
     }
 
     // TODO: this method might not remain here...
