@@ -28,9 +28,9 @@ Different lending protocols issue different tokens, e.g.
 - ERC-4626: https://eips.ethereum.org/EIPS/eip-4626
 
 Swivel coins the term "Compounding Token" to refer to these tokens in general, emphasizing the notion that these tokens
-accrue (*compound*) interest over time. The mechanics behind each of the different compound tokens might be different,
+accrue (*compound*) interest over time. The mechanics behind each of the different compounding tokens might be different,
 but a common denominator is the idea, that compounding tokens can be exchanged at a later time for the amount of
-underlying lent plus the corresponding amount of accrued interest.
+underlying lent plus a corresponding amount of accrued interest.
 
 One can understand a compounding token as a **share** of the total amount of underlying in a lending protocol's 
 pool/market.
