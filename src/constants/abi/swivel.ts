@@ -16,6 +16,93 @@ export const SWIVEL_ABI = [
         'type': 'constructor',
     },
     {
+        'inputs': [
+
+        ],
+        'name': 'ApproveFailed',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': '',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'name': 'Exception',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'S',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'TransferFailed',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'TransferFromFailed',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'V',
+        'type': 'error',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'token',
+                'type': 'address',
+            },
+        ],
+        'name': 'BlockApproval',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+
+        ],
+        'name': 'BlockFeeChange',
+        'type': 'event',
+    },
+    {
         'anonymous': false,
         'inputs': [
             {
@@ -173,6 +260,38 @@ export const SWIVEL_ABI = [
                 'type': 'uint256',
             },
         ],
+        'name': 'ScheduleApproval',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'hold',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'ScheduleFeeChange',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'token',
+                'type': 'address',
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'hold',
+                'type': 'uint256',
+            },
+        ],
         'name': 'ScheduleWithdrawal',
         'type': 'event',
     },
@@ -288,6 +407,25 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'name': 'approvals',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
                 'internalType': 'address[]',
                 'name': 'u',
                 'type': 'address[]',
@@ -299,6 +437,79 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'approveUnderlying',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 'c',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 't',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'authRedeem',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'e',
+                'type': 'address',
+            },
+        ],
+        'name': 'blockApproval',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'blockFeeChange',
         'outputs': [
             {
                 'internalType': 'bool',
@@ -383,9 +594,9 @@ export const SWIVEL_ABI = [
                         'type': 'uint256',
                     },
                 ],
-                'internalType': 'struct Hash.Order',
+                'internalType': 'struct Hash.Order[]',
                 'name': 'o',
-                'type': 'tuple',
+                'type': 'tuple[]',
             },
             {
                 'components': [
@@ -405,9 +616,9 @@ export const SWIVEL_ABI = [
                         'type': 'bytes32',
                     },
                 ],
-                'internalType': 'struct Sig.Components',
+                'internalType': 'struct Sig.Components[]',
                 'name': 'c',
-                'type': 'tuple',
+                'type': 'tuple[]',
             },
         ],
         'name': 'cancel',
@@ -589,6 +800,21 @@ export const SWIVEL_ABI = [
     },
     {
         'inputs': [
+
+        ],
+        'name': 'feeChange',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
             {
                 'internalType': 'uint256',
                 'name': '',
@@ -756,6 +982,35 @@ export const SWIVEL_ABI = [
                 'type': 'uint256',
             },
         ],
+        'name': 'redeemSwivelVaultInterest',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+        ],
         'name': 'redeemVaultInterest',
         'outputs': [
             {
@@ -809,6 +1064,40 @@ export const SWIVEL_ABI = [
                 'type': 'address',
             },
         ],
+        'name': 'scheduleApproval',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'scheduleFeeChange',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'e',
+                'type': 'address',
+            },
+        ],
         'name': 'scheduleWithdrawal',
         'outputs': [
             {
@@ -842,14 +1131,14 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
-                'internalType': 'uint16',
+                'internalType': 'uint16[]',
                 'name': 'i',
-                'type': 'uint16',
+                'type': 'uint16[]',
             },
             {
-                'internalType': 'uint16',
+                'internalType': 'uint16[]',
                 'name': 'd',
-                'type': 'uint16',
+                'type': 'uint16[]',
             },
         ],
         'name': 'setFee',

@@ -69,32 +69,6 @@ suite('vaulttracker', () => {
         });
     });
 
-    suite('adapterAddr', () => {
-
-        test('unwraps result and accepts transaction overrides', async () => {
-
-            await assertGetter(
-                new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
-                'adapterAddr',
-                '0xadapter',
-                callOverrides,
-            );
-        });
-    });
-
-    suite('adapterAddr', () => {
-
-        test('unwraps result and accepts transaction overrides', async () => {
-
-            await assertGetter(
-                new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
-                'adapterAddr',
-                '0xadapter',
-                callOverrides,
-            );
-        });
-    });
-
     suite('maturity', () => {
 
         // an expected maturity string

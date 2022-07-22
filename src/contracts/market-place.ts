@@ -13,7 +13,6 @@ import { Market, Protocols } from '../types/index.js';
  */
 export type MarketResponse = unknown[] & {
     cTokenAddr: string;
-    adapterAddr: string;
     zcToken: string;
     vaultTracker: string;
     maturityRate: BigNumber;
@@ -138,14 +137,13 @@ export class MarketPlace {
         //   '0xc4a28965e4d852eEeEC492Efbc42d1f92fB741ba',
         //   ...,
         //   cTokenAddr: '0x6D7F0754FFeb405d23C51CE938289d4835bE3b14',
-        //   adapterAddr: '0xc4a28965e4d852eEeEC492Efbc42d1f92fB741ba',
+        //   zcToken: '0xc4a28965e4d852eEeEC492Efbc42d1f92fB741ba',
         //   ...,
         // ]
         const market = await this.contract.functions.markets(p, u, maturity, t) as MarketResponse;
 
         return {
             cTokenAddr: market.cTokenAddr,
-            adapterAddr: market.adapterAddr,
             zcToken: market.zcToken,
             vaultTracker: market.vaultTracker,
             maturityRate: market.maturityRate.toString(),
@@ -176,21 +174,19 @@ export class MarketPlace {
         return (this.constructor as typeof MarketPlace).interestRate(p, a, this.contract.provider);
     }
 
-    // TODO: this method might not remain here...
     /**
-     * Get a market's cToken and adapter address.
+     * Get a market's cToken address.
      *
      * @param p - protocol enum value associated with the market pair
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
-     * @returns a tuple containing the cToken and adapter address
      */
-    async cTokenAndAdapterAddress (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<[string, string]> {
+    async cTokenAddress (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string> {
 
         const maturity = BigNumber.from(m);
 
-        return unwrap<[string, string]>(await this.contract.functions.cTokenAndAdapterAddress(p, u, maturity, t));
+        return unwrap<string>(await this.contract.functions.cTokenAddress(p, u, maturity, t));
     }
 
     /**

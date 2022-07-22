@@ -2,6 +2,11 @@ export const VAULT_TRACKER_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'uint256',
                 'name': 'm',
                 'type': 'uint256',
@@ -9,11 +14,6 @@ export const VAULT_TRACKER_ABI = [
             {
                 'internalType': 'address',
                 'name': 'c',
-                'type': 'address',
-            },
-            {
-                'internalType': 'address',
-                'name': 'a',
                 'type': 'address',
             },
             {
@@ -27,18 +27,41 @@ export const VAULT_TRACKER_ABI = [
     },
     {
         'inputs': [
-
-        ],
-        'name': 'adapterAddr',
-        'outputs': [
+            {
+                'internalType': 'uint8',
+                'name': '',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
             {
                 'internalType': 'address',
                 'name': '',
                 'type': 'address',
             },
         ],
-        'stateMutability': 'view',
-        'type': 'function',
+        'name': 'Exception',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'RATE',
+        'type': 'error',
     },
     {
         'inputs': [
@@ -162,6 +185,21 @@ export const VAULT_TRACKER_ABI = [
                 'internalType': 'uint256',
                 'name': '',
                 'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'protocol',
+        'outputs': [
+            {
+                'internalType': 'uint8',
+                'name': '',
+                'type': 'uint8',
             },
         ],
         'stateMutability': 'view',

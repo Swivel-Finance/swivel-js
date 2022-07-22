@@ -2,9 +2,5 @@
   "ui": "tdd",
   "reporter": "spec",
   "timeout": 6000,
-  "spec": "./build/test/**/*.spec.js",
-  "watch-files": [
-    "./build/src/**/*.js",
-    "./build/test/**/*.js"
-  ]
+  "spec": "./build/test/**/*.spec.js"
 }

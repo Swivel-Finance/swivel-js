@@ -184,6 +184,17 @@ export class Swivel {
     }
 
     /**
+     * Retrieve a token's hold after which an approval can be made.
+     *
+     * @param a - the token address
+     * @param t - optional transaction overrides
+     */
+    async approvals (a: string, t: CallOverrides = {}): Promise<string> {
+
+        return unwrap<BigNumber>(await this.contract.functions.approvals(a, t)).toString();
+    }
+
+    /**
      * Initiate a position on the marketplace by filling signed (exit) orders with respective amounts.
      *
      * @param o - array of swivel orders

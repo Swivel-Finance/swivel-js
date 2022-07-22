@@ -1,10 +1,52 @@
 export const MARKET_PLACE_ABI = [
     {
         'inputs': [
-
+            {
+                'internalType': 'address',
+                'name': 'c',
+                'type': 'address',
+            },
         ],
         'stateMutability': 'nonpayable',
         'type': 'constructor',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': '',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'name': 'Exception',
+        'type': 'error',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'RATE',
+        'type': 'error',
     },
     {
         'anonymous': false,
@@ -403,6 +445,50 @@ export const MARKET_PLACE_ABI = [
             },
             {
                 'internalType': 'address',
+                'name': 'f',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 't',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'authRedeem',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': 'underlyingAmount',
+                'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'address',
                 'name': 't',
                 'type': 'address',
             },
@@ -441,13 +527,8 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
         ],
-        'name': 'cTokenAndAdapterAddress',
+        'name': 'cTokenAddress',
         'outputs': [
-            {
-                'internalType': 'address',
-                'name': '',
-                'type': 'address',
-            },
             {
                 'internalType': 'address',
                 'name': '',
@@ -460,6 +541,11 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'uint256',
                 'name': 'm',
                 'type': 'uint256',
@@ -467,11 +553,6 @@ export const MARKET_PLACE_ABI = [
             {
                 'internalType': 'address',
                 'name': 'c',
-                'type': 'address',
-            },
-            {
-                'internalType': 'address',
-                'name': 'a',
                 'type': 'address',
             },
             {
@@ -494,6 +575,21 @@ export const MARKET_PLACE_ABI = [
             },
         ],
         'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'creator',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
         'type': 'function',
     },
     {
@@ -588,6 +684,30 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'address',
+                'name': 'c',
+                'type': 'address',
+            },
+        ],
+        'name': 'exchangeRate',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
                 'name': '',
                 'type': 'uint8',
             },
@@ -607,11 +727,6 @@ export const MARKET_PLACE_ABI = [
             {
                 'internalType': 'address',
                 'name': 'cTokenAddr',
-                'type': 'address',
-            },
-            {
-                'internalType': 'address',
-                'name': 'adapterAddr',
                 'type': 'address',
             },
             {
@@ -792,6 +907,11 @@ export const MARKET_PLACE_ABI = [
     {
         'inputs': [
             {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
                 'internalType': 'bool',
                 'name': 'b',
                 'type': 'bool',
@@ -810,7 +930,11 @@ export const MARKET_PLACE_ABI = [
     },
     {
         'inputs': [
-
+            {
+                'internalType': 'uint8',
+                'name': '',
+                'type': 'uint8',
+            },
         ],
         'name': 'paused',
         'outputs': [
