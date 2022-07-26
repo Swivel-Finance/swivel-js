@@ -5,8 +5,8 @@ import { BigNumber, CallOverrides, getDefaultProvider, PayableOverrides, utils, 
 import { suite, suiteSetup, test } from 'mocha';
 import { Swivel } from '../../src/contracts/index.js';
 import { parseOrder } from '../../src/helpers/index.js';
-import { Protocols } from '../../src/types/index.js';
-import { ADDRESSES, assertGetter, mockMethod, mockOrder, mockResponse, mockSignature, NETWORK, VERIFYING_CONTRACT } from '../test-helpers/index.js';
+import { Order, Protocols } from '../../src/types/index.js';
+import { ADDRESSES, assertGetter, mockExecutor, mockMethod, mockOrder, mockResponse, mockSignature, NETWORK, VERIFYING_CONTRACT } from '../test-helpers/index.js';
 
 suite('swivel', () => {
 
@@ -60,6 +60,38 @@ suite('swivel', () => {
             assert(typeof signature === 'string');
             assert(signature.length > 0);
             assert(signature.startsWith('0x'));
+        });
+    });
+
+    suite('hashOrder', () => {
+
+        const order: Order = {
+            key: '0xae9c745c42c9e0a03c5ce889a0baa302b8bc59bd02a365c69abf0f003f3a6338',
+            maker: '0x7111F9Aeb2C1b9344EC274780dc9e3806bdc60Ef',
+            protocol: 1,
+            underlying: '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa',
+            maturity: '1660948392',
+            exit: false,
+            vault: false,
+            premium: '5000000000000000000',
+            principal: '100000000000000000000',
+            expiry: '1659565992',
+        };
+
+        test('static method hashes order', () => {
+
+            const hash = Swivel.hashOrder(order);
+
+            assert.strictEqual(hash, '0x03fea52f2ac5168c1be90df9dc40a56b88727fa981e7731eebe669954f515f34');
+        });
+
+        test('instance method hashes order', () => {
+
+            const swivel = new Swivel(VERIFYING_CONTRACT, signer);
+
+            const hash = swivel.hashOrder(order);
+
+            assert.strictEqual(hash, '0x03fea52f2ac5168c1be90df9dc40a56b88727fa981e7731eebe669954f515f34');
         });
     });
 
@@ -254,14 +286,14 @@ suite('swivel', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {
 
-            const orderKey = '0xorderKey';
+            const orderHash = '0xorderHash';
             const expected = true;
 
             const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
             const cancelled = mockMethod<boolean>(swivel, 'cancelled');
             cancelled.resolves([expected]);
 
-            let result = await swivel.cancelled(orderKey);
+            let result = await swivel.cancelled(orderHash);
 
             assert.strictEqual(result, expected);
             assert(cancelled.calledOnce);
@@ -272,12 +304,12 @@ suite('swivel', () => {
 
             let [passedOrderKey, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, orderKey);
+            assert.strictEqual(passedOrderKey, orderHash);
             assert.deepStrictEqual(passedOverrides, {});
 
             // call with transaction overrides
 
-            result = await swivel.cancelled(orderKey, callOverrides);
+            result = await swivel.cancelled(orderHash, callOverrides);
 
             assert.strictEqual(result, expected);
             assert(cancelled.calledTwice);
@@ -288,7 +320,7 @@ suite('swivel', () => {
 
             [passedOrderKey, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, orderKey);
+            assert.strictEqual(passedOrderKey, orderHash);
             assert.deepStrictEqual(passedOverrides, callOverrides);
         });
     });
@@ -297,14 +329,14 @@ suite('swivel', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {
 
-            const orderKey = '0xorderKey';
+            const orderHash = '0xorderHash';
             const expected = '1000000';
 
             const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
             const filled = mockMethod<BigNumber>(swivel, 'filled');
             filled.resolves([BigNumber.from(expected)]);
 
-            let result = await swivel.filled(orderKey);
+            let result = await swivel.filled(orderHash);
 
             assert.strictEqual(result, expected);
             assert(filled.calledOnce);
@@ -315,12 +347,12 @@ suite('swivel', () => {
 
             let [passedOrderKey, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, orderKey);
+            assert.strictEqual(passedOrderKey, orderHash);
             assert.deepStrictEqual(passedOverrides, {});
 
             // call with transaction overrides
 
-            result = await swivel.filled(orderKey, callOverrides);
+            result = await swivel.filled(orderHash, callOverrides);
 
             assert.strictEqual(result, expected);
             assert(filled.calledTwice);
@@ -331,7 +363,7 @@ suite('swivel', () => {
 
             [passedOrderKey, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, orderKey);
+            assert.strictEqual(passedOrderKey, orderHash);
             assert.deepStrictEqual(passedOverrides, callOverrides);
         });
     });
@@ -441,7 +473,7 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(VERIFYING_CONTRACT, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const initiate = mockMethod<TransactionResponse>(swivel, 'initiate');
             const response = mockResponse();
@@ -466,7 +498,7 @@ suite('swivel', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(VERIFYING_CONTRACT, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const initiate = mockMethod<TransactionResponse>(swivel, 'initiate');
             const response = mockResponse();
@@ -509,7 +541,7 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const exit = mockMethod<TransactionResponse>(swivel, 'exit');
             const response = mockResponse();
@@ -534,7 +566,7 @@ suite('swivel', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const exit = mockMethod<TransactionResponse>(swivel, 'exit');
             const response = mockResponse();
@@ -565,13 +597,13 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(VERIFYING_CONTRACT, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const cancel = mockMethod<TransactionResponse>(swivel, 'cancel');
             const response = mockResponse();
             cancel.resolves(response);
 
-            const result = await swivel.cancel(order, signature);
+            const result = await swivel.cancel([order], [signature]);
 
             assert.strictEqual(result.hash, response.hash);
             assert(cancel.calledOnce);
@@ -582,20 +614,20 @@ suite('swivel', () => {
 
             const [passedOrders, passedSignatures, passedOverrides] = args;
 
-            assert.deepStrictEqual(passedOrders, parseOrder(order));
-            assert.deepStrictEqual(passedSignatures, utils.splitSignature(signature));
+            assert.deepStrictEqual(passedOrders, [parseOrder(order)]);
+            assert.deepStrictEqual(passedSignatures, [utils.splitSignature(signature)]);
             assert.deepStrictEqual(passedOverrides, {});
         });
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(VERIFYING_CONTRACT, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const cancel = mockMethod<TransactionResponse>(swivel, 'cancel');
             const response = mockResponse();
             cancel.resolves(response);
 
-            const result = await swivel.cancel(order, signature, payableOverrides);
+            const result = await swivel.cancel([order], [signature], payableOverrides);
 
             assert.strictEqual(result.hash, response.hash);
             assert(cancel.calledOnce);
@@ -606,8 +638,8 @@ suite('swivel', () => {
 
             const [passedOrders, passedSignatures, passedOverrides] = args;
 
-            assert.deepStrictEqual(passedOrders, parseOrder(order));
-            assert.deepStrictEqual(passedSignatures, utils.splitSignature(signature));
+            assert.deepStrictEqual(passedOrders, [parseOrder(order)]);
+            assert.deepStrictEqual(passedSignatures, [utils.splitSignature(signature)]);
             assert.deepStrictEqual(passedOverrides, payableOverrides);
         });
     });
@@ -621,7 +653,7 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const splitUnderlying = mockMethod<TransactionResponse>(swivel, 'splitUnderlying');
             const response = mockResponse();
@@ -647,7 +679,7 @@ suite('swivel', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const splitUnderlying = mockMethod<TransactionResponse>(swivel, 'splitUnderlying');
             const response = mockResponse();
@@ -681,7 +713,7 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const combineTokens = mockMethod<TransactionResponse>(swivel, 'combineTokens');
             const response = mockResponse();
@@ -707,7 +739,7 @@ suite('swivel', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const combineTokens = mockMethod<TransactionResponse>(swivel, 'combineTokens');
             const response = mockResponse();
@@ -741,7 +773,7 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const redeemZcToken = mockMethod<TransactionResponse>(swivel, 'redeemZcToken');
             const response = mockResponse();
@@ -767,7 +799,7 @@ suite('swivel', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const redeemZcToken = mockMethod<TransactionResponse>(swivel, 'redeemZcToken');
             const response = mockResponse();
@@ -800,7 +832,7 @@ suite('swivel', () => {
 
         test('converts arguments', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const redeemVaultInterest = mockMethod<TransactionResponse>(swivel, 'redeemVaultInterest');
             const response = mockResponse();
@@ -825,7 +857,7 @@ suite('swivel', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
+            const swivel = new Swivel(ADDRESSES.SWIVEL, signer, mockExecutor());
 
             const redeemVaultInterest = mockMethod<TransactionResponse>(swivel, 'redeemVaultInterest');
             const response = mockResponse();

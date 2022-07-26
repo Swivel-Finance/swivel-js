@@ -1,10 +1,9 @@
 import { TransactionReceipt, TransactionResponse } from '@ethersproject/abstract-provider';
-import { BigNumber, Contract, ContractFunction } from 'ethers';
+import { BigNumber, Contract, ContractFunction, PayableOverrides } from 'ethers';
 import { SinonStub, stub } from 'sinon';
 import { MarketPlace, Swivel, VaultTracker } from '../../src/contracts/index.js';
-import { Result } from '../../src/helpers/index.js';
-import { Order } from '../../src/types/order.js';
-import { Protocols } from '../../src/types/protocol.js';
+import { Result, TransactionExecutor } from '../../src/helpers/index.js';
+import { Order, Protocols } from '../../src/types/index.js';
 
 /**
  * The HOCs which are allowed to be stubbed.
@@ -127,3 +126,14 @@ export function clone<T = unknown> (o: T): T {
 
     return o;
 }
+
+export const mockExecutor = (): TransactionExecutor => {
+
+    return async (c: Contract, m: string, a: unknown[], t: PayableOverrides = {}, o = false) => {
+
+        // the mocked executor will skip `callStatic` and `estimateGas` during tests and invoke
+        // the mocked method immediately
+
+        return await c.functions[m](...a, t) as TransactionResponse;
+    };
+};

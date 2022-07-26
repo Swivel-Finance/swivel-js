@@ -1,6 +1,6 @@
 {
   "ui": "tdd",
   "reporter": "spec",
-  "timeout": 6000,
+  "timeout": 60000,
   "spec": "./build/test/**/*.spec.js"
 }

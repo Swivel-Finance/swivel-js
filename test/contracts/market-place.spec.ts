@@ -5,7 +5,7 @@ import { BigNumber, CallOverrides, getDefaultProvider, PayableOverrides, utils, 
 import { suite, suiteSetup, test } from 'mocha';
 import { MarketPlace, MarketResponse } from '../../src/contracts/index.js';
 import { Market, Protocols } from '../../src/types/index.js';
-import { ADDRESSES, assertGetter, mockMethod, mockResponse } from '../test-helpers/index.js';
+import { ADDRESSES, assertGetter, mockExecutor, mockMethod, mockResponse } from '../test-helpers/index.js';
 
 suite('marketplace', () => {
 
@@ -218,7 +218,7 @@ suite('marketplace', () => {
 
         test('converts arguments', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const matureMarket = mockMethod<TransactionResponse>(marketplace, 'matureMarket');
             const response = mockResponse();
@@ -243,7 +243,7 @@ suite('marketplace', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const matureMarket = mockMethod<TransactionResponse>(marketplace, 'matureMarket');
             const response = mockResponse();
@@ -277,7 +277,7 @@ suite('marketplace', () => {
 
         test('converts arguments', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const transferVaultNotional = mockMethod<TransactionResponse>(marketplace, 'transferVaultNotional');
             const response = mockResponse();
@@ -304,7 +304,7 @@ suite('marketplace', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const transferVaultNotional = mockMethod<TransactionResponse>(marketplace, 'transferVaultNotional');
             const response = mockResponse();

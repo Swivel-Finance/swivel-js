@@ -143,7 +143,10 @@ export const EXCEPTION = {
     },
 };
 
+
 export type ExceptionCode = keyof typeof EXCEPTION;
+
+export type ExceptionResult = [ExceptionCode, BigNumber, BigNumber, string, string];
 
 /**
  * Interface for custom errors thrown by Swivel's contracts.
@@ -157,42 +160,93 @@ export interface Exception {
 }
 
 /**
- * A custom error class for Swivel contract exceptions.
- *
- * @remarks
- * Takes an {@link Exception} and turns it into a SwivelError instance.
- * Retains the `code` and `data` of the original exception and adds
- * `name` and a formatted and descriptive `message`.
+ * Interface for transaction data attached to ethers errors.
  */
-export class SwivelError extends Error {
-
-    name: string;
-
-    message!: string;
-
-    code: number;
-
-    data: {
-        amount: string;
-        amountExpected: string;
-        address: string;
-        addressExpected: string;
-    };
-
-    constructor (e: Exception) {
-
-        const message = EXCEPTION[e.code]?.message(e);
-        const name = EXCEPTION[e.code]?.name;
-
-        super(message);
-
-        this.name = name;
-        this.code = e.code;
-        this.data = {
-            address: e.address,
-            addressExpected: e.addressExpected,
-            amount: e.amount.toString(),
-            amountExpected: e.amountExpected.toString(),
-        };
-    }
+export interface TransactionDetails {
+    // from address
+    from: string;
+    // to address
+    to: string;
+    // abi encoded contract call
+    data: string;
+    maxPriorityFeePerGas?: BigNumber;
+    maxFeePerGas?: BigNumber;
+    gasLimit?: BigNumber;
 }
+
+/**
+ * Interface for ethers UNPREDICTABLE_GAS_LIMIT error.
+ */
+export interface UnpredictableGasLimitError {
+    reason: string;
+    code: 'UNPREDICTABLE_GAS_LIMIT';
+    error: {
+        // should be 'execution reverted'
+        reason: string;
+        code: 'UNPREDICTABLE_GAS_LIMIT';
+        method: 'estimateGas';
+        transaction: TransactionDetails;
+        error: {
+            // seems to be 'processing response error' for reverts
+            reason: string;
+            // seems to be 'SERVER_ERROR' for reverts
+            code: string;
+            // JSON payload of the error, details available in the error property below
+            body: string;
+            error: {
+                // seems to be 3 for reverts
+                code: number;
+                // this is our encoded `Exception` data
+                data: string;
+            };
+            // JSON payload of the `eth_estimateGas` call
+            requestBody: string;
+            // 'POST'
+            requestMethod: string;
+            // the JSONRPC provider url, i.e. https://rinkeby.infura.io/v3/<API_KEY>
+            url: string;
+        };
+    };
+}
+
+/**
+ * Interface for ethers CALL_EXCEPTION error during `contract.callStatic` calls.
+ */
+export interface StaticCallError {
+    code: 'CALL_EXCEPTION';
+    // contract address
+    address: string;
+    // signature of the failed contract call
+    method: string;
+    // abi encoded contract call
+    data: string;
+    // parsed/decoded contract call arguments
+    args: unknown[];
+    // signature of the (custom) error
+    errorSignature: string;
+    // interface name of the error (`Exception` in case of Swivel v3)
+    errorName: string;
+    // parsed/decoded arguments passed to the (custom) error
+    errorArgs: unknown[];
+    transaction: TransactionDetails;
+}
+
+/**
+ * A typeguard for {@link UnpredictableGasLimitError}s.
+ */
+export const isUnpredictableGasLimitError = (error: unknown): error is UnpredictableGasLimitError => {
+
+    return (error as UnpredictableGasLimitError).code === 'UNPREDICTABLE_GAS_LIMIT'
+        && (error as UnpredictableGasLimitError).error.code === 'UNPREDICTABLE_GAS_LIMIT'
+        && (error as UnpredictableGasLimitError).error.method === 'estimateGas';
+};
+
+/**
+ * A typeguard for {@link StaticCallError}s.
+ */
+export const isStaticCallError = (error: unknown): error is StaticCallError => {
+
+    return (error as StaticCallError).code === 'CALL_EXCEPTION'
+        && (error as StaticCallError).errorName === 'Exception'
+        && (error as StaticCallError).errorArgs?.length > 0;
+};

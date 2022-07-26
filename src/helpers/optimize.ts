@@ -12,7 +12,7 @@ const GAS_LIMIT_DELTA = BigNumber.from('26000');
  * @param e - estimated gas for a contract call
  * @returns estimated gas plus a predetermined buffer to prevent out-of-gas errors
  */
-export const gasLimit = (e: BigNumber): BigNumber => {
+export const addGasLimitAdjustment = (e: BigNumber): BigNumber => {
 
     return e.add(GAS_LIMIT_DELTA);
 };
@@ -20,13 +20,18 @@ export const gasLimit = (e: BigNumber): BigNumber => {
 /**
  * Creates a {@link PayableOverrides} object with an optimized gas limit.
  *
- * @param t - transaction overrides provided by the user
  * @param c - contract instance
  * @param m - method name on the contract
  * @param a - arguments for the contract method call
+ * @param t - optional transaction overrides provided by the user
  * @returns a {@link PayableOverrides} object with an optimized gas limit for the specified call
  */
-export const optimizeGas = async (t: PayableOverrides, c: Contract, m: string, ...a: unknown[]): Promise<PayableOverrides> => {
+export const optimizeGas = async (
+    c: Contract,
+    m: string,
+    a: unknown[],
+    t: PayableOverrides = {},
+): Promise<PayableOverrides> => {
 
     const options = { ...t };
 
@@ -36,16 +41,11 @@ export const optimizeGas = async (t: PayableOverrides, c: Contract, m: string, .
         return options;
     }
 
-    try {
+    // if `estimateGas` fails, we don't catch the error, as we want to
+    // extract custom error data from the UNPREDICTABLE_GAS_LIMIT error
+    const estimate = await c.estimateGas[m](...a, t);
 
-        const estimate = await c.estimateGas[m](...a, t);
-
-        options.gasLimit = gasLimit(estimate);
-
-    } catch (error) {
-
-        // ignore failure to estimate gas: in this case we let ethers use the default gas options
-    }
+    options.gasLimit = addGasLimitAdjustment(estimate);
 
     return options;
 };

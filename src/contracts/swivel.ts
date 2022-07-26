@@ -1,9 +1,9 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
 import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
-import { SignatureLike } from '@ethersproject/bytes';
+import { BytesLike, SignatureLike } from '@ethersproject/bytes';
 import { BigNumber, BigNumberish, CallOverrides, Contract, PayableOverrides, utils } from 'ethers';
-import { SWIVEL_ABI, TYPES } from '../constants/index.js';
-import { domain, optimizeGas, parseOrder, unwrap } from '../helpers/index.js';
+import { ORDER_TYPEHASH, SWIVEL_ABI, TYPES } from '../constants/index.js';
+import { domain, executeTransaction, parseOrder, TransactionExecutor, unwrap } from '../helpers/index.js';
 import { Order, Protocols } from '../types/index.js';
 
 export class Swivel {
@@ -26,7 +26,43 @@ export class Swivel {
         return (s as unknown as TypedDataSigner)._signTypedData(domain(c, a), { Order: TYPES.Order }, o);
     }
 
+    /**
+     * Create an order hash.
+     *
+     * @remarks
+     * An order hash is similar to an EIP-712 TypedData hash, however it does not include
+     * the domain data and is not signed. It does however include the type hash of the
+     * data which is hashed as the first `bytes32` value.
+     *
+     * @param o - order to hash
+     */
+    static hashOrder (o: Order): string {
+
+        const encoded = utils.defaultAbiCoder.encode(
+            // the first type is the `bytes32` type hash, followed by the order property types
+            ['bytes32'].concat(TYPES['Order'].map(type => type.type)),
+            // the order of these properties is important (coincides with the order of the types)
+            [
+                ORDER_TYPEHASH,
+                o.key,
+                o.protocol,
+                o.maker,
+                o.underlying,
+                o.vault,
+                o.exit,
+                o.principal,
+                o.premium,
+                o.maturity,
+                o.expiry,
+            ],
+        );
+
+        return utils.keccak256(encoded);
+    }
+
     protected contract: Contract;
+
+    protected executor: TransactionExecutor;
 
     /**
      * Get the contract address.
@@ -41,10 +77,12 @@ export class Swivel {
      *
      * @param a - address of the deployed Swivel contract
      * @param s - ethers signer (a signer is needed for write methods and signing orders)
+     * @param e - a {@link TransactionExecutor} (can be swapped out, e.g. during testing)
      */
-    constructor (a: string, s: Signer) {
+    constructor (a: string, s: Signer, e: TransactionExecutor = executeTransaction) {
 
         this.contract = new Contract(a, SWIVEL_ABI, s);
+        this.executor = e;
     }
 
     /**
@@ -153,23 +191,23 @@ export class Swivel {
     /**
      * Check if an order was cancelled.
      *
-     * @param k - the key of the order
+     * @param h - the hash of the order
      * @param t - optional transaction overrides
      */
-    async cancelled (k: string, t: CallOverrides = {}): Promise<boolean> {
+    async cancelled (h: BytesLike, t: CallOverrides = {}): Promise<boolean> {
 
-        return unwrap<boolean>(await this.contract.functions.cancelled(k, t));
+        return unwrap<boolean>(await this.contract.functions.cancelled(h, t));
     }
 
     /**
      * Retrieve an order's filled volume.
      *
-     * @param k - the key of the order
+     * @param h - the hash of the order
      * @param t - optional transaction overrides
      */
-    async filled (k: string, t: CallOverrides = {}): Promise<string> {
+    async filled (h: BytesLike, t: CallOverrides = {}): Promise<string> {
 
-        return unwrap<BigNumber>(await this.contract.functions.filled(k, t)).toString();
+        return unwrap<BigNumber>(await this.contract.functions.filled(h, t)).toString();
     }
 
     /**
@@ -208,9 +246,7 @@ export class Swivel {
         const amounts = a.map(amount => BigNumber.from(amount));
         const signatures = s.map(signature => utils.splitSignature(signature));
 
-        const options = await optimizeGas(t, this.contract, 'initiate', orders, amounts, signatures);
-
-        return await this.contract.functions.initiate(orders, amounts, signatures, options) as TransactionResponse;
+        return await this.executor(this.contract, 'initiate', [orders, amounts, signatures], t, true);
     }
 
     /**
@@ -227,24 +263,22 @@ export class Swivel {
         const amounts = a.map(amount => BigNumber.from(amount));
         const signatures = s.map(signature => utils.splitSignature(signature));
 
-        const options = await optimizeGas(t, this.contract, 'exit', orders, amounts, signatures);
-
-        return await this.contract.functions.exit(orders, amounts, signatures, options) as TransactionResponse;
+        return await this.executor(this.contract, 'exit', [orders, amounts, signatures], t, true);
     }
 
     /**
      * Cancel an order.
      *
-     * @param o - swivel order
-     * @param s - valid ECDSA signature
+     * @param o - array of swivel orders
+     * @param s - array of valid ECDSA signatures relative to passed orders
      * @param t - optional transaction overrides
      */
-    async cancel (o: Order, s: SignatureLike, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async cancel (o: Order[], s: SignatureLike[], t: PayableOverrides = {}): Promise<TransactionResponse> {
 
-        const order = parseOrder(o);
-        const signature = utils.splitSignature(s);
+        const orders = o.map(order => parseOrder(order));
+        const signatures = s.map(signature => utils.splitSignature(signature));
 
-        return await this.contract.functions.cancel(order, signature, t) as TransactionResponse;
+        return await this.executor(this.contract, 'cancel', [orders, signatures], t);
     }
 
     /**
@@ -261,9 +295,7 @@ export class Swivel {
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
 
-        const options = await optimizeGas(t, this.contract, 'splitUnderlying', p, u, maturity, amount);
-
-        return await this.contract.functions.splitUnderlying(p, u, maturity, amount, options) as TransactionResponse;
+        return await this.executor(this.contract, 'splitUnderlying', [p, u, maturity, amount], t, true);
     }
 
     /**
@@ -280,9 +312,7 @@ export class Swivel {
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
 
-        const options = await optimizeGas(t, this.contract, 'combineTokens', p, u, maturity, amount);
-
-        return await this.contract.functions.combineTokens(p, u, maturity, amount, options) as TransactionResponse;
+        return await this.executor(this.contract, 'combineTokens', [p, u, maturity, amount], t, true);
     }
 
     /**
@@ -299,7 +329,7 @@ export class Swivel {
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
 
-        return await this.contract.functions.redeemZcToken(p, u, maturity, amount, t) as TransactionResponse;
+        return await this.executor(this.contract, 'redeemZcToken', [p, u, maturity, amount], t);
     }
 
     /**
@@ -314,9 +344,7 @@ export class Swivel {
 
         const maturity = BigNumber.from(m);
 
-        const options = await optimizeGas(t, this.contract, 'redeemVaultInterest', p, u, maturity);
-
-        return await this.contract.functions.redeemVaultInterest(p, u, maturity, options) as TransactionResponse;
+        return await this.executor(this.contract, 'redeemVaultInterest', [p, u, maturity], t, true);
     }
 
     /**
@@ -341,5 +369,15 @@ export class Swivel {
         const adddress = this.address;
 
         return (this.constructor as typeof Swivel).signOrder(o, signer, adddress, chain);
+    }
+
+    /**
+     * Create an order hash.
+     *
+     * @param o - order to hash
+     */
+    hashOrder (o: Order): string {
+
+        return (this.constructor as typeof Swivel).hashOrder(o);
     }
 }

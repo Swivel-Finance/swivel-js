@@ -2,7 +2,7 @@ import { Provider, TransactionResponse } from '@ethersproject/abstract-provider'
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber, BigNumberish, CallOverrides, Contract, PayableOverrides } from 'ethers';
 import { MARKET_PLACE_ABI } from '../constants/index.js';
-import { optimizeGas, unwrap } from '../helpers/index.js';
+import { executeTransaction, TransactionExecutor, unwrap } from '../helpers/index.js';
 import { getExchangeRate, getInterestRate } from '../internal/index.js';
 import { Market, Protocols } from '../types/index.js';
 
@@ -70,6 +70,8 @@ export class MarketPlace {
 
     protected contract: Contract;
 
+    protected executor: TransactionExecutor;
+
     /**
      * Get the contract address.
      */
@@ -83,10 +85,12 @@ export class MarketPlace {
      *
      * @param a - address of the deployed MarketPlace contract
      * @param s - ethers provider or signer (a signer is needed for write methods)
+     * @param e - a {@link TransactionExecutor} (can be swapped out, e.g. during testing)
      */
-    constructor (a: string, s: Provider | Signer) {
+    constructor (a: string, s: Provider | Signer, e: TransactionExecutor = executeTransaction) {
 
         this.contract = new Contract(a, MARKET_PLACE_ABI, s);
+        this.executor = e;
     }
 
     /**
@@ -201,7 +205,7 @@ export class MarketPlace {
 
         const maturity = BigNumber.from(m);
 
-        return await this.contract.functions.matureMarket(p, u, maturity, t) as TransactionResponse;
+        return await this.executor(this.contract, 'matureMarket', [p, u, maturity], t);
     }
 
     /**
@@ -219,8 +223,6 @@ export class MarketPlace {
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
 
-        const options = await optimizeGas(t, this.contract, 'transferVaultNotional', p, u, maturity, r, amount);
-
-        return await this.contract.functions.transferVaultNotional(p, u, maturity, r, amount, options) as TransactionResponse;
+        return await this.executor(this.contract, 'transferVaultNotional', [p, u, maturity, r, amount], t, true);
     }
 }

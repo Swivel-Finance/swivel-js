@@ -1,5 +1,4 @@
 export * from './abi/index.js';
-export * from './error/index.js';
 export * from './eip-712.js';
 
 export const DAYS_PER_YEAR = 365;
