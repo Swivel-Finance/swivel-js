@@ -93,16 +93,6 @@ export class VaultTracker {
     }
 
     /**
-     * Get the compounding adapter address.
-     *
-     * @param t - optional transaction overrides
-     */
-    async adapterAddr (t: CallOverrides = {}): Promise<string> {
-
-        return unwrap<string>(await this.contract.functions.adapterAddr(t));
-    }
-
-    /**
      * Retrieve the vault for a specific owner.
      *
      * @param o - the owner address

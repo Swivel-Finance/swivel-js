@@ -113,3 +113,6 @@ dist
 
 # Idea configuration files
 .idea
+
+# live test files
+test/live/

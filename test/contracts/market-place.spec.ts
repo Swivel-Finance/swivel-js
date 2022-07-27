@@ -5,7 +5,7 @@ import { BigNumber, CallOverrides, getDefaultProvider, PayableOverrides, utils, 
 import { suite, suiteSetup, test } from 'mocha';
 import { MarketPlace, MarketResponse } from '../../src/contracts/index.js';
 import { Market, Protocols } from '../../src/types/index.js';
-import { ADDRESSES, assertGetter, mockMethod, mockResponse } from '../test-helpers/index.js';
+import { ADDRESSES, assertGetter, mockExecutor, mockMethod, mockResponse } from '../test-helpers/index.js';
 
 suite('marketplace', () => {
 
@@ -86,7 +86,6 @@ suite('marketplace', () => {
         // a mocked market response
         const mockResult = {
             cTokenAddr: '0xcToken',
-            adapterAddr: '0xadapter',
             zcToken: '0xzcToken',
             vaultTracker: '0xvaultTracker',
             maturityRate: BigNumber.from(1),
@@ -95,7 +94,6 @@ suite('marketplace', () => {
         // an expected market result
         const expected: Market = {
             cTokenAddr: '0xcToken',
-            adapterAddr: '0xadapter',
             zcToken: '0xzcToken',
             vaultTracker: '0xvaultTracker',
             maturityRate: '1',
@@ -154,33 +152,28 @@ suite('marketplace', () => {
         });
     });
 
-    suite('cTokenAndAdapterAddress', () => {
+    suite('cTokenAddress', () => {
 
         const protocol = Protocols.Compound;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
 
         // an expected tuple result
-        const expected = [
-            '0xcToken',
-            '0xadapter',
-        ] as const;
+        const expected = '0xcToken';
 
         test('converts arguments, unwraps and converts result', async () => {
 
             const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
 
-            // cTokenAndAdapterAddress returns a tuple, so ethers will return a tuple
-            // we create a mock result with a tuple and assert the HOC converts it
-            const cTokenAndAdapterAddress = mockMethod<[string, string]>(marketplace, 'cTokenAndAdapterAddress');
-            cTokenAndAdapterAddress.resolves(expected);
+            const cTokenAddress = mockMethod<string>(marketplace, 'cTokenAddress');
+            cTokenAddress.resolves([expected]);
 
-            const result = await marketplace.cTokenAndAdapterAddress(protocol, underlying, maturity);
+            const result = await marketplace.cTokenAddress(protocol, underlying, maturity);
 
             assert.deepStrictEqual(result, expected);
-            assert(cTokenAndAdapterAddress.calledOnce);
+            assert(cTokenAddress.calledOnce);
 
-            const args = cTokenAndAdapterAddress.getCall(0).args;
+            const args = cTokenAddress.getCall(0).args;
 
             assert.strictEqual(args.length, 4);
 
@@ -196,17 +189,15 @@ suite('marketplace', () => {
 
             const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
 
-            // cTokenAndAdapterAddress returns a struct, so ethers will return a struct
-            // we create a mock result with a MarketResponse and assert the HOC converts it to Market
-            const cTokenAndAdapterAddress = mockMethod<[string, string]>(marketplace, 'cTokenAndAdapterAddress');
-            cTokenAndAdapterAddress.resolves(expected);
+            const cTokenAddress = mockMethod<string>(marketplace, 'cTokenAddress');
+            cTokenAddress.resolves([expected]);
 
-            const result = await marketplace.cTokenAndAdapterAddress(protocol, underlying, maturity, callOverrides);
+            const result = await marketplace.cTokenAddress(protocol, underlying, maturity, callOverrides);
 
             assert.deepStrictEqual(result, expected);
-            assert(cTokenAndAdapterAddress.calledOnce);
+            assert(cTokenAddress.calledOnce);
 
-            const args = cTokenAndAdapterAddress.getCall(0).args;
+            const args = cTokenAddress.getCall(0).args;
 
             assert.strictEqual(args.length, 4);
 
@@ -227,7 +218,7 @@ suite('marketplace', () => {
 
         test('converts arguments', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const matureMarket = mockMethod<TransactionResponse>(marketplace, 'matureMarket');
             const response = mockResponse();
@@ -252,7 +243,7 @@ suite('marketplace', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const matureMarket = mockMethod<TransactionResponse>(marketplace, 'matureMarket');
             const response = mockResponse();
@@ -286,7 +277,7 @@ suite('marketplace', () => {
 
         test('converts arguments', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const transferVaultNotional = mockMethod<TransactionResponse>(marketplace, 'transferVaultNotional');
             const response = mockResponse();
@@ -313,7 +304,7 @@ suite('marketplace', () => {
 
         test('accepts transaction overrides', async () => {
 
-            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer);
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, signer, mockExecutor());
 
             const transferVaultNotional = mockMethod<TransactionResponse>(marketplace, 'transferVaultNotional');
             const response = mockResponse();

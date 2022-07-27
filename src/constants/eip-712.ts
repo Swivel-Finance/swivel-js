@@ -1,4 +1,5 @@
 import { TypedDataField } from '@ethersproject/abstract-signer';
+import { utils } from 'ethers';
 
 /**
  * Swivel domain for EIP-712 signing.
@@ -77,3 +78,13 @@ export const TYPES: Record<string, TypedDataField[]> = {
         },
     ],
 };
+
+/**
+ * The order struct abi.
+ */
+export const ORDER_ABI = `Order(${ TYPES['Order'].map(type => `${ type.type } ${ type.name }`).join(',') })`;
+
+/**
+ * The order type hash (a keccack hash of the order struct abi).
+ */
+export const ORDER_TYPEHASH = utils.keccak256(utils.toUtf8Bytes(ORDER_ABI));

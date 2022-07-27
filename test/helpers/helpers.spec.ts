@@ -3,7 +3,7 @@ import { TypedDataDomain } from '@ethersproject/abstract-signer';
 import { BigNumber, utils } from 'ethers';
 import { suite, test } from 'mocha';
 import { DOMAIN_NAME, DOMAIN_VERSION } from '../../src/constants/index.js';
-import { domain, gasLimit, parseOrder, unwrap } from '../../src/helpers/index.js';
+import { addGasLimitAdjustment, domain, parseOrder, unwrap } from '../../src/helpers/index.js';
 import { mockOrder, NETWORK, VERIFYING_CONTRACT } from '../test-helpers/index.js';
 
 suite('helpers', () => {
@@ -26,12 +26,12 @@ suite('helpers', () => {
         });
     });
 
-    suite('gas', () => {
+    suite('optimize', () => {
 
         test('calculates a correct gas limit', () => {
 
             const estimated = BigNumber.from('400000');
-            const limit = gasLimit(estimated);
+            const limit = addGasLimitAdjustment(estimated);
 
             assert.strictEqual(limit._isBigNumber, true, 'should create a BigNumber instance');
             assert.strictEqual(limit.gt(estimated), true, 'the limit should be greater than the estimate');
