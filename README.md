@@ -291,6 +291,71 @@ const vaultAddress = market.vaultTracker;
 const vaultTracker = new VaultTracker(vaultAddress, signer);
 ```
 
+### Error Handling
+
+The Swivel protocol uses [solidity custom errors](https://blog.soliditylang.org/2021/04/21/custom-errors/) throughout to provide additional error context to consumers through error parameters. Swivel relies on a single custom error interface to do so:
+
+```solidity
+error Exception(uint8 code, uint256 amountReceived, uint256 amountExpected, address addressReceived, address addressExpected);
+```
+
+Each error has a unique `code` and, depending on the `code`, the `amount` and `address` parameters will be set to provide relevant context to the error instance.
+
+`swivel-js` provides helpers to easily extract custom error data from failed transactions, as well as a mapping of `Exception` codes to human-readable error names and fully formatted error messages. The easiest way to handle custom errors using `swivel-js` is by using the `parseSwivelError` method:
+
+```typescript
+import { parseSwivelError, Swivel } from '@swivel-finance/swivel-js';
+import { ethers } from 'ethers';
+
+// you need the address of the deployed swivel contract on the connected network
+const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
+
+// create an ethers provider and signer,...
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+
+// ...and use the signer to instantiate the Swivel contract
+const swivel = new Swivel(swivelAddress, signer);
+
+// assume you have an order and its signature...
+const order = {...};
+const signature = '...';
+
+// ...and you'd like to fill the order with 100 underlying
+const amount = ethers.utils.parseUnits('100', 18);
+
+// use a try/catch block around your transaction
+try {
+
+    const tx = await swivel.initiate([order], [amount], [signature]);
+
+    const receipt = await tx.wait();
+
+} catch (error) {
+
+    // if the transaction fails, you will receive an ethers error which
+    // will usually be a `CALL_EXCEPTION` or `UNPREDICTABLE_GAS_LIMIT`
+    
+    // regardless of the ethers error, you can pass it to the 
+    // `parseSwivelError` method, which will extract the custom error
+    // data (if it is available) and create a `SwivelError` instance,
+    // populating it with a human-readable error name and formatted error message
+    // if the ethers error does not contain any custom error data,
+    // `parseSwivelError` will return `undefined`
+    const swivelError = parseSwivelError(error);
+
+    if (swivelError) {
+
+        // you can notify users with a useful error message
+        alert(swivelError.message);
+    
+    } else {
+
+        // something else went wrong, you'll need to handle the ethers error
+    }
+}
+```
+
 ## Deployed Contract Addresses
 To connect a Swivel or MarketPlace instance to the deployed contract on the Ethereum network, you'll need to know the contract address. You can find the currently deployed addresses here: https://github.com/Swivel-Finance/swivel#current-deployments
 

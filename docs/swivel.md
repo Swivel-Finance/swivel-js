@@ -416,6 +416,86 @@ const signature = await swivel.signOrder(order);
 
 
 
+## hashOrder
+
+Allows a user to create an unsigned order hash.
+
+Order hashes are used to retrieve the state of orders from the Swivel contract, e.g. to check if an order is cancelled or to check the fill amount of an order, you will need its hash.
+
+The Swivel smart contract wrapper provides 2 ways to hash an order:
+- as a static method of the `Swivel` class
+- as a method of a `Swivel` instance
+
+In both cases (static or instance method) the method signature is identical.
+
+### Signature
+
+```typescript
+static hashOrder (o: Order): string;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|o|`Order`|An order object to hash.|
+
+### Signature
+
+```typescript
+hashOrder (o: Order): string;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|o|`Order`|An order object to hash.|
+
+### Returns
+
+The order hash.
+
+### Example
+
+```typescript
+import { Swivel } from '@swivel-finance/swivel-js';
+import { ethers, utils } from 'ethers';
+
+// you need the address of the deployed swivel contract on that network
+const swivelAddress = '0x3b983B701406010866bD68331aAed374fb9f50C9';
+
+// create an ethers provider and signer,...
+const provider = new ethers.providers.Web3Provider(window.ethereum);
+const signer = provider.getSigner();
+
+// ...and use the signer to instantiate the Swivel contract
+const swivel = new Swivel(swivelAddress, signer);
+
+// assuming you have an order (which you created or retrieved from the Swivel API)
+const order = {
+    key: '0xae9c745c42c9e0a03c5ce889a0baa302b8bc59bd02a365c69abf0f003f3a6338',
+    maker: '0xsomeMakerAddress',
+    protocol: 1,
+    underlying: '0x5592EC0cfb4dbc12D3aB100b257153436a1f0FEa',
+    maturity: '1660948392',
+    exit: false,
+    vault: false,
+    premium: '5000000000000000000',
+    principal: '100000000000000000000',
+    expiry: '1659565992',
+};
+
+// you can retrieve the order's hash as follows
+const hash = swivel.hashOrder(order);
+
+// you can use the hash to check the state of the order
+const cancelled = await swivel.cancelled(hash);
+const filled = await swivel.filled(hash);
+```
+
+
+
 ## cancelled
 
 Allows a user to check if an order was cancelled.
@@ -423,14 +503,14 @@ Allows a user to check if an order was cancelled.
 ### Signature
 
 ```typescript
-cancelled (k: string, t: CallOverrides = {}): Promise<boolean>;
+cancelled (h: BytesLike, t: CallOverrides = {}): Promise<boolean>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|k|`string`|The key of the order to check.|
+|h|`BytesLike`|The hash of the order to check.|
 |t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
@@ -446,14 +526,14 @@ Allows a user to retrieve an order's filled volume.
 ### Signature
 
 ```typescript
-filled (k: string, t: CallOverrides = {}): Promise<string>;
+filled (h: BytesLike, t: CallOverrides = {}): Promise<string>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|k|`string`|The key of the order to check.|
+|h|`BytesLike`|The hash of the order to check.|
 |t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
@@ -484,6 +564,31 @@ withdrawals (a: string, t: CallOverrides = {}): Promise<string>;
 ### Returns
 
 A promise that resolves with the token's hold timestamp if the contract call succeeds and rejects otherwise. A hold timestamp of `'0'` indicates that no withdrawal is scheduled.
+
+
+
+## approvals
+
+Allows a user to retrieve a token's approval hold.
+
+When a token approval is scheduled, a timestamp is generated using the current time plus the `HOLD` time and stored in the `approvals` map using the token address as key. This map lets a user access these scheduled approval "holds" per token address.
+
+### Signature
+
+```typescript
+approvals (a: string, t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|a|`string`|The token address to check.|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the token's hold timestamp if the contract call succeeds and rejects otherwise. A hold timestamp of `'0'` indicates that no approval is scheduled.
 
 
 
@@ -622,22 +727,22 @@ A promise that resolves with an ethers `TransactionResponse` if the contract cal
 
 ## cancel
 
-Allows a user to cancel their order.
+Allows a user to cancel their order(s).
 
 Signatures can be supplied as `string` (signature hash), `Signature` (object with R, S, V components) or `number[]` (byte arrays).
 
 ### Signature
 
 ```typescript
-cancel (o: Order, s: SignatureLike, t: PayableOverrides = {}): Promise<TransactionResponse>;
+cancel (o: Order[], s: SignatureLike[], t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|o|`Order`|An order object to be cancelled.|
-|s|`SignatureLike`|The full 132 byte ECDSA signature associated with the order.|
+|o|`Order[]`|An array of order objects to be cancelled.|
+|s|`SignatureLike[]`|An array of valid 132 byte ECDSA signatures relative to  the orders.|
 |t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns

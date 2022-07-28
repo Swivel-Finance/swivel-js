@@ -56,8 +56,8 @@ In most cases, users are less interested in the current exchange rate of a lendi
 projected annual percentage yield (APY) of a lending protocol, as this let's us compare the projected yield of a 
 lending protocol using a normalized and more familiar metric.
 
-A protocol's interest rate can usually be calculated from its exchange rate, by compounding the generated interest over
-the duration of a year. In addition, any protocol fees are subtracted from the result to obtain a clear net APY.
+A protocol's interest rate represents the compounded annual percentage yield, minus any protocol fees, to obtain a 
+clear net APY.
 
 Swivel provides the interest rates for each integrated protocol as a floating point number, normalized as percentage.
 
