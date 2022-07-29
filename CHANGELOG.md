@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-next.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.4...v3.0.0-next.0) (2022-07-29)
+
+
+### Features
+
+* add `TransactionExecutor` for error handling ([f400ce9](https://github.com/Swivel-Finance/swivel-js/commit/f400ce9e2b49b8faba5a3883344e31a41836a396))
+* add support for Swivel Exceptions ([80c4f5a](https://github.com/Swivel-Finance/swivel-js/commit/80c4f5a0fe02559a9e208104756563469b13a83d))
+* get exchangeRate and interestRate from MarketPlace HOC ([50addf3](https://github.com/Swivel-Finance/swivel-js/commit/50addf30fbc4d35841ee57cc533b6792d1fb7769))
+* support v3 of the swivel protocol ([d20238a](https://github.com/Swivel-Finance/swivel-js/commit/d20238ac2d7c9e07c221cbbb7a8aeecec70ec9d7))
+
 ### [2.2.4](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.3...v2.2.4) (2022-01-25)
 
 
