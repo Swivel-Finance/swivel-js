@@ -282,18 +282,18 @@ export interface StaticCallError {
 /**
  * A typeguard for {@link UnpredictableGasLimitError}s.
  */
-export const isUnpredictableGasLimitError = (error: unknown): error is UnpredictableGasLimitError => {
+export const isUnpredictableGasLimitError = (e: unknown): e is UnpredictableGasLimitError => {
 
-    return (error as UnpredictableGasLimitError).code === 'UNPREDICTABLE_GAS_LIMIT'
-        && !!(error as UnpredictableGasLimitError).error;
+    return (e as UnpredictableGasLimitError).code === 'UNPREDICTABLE_GAS_LIMIT'
+        && !!(e as UnpredictableGasLimitError).error;
 };
 
 /**
  * A typeguard for {@link StaticCallError}s.
  */
-export const isStaticCallError = (error: unknown): error is StaticCallError => {
+export const isStaticCallError = (e: unknown): e is StaticCallError => {
 
-    return (error as StaticCallError).code === 'CALL_EXCEPTION'
-        && (error as StaticCallError).errorName === 'Exception'
-        && (error as StaticCallError).errorArgs?.length > 0;
+    return (e as StaticCallError).code === 'CALL_EXCEPTION'
+        && (e as StaticCallError).errorName === 'Exception'
+        && (e as StaticCallError).errorArgs?.length > 0;
 };
