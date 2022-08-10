@@ -129,6 +129,7 @@ export function clone<T = unknown> (o: T): T {
 
 export const mockExecutor = (): TransactionExecutor => {
 
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     return async (c: Contract, m: string, a: unknown[], t: PayableOverrides = {}, o = false) => {
 
         // the mocked executor will skip `callStatic` and `estimateGas` during tests and invoke

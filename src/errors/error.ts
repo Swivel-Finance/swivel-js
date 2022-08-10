@@ -45,14 +45,14 @@ export class SwivelError extends Error {
 /**
  * Parses the custom error data from an `UNPREDICTABLE_GAS_LIMIT` or `CALL_EXCEPTION` error.
  *
- * @param error - an ethers error/rejection reason that may contain custom error data
- * @returns a {@link SwivelError} if the error contains custom error data, `undefined` otherwise
+ * @param errorOrData - an ethers error/rejection reason that may contain custom error data or a string representing the abi-encoded exception data
+ * @returns a {@link SwivelError} if `errorOrData` contains custom error data, `undefined` otherwise
  *
  * @example
  */
-export const parseSwivelError = (error: unknown): SwivelError | undefined => {
+export const parseSwivelError = (errorOrData: unknown): SwivelError | undefined => {
 
-    const exception = parseException(error);
+    const exception = parseException(errorOrData);
 
     if (exception) {
 

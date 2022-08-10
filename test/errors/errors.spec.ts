@@ -1,19 +1,19 @@
 import assert from 'assert';
 import { BigNumber } from 'ethers';
 import { suite, test } from 'mocha';
-import { Exception, EXCEPTION, parseSwivelError, SwivelError } from '../../src/index.js';
+import { Exception, EXCEPTION, parseSwivelError, StaticCallError, SwivelError, TransactionDetails, UnpredictableGasLimitError } from '../../src/index.js';
 
 suite('errors', () => {
 
     // a subset of an ethers `UNPREDICTABLE_GAS_LIMIT` error
-    const UNPREDICTABLE_GAS_LIMIT_ERROR = {
+    const UNPREDICTABLE_GAS_LIMIT_ERROR: UnpredictableGasLimitError = {
         reason: 'cannot estimate gas; transaction may fail or may require manual gas limit',
         code: 'UNPREDICTABLE_GAS_LIMIT',
         error: {
             reason: 'execution reverted',
             code: 'UNPREDICTABLE_GAS_LIMIT',
             method: 'estimateGas',
-            transaction: {},
+            transaction: {} as TransactionDetails,
             error: {
                 reason: 'processing response error',
                 code: 'SERVER_ERROR',
@@ -29,9 +29,25 @@ suite('errors', () => {
         },
     };
 
+    // a subset of a MetaMask `UNPREDICTABLE_GAS_LIMIT` error
+    const METAMASK_UNPREDICTABLE_GAS_LIMIT_ERROR: UnpredictableGasLimitError = {
+        reason: 'cannot estimate gas; transaction may fail or may require manual gas limit',
+        code: 'UNPREDICTABLE_GAS_LIMIT',
+        error: {
+            code: -32603,
+            message: 'execution reverted',
+            data: {
+                originalError: {
+                    code: 3,
+                    message: 'execution reverted',
+                    data: '0x6d4c6c89000000000000000000000000000000000000000000000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a957abb7d32e89d069e9b0623c6244ccf7835ba0000000000000000000000007111f9aeb2c1b9344ec274780dc9e3806bdc60ef',
+                },
+            },
+        },
+    };
+
     // a subset of an ethers `CALL_EXCEPTION` error
-    const CALL_EXCEPTION_ERROR = {
-        reason: null,
+    const CALL_EXCEPTION_ERROR: StaticCallError = {
         code: 'CALL_EXCEPTION',
         method: 'cancel((bytes32,uint8,address,address,bool,bool,uint256,uint256,uint256,uint256)[],(uint8,bytes32,bytes32)[])',
         data: '0x6d4c6c89000000000000000000000000000000000000000000000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a957abb7d32e89d069e9b0623c6244ccf7835ba0000000000000000000000007111f9aeb2c1b9344ec274780dc9e3806bdc60ef',
@@ -46,14 +62,27 @@ suite('errors', () => {
         errorSignature: 'Exception(uint8,uint256,uint256,address,address)',
         address: '0x668980C676140F003747A493f82A1888162DC2aF',
         args: [],
-        transaction: {},
+        transaction: {} as TransactionDetails,
     };
+
+    const ERROR_DATA = '0x6d4c6c89000000000000000000000000000000000000000000000000000000000000000f000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000002a957abb7d32e89d069e9b0623c6244ccf7835ba0000000000000000000000007111f9aeb2c1b9344ec274780dc9e3806bdc60ef';
 
     suite('parseSwivelError', () => {
 
-        test('parse UNPREDICTABLE_GAS_LIMIT error', () => {
+        test('parse JsonRpcProvider UNPREDICTABLE_GAS_LIMIT error', () => {
 
             const error = parseSwivelError(UNPREDICTABLE_GAS_LIMIT_ERROR);
+
+            assert(error instanceof SwivelError);
+
+            assert.strictEqual(error.code, 15);
+            assert.strictEqual(error.name, EXCEPTION[15].name);
+            assert.strictEqual(error.message, EXCEPTION[15].message(error.data as unknown as Exception));
+        });
+
+        test('parse MetaMask UNPREDICTABLE_GAS_LIMIT error', () => {
+
+            const error = parseSwivelError(METAMASK_UNPREDICTABLE_GAS_LIMIT_ERROR);
 
             assert(error instanceof SwivelError);
 
@@ -71,6 +100,31 @@ suite('errors', () => {
             assert.strictEqual(error.code, 15);
             assert.strictEqual(error.name, EXCEPTION[15].name);
             assert.strictEqual(error.message, EXCEPTION[15].message(error.data as unknown as Exception));
+        });
+
+        test('parse abi-encoded error data', () => {
+
+            const error = parseSwivelError(ERROR_DATA);
+
+            assert(error instanceof SwivelError);
+
+            assert.strictEqual(error.code, 15);
+            assert.strictEqual(error.name, EXCEPTION[15].name);
+            assert.strictEqual(error.message, EXCEPTION[15].message(error.data as unknown as Exception));
+        });
+
+        test('parse non-error', () => {
+
+            const error = parseSwivelError({});
+
+            assert.strictEqual(error, undefined);
+        });
+
+        test('parse non-error data string', () => {
+
+            const error = parseSwivelError('0xI_AM_NOT_AN_ERROR');
+
+            assert.strictEqual(error, undefined);
         });
     });
 });

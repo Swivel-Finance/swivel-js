@@ -69,15 +69,15 @@ export const EXCEPTION = {
     },
     16: {
         name: 'WITHDRAWAL.SCHEDULE',
-        message: (e: Exception): string => `Withdrawal not scheduled.`,
+        message: (e: Exception): string => `Withdrawal is not scheduled.`,
     },
     17: {
         name: 'WITHDRAWAL.HOLD',
-        message: (e: Exception): string => `Withdrawal on hold.`,
+        message: (e: Exception): string => `Withdrawal is on hold.`,
     },
     18: {
         name: 'FEE',
-        message: (e: Exception): string => `Fee too high.`,
+        message: (e: Exception): string => `Fee is too high.`,
     },
     // TODO: this one is used for approveUnderlying and setFee, in both cases the arrays contain different things
     19: {
@@ -86,11 +86,11 @@ export const EXCEPTION = {
     },
     20: {
         name: 'SWIVEL.ADDRESS.SET',
-        message: (e: Exception): string => `Swivel address already set.`,
+        message: (e: Exception): string => `Swivel address is already set.`,
     },
     21: {
         name: 'SWIVEL.ADDRESS.UNSET',
-        message: (e: Exception): string => `Swivel address not set.`,
+        message: (e: Exception): string => `Swivel address is not set.`,
     },
     22: {
         name: 'MARKET.EXISTS',
@@ -136,9 +136,12 @@ export const EXCEPTION = {
         name: 'VAULT.SELF',
         message: (e: Exception): string => `Cannot transfer notional to self ${ e.address }.`,
     },
-    // TODO: This error seems not to be used
     33: {
-        name: 'MARKETPLACE.ADDRESS',
+        name: 'MARKETPLACE.ADDRESS.SET',
+        message: (e: Exception): string => `MarketPlace address is already set.`,
+    },
+    34: {
+        name: 'MARKETPLACE.ADDRESS.UNSET',
         message: (e: Exception): string => `MarketPlace address is not set.`,
     },
 };
@@ -175,42 +178,87 @@ export interface TransactionDetails {
 }
 
 /**
- * Interface for ethers UNPREDICTABLE_GAS_LIMIT error.
+ * Interface for MetaMask RPC provider errors.
+ *
+ * @remarks
+ * When transactions fail using the MetaMask as a provider/signer, ethers-js includes
+ * MetaMask's `ProviderRpcError` in its own error object.
+ *
+ * https://docs.metamask.io/guide/ethereum-provider.html#errors
  */
-export interface UnpredictableGasLimitError {
-    reason: string;
-    code: 'UNPREDICTABLE_GAS_LIMIT';
-    error: {
-        // should be 'execution reverted'
-        reason: string;
-        code: 'UNPREDICTABLE_GAS_LIMIT';
-        method: 'estimateGas';
-        transaction: TransactionDetails;
-        error: {
-            // seems to be 'processing response error' for reverts
-            reason: string;
-            // seems to be 'SERVER_ERROR' for reverts
-            code: string;
-            // JSON payload of the error, details available in the error property below
-            body: string;
-            error: {
-                // seems to be 3 for reverts
-                code: number;
-                // this is our encoded `Exception` data
-                data: string;
-            };
-            // JSON payload of the `eth_estimateGas` call
-            requestBody: string;
-            // 'POST'
-            requestMethod: string;
-            // the JSONRPC provider url, i.e. https://rinkeby.infura.io/v3/<API_KEY>
-            url: string;
+export interface MetaMaskProviderRpcError {
+    // e.g. `-32603`
+    code: number;
+    // e.g. `"execution reverted"`
+    message: string;
+    data: {
+        originalError?: {
+            // seems to be `3` for reverts
+            code: number;
+            // seems to be `"execution reverted"`
+            message: string;
+            // this is our encoded `Exception` data
+            data: string;
         };
     };
 }
 
 /**
+ * Interface for JsonRpcProvider error.
+ *
+ * @remarks
+ * When transactions fail using the JsonRpcProvider as provider/signer, ethers-js
+ * includes this interface in its own error object.
+ */
+export interface JsonRpcProviderError {
+    // e.g. `"execution reverted"`
+    reason: string;
+    // e.g. `"UNPREDICTABLE_GAS_LIMIT"`
+    code: string;
+    // e.g. `"estimateGas"`
+    method: string;
+    transaction: TransactionDetails;
+    error: {
+        // seems to be 'processing response error' for reverts
+        reason: string;
+        // seems to be 'SERVER_ERROR' for reverts
+        code: string;
+        // JSON payload of the error, details available in the error property below
+        body: string;
+        error: {
+            // seems to be 3 for reverts
+            code: number;
+            // this is our encoded `Exception` data
+            data: string;
+        };
+        // JSON payload of the `eth_estimateGas` call
+        requestBody: string;
+        // 'POST'
+        requestMethod: string;
+        // the JSONRPC provider url, i.e. https://rinkeby.infura.io/v3/<API_KEY>
+        url: string;
+    };
+}
+
+/**
+ * Interface for ethers UNPREDICTABLE_GAS_LIMIT error.
+ *
+ * @remarks
+ * Depending on how we connect to the blockchain, our error shapes may be different.
+ * Currently we handle MetaMask-based rpc errors and JsonRpcProvider-based errors
+ * (which are most likely to occur in browser and node environments).
+ */
+export interface UnpredictableGasLimitError {
+    reason: string;
+    code: 'UNPREDICTABLE_GAS_LIMIT';
+    error: MetaMaskProviderRpcError | JsonRpcProviderError;
+}
+
+/**
  * Interface for ethers CALL_EXCEPTION error during `contract.callStatic` calls.
+ *
+ * @remarks
+ * This error signature seems to be identical for JsonRpcProviders and MetaMask.
  */
 export interface StaticCallError {
     code: 'CALL_EXCEPTION';
@@ -237,8 +285,7 @@ export interface StaticCallError {
 export const isUnpredictableGasLimitError = (error: unknown): error is UnpredictableGasLimitError => {
 
     return (error as UnpredictableGasLimitError).code === 'UNPREDICTABLE_GAS_LIMIT'
-        && (error as UnpredictableGasLimitError).error.code === 'UNPREDICTABLE_GAS_LIMIT'
-        && (error as UnpredictableGasLimitError).error.method === 'estimateGas';
+        && !!(error as UnpredictableGasLimitError).error;
 };
 
 /**

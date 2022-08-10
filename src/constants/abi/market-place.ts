@@ -42,9 +42,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'error',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'RATE',
         'type': 'error',
     },
@@ -412,9 +410,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'event',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'admin',
         'outputs': [
             {
@@ -578,9 +574,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'creator',
         'outputs': [
             {
@@ -693,7 +687,7 @@ export const MARKET_PLACE_ABI = [
                 'type': 'address',
             },
         ],
-        'name': 'exchangeRate',
+        'name': 'getExchangeRate',
         'outputs': [
             {
                 'internalType': 'uint256',
@@ -1059,9 +1053,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'swivel',
         'outputs': [
             {
