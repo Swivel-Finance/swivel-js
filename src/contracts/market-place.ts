@@ -178,6 +178,7 @@ export class MarketPlace {
         return (this.constructor as typeof MarketPlace).interestRate(p, a, this.contract.provider);
     }
 
+    // TODO: this method will be named `exchangeRate` in the final version, which conflicts with the methods above...
     /**
      * Retrieve the exchange rate for a lending protocol and cToken/pool using Swivel's ICompounding abstraction.
      *
