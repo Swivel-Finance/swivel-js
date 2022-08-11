@@ -1,6 +1,6 @@
 import { utils } from 'ethers';
 import { SWIVEL_ABI } from '../constants/index.js';
-import { Exception, ExceptionResult, isStaticCallError, isUnpredictableGasLimitError } from './types.js';
+import { Exception, ExceptionResult, isStaticCallError, isUnpredictableGasLimitError, JsonRpcProviderError, MetaMaskProviderRpcError } from './types.js';
 
 // swivel abi for decoding exception data
 const SWIVEL_INTERFACE = new utils.Interface(SWIVEL_ABI);
@@ -11,21 +11,28 @@ const SWIVEL_ERROR_FRAGMENT = 'Exception';
 /**
  * Parses the custom error data from an `UNPREDICTABLE_GAS_LIMIT` or `CALL_EXCEPTION` error.
  *
- * @param error - an ethers error/rejection reason that may contain custom error data
- * @returns an {@link Exception} if the error contains custom error data, `undefined` otherwise
+ * @param e - an ethers error/rejection reason that may contain custom error data or a string representing the abi-encoded exception data
+ * @returns an {@link Exception} if `errorOrData` contains custom error data, `undefined` otherwise
  *
  * @example
  */
-export const parseException = (error: unknown): Exception | undefined => {
+export const parseException = (e: unknown): Exception | undefined => {
 
-    // parse custom error data from an unpredictable gas limit error
-    if (isUnpredictableGasLimitError(error)) {
+    const data = (typeof e === 'string')
+        ? e
+        : isUnpredictableGasLimitError(e)
+            // extract custom error data from an unpredictable gas limit error - they are abi-encoded
+            ? (e.error as JsonRpcProviderError)?.error?.error?.data ?? (e.error as MetaMaskProviderRpcError)?.data?.originalError?.data
+            : undefined;
+
+    if (data) {
 
         try {
 
+            // parse custom error data from an abi-encoded data string
             const [code, amount, amountExpected, address, addressExpected] = SWIVEL_INTERFACE.decodeErrorResult(
                 SWIVEL_ERROR_FRAGMENT,
-                error.error.error.error.data,
+                data,
             ) as ExceptionResult;
 
             return {
@@ -41,12 +48,11 @@ export const parseException = (error: unknown): Exception | undefined => {
             // if we can't successfully parse the error data, there wasn't a custom error
             // we can ignore that and return undefined
         }
-    }
 
-    // parse custom error data from a `callStatic` call exception
-    if (isStaticCallError(error)) {
+    } else if (isStaticCallError(e)) {
 
-        const [code, amount, amountExpected, address, addressExpected] = error.errorArgs as ExceptionResult;
+        // extract custom error data from a `callStatic` call exception - they are parsed by ethers already
+        const [code, amount, amountExpected, address, addressExpected] = e.errorArgs as ExceptionResult;
 
         return {
             code,

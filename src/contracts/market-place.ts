@@ -178,6 +178,20 @@ export class MarketPlace {
         return (this.constructor as typeof MarketPlace).interestRate(p, a, this.contract.provider);
     }
 
+    // TODO: this method will be named `exchangeRate` in the final version, which conflicts with the methods above...
+    /**
+     * Retrieve the exchange rate for a lending protocol and cToken/pool using Swivel's ICompounding abstraction.
+     *
+     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param a - address of the market's cToken
+     * @param t - optional transaction overrides
+     * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
+     */
+    async getExchangeRate (p: Protocols, a: string, t: CallOverrides = {}): Promise<string> {
+
+        return unwrap<BigNumber>(await this.contract.functions.getExchangeRate(p, a, t)).toString();
+    }
+
     /**
      * Get a market's cToken address.
      *

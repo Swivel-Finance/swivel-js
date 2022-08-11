@@ -152,13 +152,66 @@ suite('marketplace', () => {
         });
     });
 
+    suite('getExchangeRate', () => {
+
+        const protocol = Protocols.Compound;
+        const address = '0xcTokenAddress';
+
+        const expected = '21382742901237490012';
+
+        test('converts arguments, unwraps and converts result', async () => {
+
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
+
+            const getExchangeRate = mockMethod<string>(marketplace, 'getExchangeRate');
+            getExchangeRate.resolves([expected]);
+
+            const result = await marketplace.getExchangeRate(protocol, address);
+
+            assert.deepStrictEqual(result, expected);
+            assert(getExchangeRate.calledOnce);
+
+            const args = getExchangeRate.getCall(0).args;
+
+            assert.strictEqual(args.length, 3);
+
+            const [passedProtocol, passedAddress, passedOverrides] = args;
+
+            assert.strictEqual(passedProtocol, protocol);
+            assert.strictEqual(passedAddress, address);
+            assert.deepStrictEqual(passedOverrides, {});
+        });
+
+        test('accepts transaction overrides', async () => {
+
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
+
+            const getExchangeRate = mockMethod<string>(marketplace, 'getExchangeRate');
+            getExchangeRate.resolves([expected]);
+
+            const result = await marketplace.getExchangeRate(protocol, address, callOverrides);
+
+            assert.deepStrictEqual(result, expected);
+            assert(getExchangeRate.calledOnce);
+
+            const args = getExchangeRate.getCall(0).args;
+
+            assert.strictEqual(args.length, 3);
+
+            const [passedProtocol, passedAddress, passedOverrides] = args;
+
+            assert.strictEqual(passedProtocol, protocol);
+            assert.strictEqual(passedAddress, address);
+            assert.deepStrictEqual(passedOverrides, callOverrides);
+        });
+    });
+
     suite('cTokenAddress', () => {
 
         const protocol = Protocols.Compound;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
 
-        // an expected tuple result
         const expected = '0xcToken';
 
         test('converts arguments, unwraps and converts result', async () => {
