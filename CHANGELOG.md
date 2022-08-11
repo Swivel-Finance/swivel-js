@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-next.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.0-next.0...v3.0.0-next.1) (2022-08-11)
+
+
+### Bug Fixes
+
+* handle parsing of MetaMask gas estimation errors ([17cd91b](https://github.com/Swivel-Finance/swivel-js/commit/17cd91b9c36d91119ba83b2639d0f0196bc2fcad)), closes [#93](https://github.com/Swivel-Finance/swivel-js/issues/93) [#94](https://github.com/Swivel-Finance/swivel-js/issues/94)
+
 ## [3.0.0-next.0](https://github.com/Swivel-Finance/swivel-js/compare/v2.2.4...v3.0.0-next.0) (2022-07-29)
 
 
