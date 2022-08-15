@@ -216,19 +216,6 @@ suite('swivel', () => {
         });
     });
 
-    suite('marketPlace', () => {
-
-        test('unwraps result and accepts transaction overrides', async () => {
-
-            await assertGetter(
-                new Swivel(ADDRESSES.SWIVEL, signer),
-                'marketPlace',
-                '0xmarketPlace',
-                callOverrides,
-            );
-        });
-    });
-
     suite('aaveAddr', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {

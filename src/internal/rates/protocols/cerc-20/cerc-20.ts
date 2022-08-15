@@ -1,8 +1,9 @@
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
+import { Contract } from 'ethers';
 import { BLOCKS_PER_DAY, DAYS_PER_YEAR } from '../../../../constants/index.js';
-import { CToken, getToken } from '../../../token/index.js';
-import { CERC20_MANTISSA } from './constants.js';
+import { CERC20_ABI, CERC20_MANTISSA } from './constants.js';
+import { CERC20Contract } from './types.js';
 
 /**
  * CERC-20 exchangeRate implementation.
@@ -17,10 +18,10 @@ import { CERC20_MANTISSA } from './constants.js';
  */
 export async function exchangeRateCERC20 (a: string, s: Provider | Signer): Promise<string | undefined> {
 
-    const token = await getToken(a, s) as CToken;
+    const contract = new Contract(a, CERC20_ABI, s) as CERC20Contract;
 
     // this is different from pricePerShare in Yearn, where the price is scaled to underlying token decimals!!!
-    return token.exchangeRateCurrent;
+    return (await contract.exchangeRateCurrent()).toString();
 }
 
 /**
@@ -33,11 +34,9 @@ export async function exchangeRateCERC20 (a: string, s: Provider | Signer): Prom
  */
 export async function interestRateCERC20 (a: string, s: Provider | Signer): Promise<string | undefined> {
 
-    const token = await getToken(a, s) as CToken;
+    const contract = new Contract(a, CERC20_ABI, s) as CERC20Contract;
 
-    if (!token.supplyRatePerBlock) return;
-
-    const rate = token.supplyRatePerBlock;
+    const rate = (await contract.supplyRatePerBlock()).toString();
 
     return (Math.pow(Number(rate) / CERC20_MANTISSA * BLOCKS_PER_DAY + 1, DAYS_PER_YEAR) - 1).toString();
 }

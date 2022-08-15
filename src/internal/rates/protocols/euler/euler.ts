@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Contract } from 'ethers';
 import { SECONDS_PER_YEAR } from '../../../../constants/index.js';
-import { ERC20Contract, ERC20_ABI } from '../../../token/index.js';
+import { ERC20Contract, ERC20_ABI } from '../../../erc-20/index.js';
 import { RatesConfig } from '../../config.js';
 import { BASE, fixed, getChain } from '../../helpers/index.js';
 import { EULER_MANTISSA, EULER_MARKETS_ABI, EULER_RESERVE_FEE_SCALE, EULER_TOKEN_ABI } from './constants.js';

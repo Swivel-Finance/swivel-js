@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber, CallOverrides, Contract } from 'ethers';
 import { VAULT_TRACKER_ABI } from '../constants/index.js';
 import { unwrap } from '../helpers/index.js';
-import { Vault } from '../types/index.js';
+import { Protocols, Vault } from '../types/index.js';
 
 /**
  * An internal type solely for vault struct response.
@@ -40,19 +40,6 @@ export class VaultTracker {
     }
 
     /**
-     * Get the contract's admin address.
-     *
-     * @remarks
-     * This is the marketplace contract address.
-     *
-     * @param t - optional transaction overrides
-     */
-    async admin (t: CallOverrides = {}): Promise<string> {
-
-        return unwrap<string>(await this.contract.functions.admin(t));
-    }
-
-    /**
      * Get the associated Swivel contract address.
      *
      * @param t - optional transaction overrides
@@ -60,6 +47,36 @@ export class VaultTracker {
     async swivel (t: CallOverrides = {}): Promise<string> {
 
         return unwrap<string>(await this.contract.functions.swivel(t));
+    }
+
+    /**
+     * Get the associated MarketPlace contract address.
+     *
+     * @param t - optional transaction overrides
+     */
+    async marketPlace (t: CallOverrides = {}): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.marketPlace(t));
+    }
+
+    /**
+     * Get the protocol.
+     *
+     * @param t - optional transaction overrides
+     */
+    async protocol (t: CallOverrides = {}): Promise<Protocols> {
+
+        return unwrap<number>(await this.contract.functions.protocol(t));
+    }
+
+    /**
+     * Get the cToken address.
+     *
+     * @param t - optional transaction overrides
+     */
+    async cTokenAddr (t: CallOverrides = {}): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.cTokenAddr(t));
     }
 
     /**
@@ -83,13 +100,21 @@ export class VaultTracker {
     }
 
     /**
-     * Get the cToken address.
+     * Get the maturity rate and exchange rate.
+     *
+     * @remarks
+     * If the maturity rate of the vault tracker is 0 (the assiciated market is not matured),
+     * then the tuple will contain the exchange rate in both positions.
      *
      * @param t - optional transaction overrides
+     * @returns a tuple containing [maturity rate, exchange rate] if maturity rate > 0,
+     *          a tuple containing [exchange rate, exchange rate] otherwise
      */
-    async cTokenAddr (t: CallOverrides = {}): Promise<string> {
+    async rates (t: CallOverrides = {}): Promise<[string, string]> {
 
-        return unwrap<string>(await this.contract.functions.cTokenAddr(t));
+        const rates = unwrap<[BigNumber, BigNumber]>(await this.contract.functions.rates(t));
+
+        return [rates[0].toString(), rates[1].toString()];
     }
 
     /**

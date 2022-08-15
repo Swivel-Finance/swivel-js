@@ -30,19 +30,6 @@ suite('vaulttracker', () => {
         assert.strictEqual(vaulttracker.address, ADDRESSES.VAULT_TRACKER);
     });
 
-    suite('admin', () => {
-
-        test('unwraps result and accepts transaction overrides', async () => {
-
-            await assertGetter(
-                new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
-                'admin',
-                '0xadmin',
-                callOverrides,
-            );
-        });
-    });
-
     suite('swivel', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {
@@ -51,6 +38,32 @@ suite('vaulttracker', () => {
                 new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
                 'swivel',
                 '0xswivel',
+                callOverrides,
+            );
+        });
+    });
+
+    suite('marketPlace', () => {
+
+        test('unwraps result and accepts transaction overrides', async () => {
+
+            await assertGetter(
+                new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
+                'marketPlace',
+                '0xmarketPlace',
+                callOverrides,
+            );
+        });
+    });
+
+    suite('protocol', () => {
+
+        test('unwraps result and accepts transaction overrides', async () => {
+
+            await assertGetter(
+                new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
+                'protocol',
+                1,
                 callOverrides,
             );
         });
@@ -160,6 +173,56 @@ suite('vaulttracker', () => {
             assert.strictEqual(result, expected);
 
             const args = maturityRate.getCall(0).args;
+
+            assert.strictEqual(args.length, 1);
+
+            const [passedOverrides] = args;
+
+            assert.deepStrictEqual(passedOverrides, callOverrides);
+        });
+    });
+
+    suite('rates', () => {
+
+        // an expected maturity rate and exchange rate
+        const expected = ['2134302304750123', '2134302304750123'];
+
+        test('unwraps and converts result', async () => {
+
+            const vaulttracker = new VaultTracker(ADDRESSES.VAULT_TRACKER, provider);
+
+            // rates returns a tuple of uint256 which ethers will convert to BigNumbers
+            // we create a mock result with BigNumbers and assert the HOC converts them to strings
+            const rates = mockMethod<[BigNumber, BigNumber]>(vaulttracker, 'rates');
+            rates.resolves([BigNumber.from(expected[0]), BigNumber.from(expected[1])]);
+
+            const result = await vaulttracker.rates();
+
+            assert.deepStrictEqual(result, expected);
+
+            const args = rates.getCall(0).args;
+
+            assert.strictEqual(args.length, 1);
+
+            const [passedOverrides] = args;
+
+            assert.deepStrictEqual(passedOverrides, {});
+        });
+
+        test('accepts transaction overrides', async () => {
+
+            const vaulttracker = new VaultTracker(ADDRESSES.VAULT_TRACKER, provider);
+
+            // rates returns a tuple of uint256 which ethers will convert to BigNumbers
+            // we create a mock result with BigNumbers and assert the HOC converts them to strings
+            const rates = mockMethod<[BigNumber, BigNumber]>(vaulttracker, 'rates');
+            rates.resolves([BigNumber.from(expected[0]), BigNumber.from(expected[1])]);
+
+            const result = await vaulttracker.rates(callOverrides);
+
+            assert.deepStrictEqual(result, expected);
+
+            const args = rates.getCall(0).args;
 
             assert.strictEqual(args.length, 1);
 

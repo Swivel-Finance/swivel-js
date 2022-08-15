@@ -117,12 +117,6 @@ paused (t: CallOverrides = {}): Promise<boolean>;
 |---------|----|-----------|
 |t|`CallOverrides`|Optional transaction overrides.|
 
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|t|`CallOverrides`|Optional transaction overrides.|
-
 ### Returns
 
 A promise that resolves with `true` or `false` if the contract call succeeds and rejects otherwise.
@@ -170,20 +164,12 @@ const marketPlace = new MarketPlace(marketPlaceAddress, signer);
 
 Allows a user to retrieve a market's exchange rate.
 
-The MarketPlace smart contract wrapper provides 2 ways to retrieve a market's exchange rate:
-- as a static method of the `MarketPlace` class
-- as a method of a `MarketPlace` instance
-
-When using the **static method**, the user must provide a provider or signer to facilitate on-chain reads.
-
-When using the **instance method**, the instance's provider or signer will be used.
-
 [More information on compounding tokens and exchange rates](../COMPOUNDING_RATES.md).
 
 ### Signature
 
 ```typescript
-static exchangeRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined>;
+exchangeRate (p: Protocols, a: string, t: CallOverrides = {}): Promise<string>;
 ```
 
 ### Parameters
@@ -192,20 +178,7 @@ static exchangeRate (p: Protocols, a: string, s: Provider | Signer): Promise<str
 |---------|----|-----------|
 |p|`Protocols`|The protocol enum value of the lending protocol associated with the market.|
 |a|`string`|The cToken address of the market.|
-|s|`Provider \| Signer`|An ethers provider or signer to perform blockchain reads.|
-
-### Signature
-
-```typescript
-exchangeRate (p: Protocols, a: string): Promise<string | undefined>;
-```
-
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the lending protocol associated with the market.|
-|a|`string`|The cToken address of the market.|
+|t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
 
@@ -217,29 +190,7 @@ A promise that resolves with the exchange rate of the lending protocol's cToken/
 
 Allows a user to retrieve a market's interest rate (supply APY).
 
-The MarketPlace smart contract wrapper provides 2 ways to retrieve a market's interest rate:
-- as a static method of the `MarketPlace` class
-- as a method of a `MarketPlace` instance
-
-When using the **static method**, the user must provide a provider or signer to facilitate on-chain reads.
-
-When using the **instance method**, the instance's provider or signer will be used.
-
 [More information on compounding tokens and interest rates](../COMPOUNDING_RATES.md).
-
-### Signature
-
-```typescript
-static interestRate (p: Protocols, a: string, s: Provider | Signer): Promise<string | undefined>;
-```
-
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the lending protocol associated with the market.|
-|a|`string`|The cToken address of the market.|
-|s|`Provider \| Signer`|An ethers provider or signer to perform blockchain reads.|
 
 ### Signature
 
@@ -257,6 +208,33 @@ interestRate (p: Protocols, a: string): Promise<string | undefined>;
 ### Returns
 
 A promise that resolves with the interest rate (supply APY) of the lending protocol's cToken/pool if the contract call succeeds and rejects otherwise. The interest rate is a stringified floating point number, where 1 == 100%, 0.01 == 1%, etc.
+
+
+
+## rates
+
+Allows a user to retrieve a market's maturity rate and exchange rate in one call.
+
+### Signature
+
+```typescript
+rates (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<[string, string]>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|p|`Protocols`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with a tuple containing the maturity rate and exchange rate of the market if the contract call succeeds and rejects otherwise. 
+
+> N.B.: For markets which are not matured, the maturity rate is `0`. In this case you generally want to use the market's exchange rate. For this reason, **if a market is not matured, the tuple returned will contain the exchange rate in both positions**.
 
 
 

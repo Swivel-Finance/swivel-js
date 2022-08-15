@@ -7,6 +7,14 @@ import { exchangeRateAave, exchangeRateCERC20, exchangeRateERC4626, exchangeRate
 /**
  * Retrieve the exchange rate for a lending protocol and cToken/pool.
  *
+ * @remarks
+ * We're going to leave the calculations for exchange rates in the code base for reference, however,
+ * they are not used by swivel-js. To guarantee consistency between the exchange rates used by the
+ * on-chain contracts and consumers of swivel-js, swivel-js will return the exchange rates directly
+ * from the MarketPlace contract's `exchangeRate` method.
+ *
+ * @deprecated
+ *
  * @param p - protocol enum value of the lending protocol associated with a swivel market
  * @param a - address of the market's cToken
  * @param s - ethers provider or signer

@@ -1,5 +1,4 @@
 import type { BigNumber, Contract } from 'ethers';
-import { ERC20Contract } from '../../../token/types.js';
 
 /**
  * An interface for Aave's ReserveData struct.
@@ -31,7 +30,7 @@ export interface AaveReserveData {
 /**
  * An interface for a subset of Aave's Pool contract.
  */
-export interface AaveTokenContract extends ERC20Contract {
+export interface AaveTokenContract extends Contract {
     POOL (): Promise<string>;
     UNDERLYING_ASSET_ADDRESS (): Promise<string>;
 }

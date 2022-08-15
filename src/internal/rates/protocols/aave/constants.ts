@@ -1,4 +1,3 @@
-import { ERC20_ABI } from '../../../token/constants.js';
 import { RAY } from '../../helpers/index.js';
 
 export const AAVE_RESERVE_DATA_ABI = '(uint256 configuration, uint128 liquidityIndex, uint128 variableBorrowIndex, uint128 currentLiquidityRate, uint128 currentVariableBorrowRate, uint128 currentStableBorrowRate, uint40 lastUpdateTimestamp, address aTokenAddress, address stableDebtTokenAddress, address variableDebtTokenAddress, address interestRateStrategyAddress, uint8 id)';
@@ -7,7 +6,6 @@ export const AAVE_RESERVE_DATA_ABI = '(uint256 configuration, uint128 liquidityI
  * A minimal subset of Aave's AToken ABI.
  */
 export const AAVE_TOKEN_ABI = [
-    ...ERC20_ABI,
     'function POOL() public view returns (address)',
     'function UNDERLYING_ASSET_ADDRESS() public view returns (address)',
 ];
