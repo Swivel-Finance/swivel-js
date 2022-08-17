@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0-next.2](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.0-next.1...v3.0.0-next.2) (2022-08-17)
+
+
+### Bug Fixes
+
+* add missing error codes, update swivel ABI ([047063c](https://github.com/Swivel-Finance/swivel-js/commit/047063c911719fc5fec1da4bb5f869d5f2cd7102))
+* **MarketPlace:** use exchange rate from contract ([c624d84](https://github.com/Swivel-Finance/swivel-js/commit/c624d844b655cc8b04ea6b417f5749377adb37b6)), closes [#96](https://github.com/Swivel-Finance/swivel-js/issues/96)
+
 ## [3.0.0-next.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.0-next.0...v3.0.0-next.1) (2022-08-11)
 
 
