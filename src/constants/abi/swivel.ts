@@ -82,6 +82,13 @@ export const SWIVEL_ABI = [
         'type': 'error',
     },
     {
+        'inputs': [
+
+        ],
+        'name': 'ZeroAddress',
+        'type': 'error',
+    },
+    {
         'anonymous': false,
         'inputs': [
             {
@@ -132,6 +139,25 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'Cancel',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'uint256',
+                'name': 'index',
+                'type': 'uint256',
+            },
+            {
+                'indexed': true,
+                'internalType': 'uint256',
+                'name': 'value',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'ChangeFee',
         'type': 'event',
     },
     {
@@ -293,25 +319,6 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'ScheduleWithdrawal',
-        'type': 'event',
-    },
-    {
-        'anonymous': false,
-        'inputs': [
-            {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'index',
-                'type': 'uint256',
-            },
-            {
-                'indexed': true,
-                'internalType': 'uint256',
-                'name': 'feenominator',
-                'type': 'uint256',
-            },
-        ],
-        'name': 'SetFee',
         'type': 'event',
     },
     {
@@ -594,9 +601,9 @@ export const SWIVEL_ABI = [
                         'type': 'uint256',
                     },
                 ],
-                'internalType': 'struct Hash.Order[]',
+                'internalType': 'struct Hash.Order',
                 'name': 'o',
-                'type': 'tuple[]',
+                'type': 'tuple',
             },
             {
                 'components': [
@@ -616,9 +623,9 @@ export const SWIVEL_ABI = [
                         'type': 'bytes32',
                     },
                 ],
-                'internalType': 'struct Sig.Components[]',
+                'internalType': 'struct Sig.Components',
                 'name': 'c',
-                'type': 'tuple[]',
+                'type': 'tuple',
             },
         ],
         'name': 'cancel',
@@ -649,6 +656,25 @@ export const SWIVEL_ABI = [
             },
         ],
         'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint16[4]',
+                'name': 'f',
+                'type': 'uint16[4]',
+            },
+        ],
+        'name': 'changeFee',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
+            },
+        ],
+        'stateMutability': 'nonpayable',
         'type': 'function',
     },
     {
@@ -1118,30 +1144,6 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'setAdmin',
-        'outputs': [
-            {
-                'internalType': 'bool',
-                'name': '',
-                'type': 'bool',
-            },
-        ],
-        'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [
-            {
-                'internalType': 'uint16[]',
-                'name': 'i',
-                'type': 'uint16[]',
-            },
-            {
-                'internalType': 'uint16[]',
-                'name': 'd',
-                'type': 'uint16[]',
-            },
-        ],
-        'name': 'setFee',
         'outputs': [
             {
                 'internalType': 'bool',

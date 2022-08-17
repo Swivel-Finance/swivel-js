@@ -71,28 +71,6 @@ address: string;
 
 # Getters
 
-## admin
-
-Allows a user to get the admin address of this VaultTracker. This is the address of the MarketPlace smart contract that owns this VaultTracker.
-
-### Signature
-
-```typescript
-admin (t: CallOverrides = {}): Promise<string>;
-```
-
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|t|`CallOverrides`|Optional transaction overrides.|
-
-### Returns
-
-A promise that resolves with the admin address if the contract call succeeds and rejects otherwise.
-
-
-
 ## swivel
 
 Allows a user to get the Swivel contract address associated with this VaultTracker.
@@ -111,7 +89,51 @@ swivel (t: CallOverrides = {}): Promise<string>;
 
 ### Returns
 
-A promise that resolves with the Swivel contract's address if the contract call succeeds and rejects otherwise.
+A promise that resolves with the Swivel contract address if the contract call succeeds and rejects otherwise.
+
+
+
+## marketPlace
+
+Allows a user to get the MarketPlace contract address of this VaultTracker.
+
+### Signature
+
+```typescript
+marketPlace (t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the MarketPlace contract address if the contract call succeeds and rejects otherwise.
+
+
+
+## protocol
+
+Allows a user to get the protocol enum value of this VaultTracker.
+
+### Signature
+
+```typescript
+protocol (t: CallOverrides = {}): Promise<Protocols>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the `Protocols` enum value if the contract call succeeds and rejects otherwise.
 
 
 
@@ -181,28 +203,6 @@ A promise that resolves with the vault's cToken address if the contract call suc
 
 
 
-## adapterAddr
-
-Allows a user to retrieve the vault's compounding adapter address.
-
-### Signature
-
-```typescript
-adapterAddr (t: CallOverrides = {}): Promise<string>;
-```
-
-### Parameters
-
-|Paramater|Type|Description|
-|---------|----|-----------|
-|t|`CallOverrides`|Optional transaction overrides.|
-
-### Returns
-
-A promise that resolves with the vault's compounding adapter address if the contract call succeeds and rejects otherwise.
-
-
-
 # Methods
 
 ## constructor
@@ -238,6 +238,30 @@ const provider = new ethers.providers.Web3Provider(window.ethereum);
 // ...and use the provider to instantiate the VaultTracker contract
 const vaultTracker = new VaultTracker(vaultAddress, provider);
 ```
+
+
+
+## rates
+
+Allows a user to retrieve the maturity rate and exchange rate of the VaultTracker in one call.
+
+### Signature
+
+```typescript
+rates (t: CallOverrides = {}): Promise<[string, string]>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with a tuple containing the maturity rate and exchange rate of the VaultTracker if the contract call succeeds and rejects otherwise. 
+
+> N.B.: For markets which are not matured, the maturity rate is `0`. In this case you generally want to use the market's exchange rate. For this reason, **if a market is not matured, the tuple returned will contain the exchange rate in both positions**.
 
 
 

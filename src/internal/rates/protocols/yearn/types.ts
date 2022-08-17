@@ -1,5 +1,5 @@
 import type { BigNumber, Contract } from 'ethers';
-import { Token } from '../../../token/index.js';
+import { ERC20Token } from '../../../erc-20/index.js';
 
 /**
  * An interface for a subset of Yearn's Vault contract.
@@ -24,7 +24,7 @@ export interface YearnApiSchema {
     symbol: string;
     name: string;
     decimals: number;
-    token: Token;
+    token: ERC20Token;
     apy: {
         type: string;
         gross_apr: number;

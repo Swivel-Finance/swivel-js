@@ -21,6 +21,11 @@ export const VAULT_TRACKER_ABI = [
                 'name': 's',
                 'type': 'address',
             },
+            {
+                'internalType': 'address',
+                'name': 'mp',
+                'type': 'address',
+            },
         ],
         'stateMutability': 'nonpayable',
         'type': 'constructor',
@@ -58,13 +63,6 @@ export const VAULT_TRACKER_ABI = [
     },
     {
         'inputs': [
-
-        ],
-        'name': 'RATE',
-        'type': 'error',
-    },
-    {
-        'inputs': [
             {
                 'internalType': 'address',
                 'name': 'o',
@@ -85,21 +83,6 @@ export const VAULT_TRACKER_ABI = [
             },
         ],
         'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [
-
-        ],
-        'name': 'admin',
-        'outputs': [
-            {
-                'internalType': 'address',
-                'name': '',
-                'type': 'address',
-            },
-        ],
-        'stateMutability': 'view',
         'type': 'function',
     },
     {
@@ -131,6 +114,21 @@ export const VAULT_TRACKER_ABI = [
 
         ],
         'name': 'cTokenAddr',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'marketPlace',
         'outputs': [
             {
                 'internalType': 'address',
@@ -200,6 +198,26 @@ export const VAULT_TRACKER_ABI = [
                 'internalType': 'uint8',
                 'name': '',
                 'type': 'uint8',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+
+        ],
+        'name': 'rates',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': '',
+                'type': 'uint256',
             },
         ],
         'stateMutability': 'view',

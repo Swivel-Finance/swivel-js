@@ -144,6 +144,26 @@ export const EXCEPTION = {
         name: 'MARKETPLACE.ADDRESS.UNSET',
         message: (e: Exception): string => `MarketPlace address is not set.`,
     },
+    35: {
+        name: 'FEE_CHANGE.SCHEDULE',
+        message: (e: Exception): string => `Fee change is not scheduled.`,
+    },
+    36: {
+        name: 'FEE_CHANGE.HOLD',
+        message: (e: Exception): string => `Fee change is on hold.`,
+    },
+    37: {
+        name: 'SWIVEL.AUTH_REDEEM',
+        message: (e: Exception): string => `Swivel authRedeem failed.`,
+    },
+    38: {
+        name: 'APPROVAL.SCHEDULE',
+        message: (e: Exception): string => `Approval is not scheduled.`,
+    },
+    39: {
+        name: 'APPROVAL.HOLD',
+        message: (e: Exception): string => `Approval is on hold.`,
+    },
 };
 
 
