@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.0...v3.0.1) (2022-09-27)
+
+
+### Bug Fixes
+
+* **swivel:** update `cancel` method ([e14646f](https://github.com/Swivel-Finance/swivel-js/commit/e14646f2bdde119a533d5b24f84794e6db0460ce)), closes [#98](https://github.com/Swivel-Finance/swivel-js/issues/98)
+
 ## [3.0.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.0-next.2...v3.0.0) (2022-09-27)
 
 ## [3.0.0-next.2](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.0-next.1...v3.0.0-next.2) (2022-08-17)
