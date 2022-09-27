@@ -294,6 +294,12 @@ export const SWIVEL_ABI = [
         'inputs': [
             {
                 'indexed': false,
+                'internalType': 'uint16[4]',
+                'name': 'proposal',
+                'type': 'uint16[4]',
+            },
+            {
+                'indexed': false,
                 'internalType': 'uint256',
                 'name': 'hold',
                 'type': 'uint256',
@@ -319,6 +325,19 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'ScheduleWithdrawal',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'admin',
+                'type': 'address',
+            },
+        ],
+        'name': 'SetAdmin',
         'type': 'event',
     },
     {
@@ -601,31 +620,9 @@ export const SWIVEL_ABI = [
                         'type': 'uint256',
                     },
                 ],
-                'internalType': 'struct Hash.Order',
+                'internalType': 'struct Hash.Order[]',
                 'name': 'o',
-                'type': 'tuple',
-            },
-            {
-                'components': [
-                    {
-                        'internalType': 'uint8',
-                        'name': 'v',
-                        'type': 'uint8',
-                    },
-                    {
-                        'internalType': 'bytes32',
-                        'name': 'r',
-                        'type': 'bytes32',
-                    },
-                    {
-                        'internalType': 'bytes32',
-                        'name': 's',
-                        'type': 'bytes32',
-                    },
-                ],
-                'internalType': 'struct Sig.Components',
-                'name': 'c',
-                'type': 'tuple',
+                'type': 'tuple[]',
             },
         ],
         'name': 'cancel',
@@ -1103,7 +1100,11 @@ export const SWIVEL_ABI = [
     },
     {
         'inputs': [
-
+            {
+                'internalType': 'uint16[4]',
+                'name': 'f',
+                'type': 'uint16[4]',
+            },
         ],
         'name': 'scheduleFeeChange',
         'outputs': [

@@ -580,7 +580,6 @@ suite('swivel', () => {
     suite('cancel', () => {
 
         const order = mockOrder();
-        const signature = mockSignature();
 
         test('converts arguments', async () => {
 
@@ -590,19 +589,18 @@ suite('swivel', () => {
             const response = mockResponse();
             cancel.resolves(response);
 
-            const result = await swivel.cancel([order], [signature]);
+            const result = await swivel.cancel([order]);
 
             assert.strictEqual(result.hash, response.hash);
             assert(cancel.calledOnce);
 
             const args = cancel.getCall(0).args;
 
-            assert.strictEqual(args.length, 3);
+            assert.strictEqual(args.length, 2);
 
-            const [passedOrders, passedSignatures, passedOverrides] = args;
+            const [passedOrders, passedOverrides] = args;
 
             assert.deepStrictEqual(passedOrders, [parseOrder(order)]);
-            assert.deepStrictEqual(passedSignatures, [utils.splitSignature(signature)]);
             assert.deepStrictEqual(passedOverrides, {});
         });
 
@@ -614,19 +612,18 @@ suite('swivel', () => {
             const response = mockResponse();
             cancel.resolves(response);
 
-            const result = await swivel.cancel([order], [signature], payableOverrides);
+            const result = await swivel.cancel([order], payableOverrides);
 
             assert.strictEqual(result.hash, response.hash);
             assert(cancel.calledOnce);
 
             const args = cancel.getCall(0).args;
 
-            assert.strictEqual(args.length, 3);
+            assert.strictEqual(args.length, 2);
 
-            const [passedOrders, passedSignatures, passedOverrides] = args;
+            const [passedOrders, passedOverrides] = args;
 
             assert.deepStrictEqual(passedOrders, [parseOrder(order)]);
-            assert.deepStrictEqual(passedSignatures, [utils.splitSignature(signature)]);
             assert.deepStrictEqual(passedOverrides, payableOverrides);
         });
     });

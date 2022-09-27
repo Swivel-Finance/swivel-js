@@ -366,6 +366,19 @@ export const MARKET_PLACE_ABI = [
         'inputs': [
             {
                 'indexed': true,
+                'internalType': 'address',
+                'name': 'admin',
+                'type': 'address',
+            },
+        ],
+        'name': 'SetAdmin',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
                 'internalType': 'uint8',
                 'name': 'protocol',
                 'type': 'uint8',
