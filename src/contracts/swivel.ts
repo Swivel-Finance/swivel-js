@@ -270,15 +270,13 @@ export class Swivel {
      * Cancel an order.
      *
      * @param o - array of swivel orders
-     * @param s - array of valid ECDSA signatures relative to passed orders
      * @param t - optional transaction overrides
      */
-    async cancel (o: Order[], s: SignatureLike[], t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async cancel (o: Order[], t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const orders = o.map(order => parseOrder(order));
-        const signatures = s.map(signature => utils.splitSignature(signature));
 
-        return await this.executor(this.contract, 'cancel', [orders, signatures], t);
+        return await this.executor(this.contract, 'cancel', [orders], t);
     }
 
     /**

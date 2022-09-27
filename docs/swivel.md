@@ -729,12 +729,10 @@ A promise that resolves with an ethers `TransactionResponse` if the contract cal
 
 Allows a user to cancel their order(s).
 
-Signatures can be supplied as `string` (signature hash), `Signature` (object with R, S, V components) or `number[]` (byte arrays).
-
 ### Signature
 
 ```typescript
-cancel (o: Order[], s: SignatureLike[], t: PayableOverrides = {}): Promise<TransactionResponse>;
+cancel (o: Order[], t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
@@ -742,7 +740,6 @@ cancel (o: Order[], s: SignatureLike[], t: PayableOverrides = {}): Promise<Trans
 |Paramater|Type|Description|
 |---------|----|-----------|
 |o|`Order[]`|An array of order objects to be cancelled.|
-|s|`SignatureLike[]`|An array of valid 132 byte ECDSA signatures relative to  the orders.|
 |t|`PayableOverrides`|Optional transaction overrides.|
 
 ### Returns
