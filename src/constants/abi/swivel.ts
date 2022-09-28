@@ -97,6 +97,12 @@ export const SWIVEL_ABI = [
                 'name': 'token',
                 'type': 'address',
             },
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'blocked',
+                'type': 'address',
+            },
         ],
         'name': 'BlockApproval',
         'type': 'event',
@@ -280,6 +286,12 @@ export const SWIVEL_ABI = [
                 'type': 'address',
             },
             {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'approved',
+                'type': 'address',
+            },
+            {
                 'indexed': false,
                 'internalType': 'uint256',
                 'name': 'hold',
@@ -437,6 +449,11 @@ export const SWIVEL_ABI = [
                 'name': '',
                 'type': 'address',
             },
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
         ],
         'name': 'approvals',
         'outputs': [
@@ -517,6 +534,11 @@ export const SWIVEL_ABI = [
             {
                 'internalType': 'address',
                 'name': 'e',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 'a',
                 'type': 'address',
             },
         ],
@@ -1084,6 +1106,11 @@ export const SWIVEL_ABI = [
             {
                 'internalType': 'address',
                 'name': 'e',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
+                'name': 'a',
                 'type': 'address',
             },
         ],

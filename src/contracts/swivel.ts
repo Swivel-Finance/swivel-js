@@ -224,12 +224,13 @@ export class Swivel {
     /**
      * Retrieve a token's hold after which an approval can be made.
      *
-     * @param a - the token address
+     * @param e - the (ERC20) token address to approve
+     * @param e - the contract address to approve
      * @param t - optional transaction overrides
      */
-    async approvals (a: string, t: CallOverrides = {}): Promise<string> {
+    async approvals (e: string, a: string, t: CallOverrides = {}): Promise<string> {
 
-        return unwrap<BigNumber>(await this.contract.functions.approvals(a, t)).toString();
+        return unwrap<BigNumber>(await this.contract.functions.approvals(e, a, t)).toString();
     }
 
     /**
