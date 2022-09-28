@@ -571,19 +571,20 @@ A promise that resolves with the token's hold timestamp if the contract call suc
 
 Allows a user to retrieve a token's approval hold.
 
-When a token approval is scheduled, a timestamp is generated using the current time plus the `HOLD` time and stored in the `approvals` map using the token address as key. This map lets a user access these scheduled approval "holds" per token address.
+When a token approval is scheduled, a timestamp is generated using the current time plus the `HOLD` time and stored in the `approvals` map using the token address and the approved contract address as keys. This map lets a user access these scheduled approval "holds" per token and contract address.
 
 ### Signature
 
 ```typescript
-approvals (a: string, t: CallOverrides = {}): Promise<string>;
+approvals (e: string, a: string, t: CallOverrides = {}): Promise<string>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|a|`string`|The token address to check.|
+|e|`string`|The (ERC20) token address to check.|
+|a|`string`|The approved contract address to check.|
 |t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns

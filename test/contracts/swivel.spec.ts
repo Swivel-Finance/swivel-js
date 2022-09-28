@@ -359,14 +359,14 @@ suite('swivel', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {
 
-            const address = '0xtokenAddress';
+            const token = '0xtokenAddress';
             const expected = '1656526007';
 
             const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
             const withdrawals = mockMethod<BigNumber>(swivel, 'withdrawals');
             withdrawals.resolves([BigNumber.from(expected)]);
 
-            let result = await swivel.withdrawals(address);
+            let result = await swivel.withdrawals(token);
 
             assert.strictEqual(result, expected);
             assert(withdrawals.calledOnce);
@@ -375,14 +375,14 @@ suite('swivel', () => {
 
             assert.strictEqual(args.length, 2);
 
-            let [passedOrderKey, passedOverrides] = args;
+            let [passedToken, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, address);
+            assert.strictEqual(passedToken, token);
             assert.deepStrictEqual(passedOverrides, {});
 
             // call with transaction overrides
 
-            result = await swivel.withdrawals(address, callOverrides);
+            result = await swivel.withdrawals(token, callOverrides);
 
             assert.strictEqual(result, expected);
             assert(withdrawals.calledTwice);
@@ -391,9 +391,9 @@ suite('swivel', () => {
 
             assert.strictEqual(args.length, 2);
 
-            [passedOrderKey, passedOverrides] = args;
+            [passedToken, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, address);
+            assert.strictEqual(passedToken, token);
             assert.deepStrictEqual(passedOverrides, callOverrides);
         });
     });
@@ -402,41 +402,44 @@ suite('swivel', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {
 
-            const address = '0xtokenAddress';
+            const token = '0xtokenAddress';
+            const contract = '0xcontractAddress';
             const expected = '1656526007';
 
             const swivel = new Swivel(ADDRESSES.SWIVEL, signer);
             const approvals = mockMethod<BigNumber>(swivel, 'approvals');
             approvals.resolves([BigNumber.from(expected)]);
 
-            let result = await swivel.approvals(address);
+            let result = await swivel.approvals(token, contract);
 
             assert.strictEqual(result, expected);
             assert(approvals.calledOnce);
 
             let args = approvals.getCall(0).args;
 
-            assert.strictEqual(args.length, 2);
+            assert.strictEqual(args.length, 3);
 
-            let [passedOrderKey, passedOverrides] = args;
+            let [passedToken, passedContract, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, address);
+            assert.strictEqual(passedToken, token);
+            assert.strictEqual(passedContract, contract);
             assert.deepStrictEqual(passedOverrides, {});
 
             // call with transaction overrides
 
-            result = await swivel.approvals(address, callOverrides);
+            result = await swivel.approvals(token, contract, callOverrides);
 
             assert.strictEqual(result, expected);
             assert(approvals.calledTwice);
 
             args = approvals.getCall(1).args;
 
-            assert.strictEqual(args.length, 2);
+            assert.strictEqual(args.length, 3);
 
-            [passedOrderKey, passedOverrides] = args;
+            [passedToken, passedContract, passedOverrides] = args;
 
-            assert.strictEqual(passedOrderKey, address);
+            assert.strictEqual(passedToken, token);
+            assert.strictEqual(passedContract, contract);
             assert.deepStrictEqual(passedOverrides, callOverrides);
         });
     });
