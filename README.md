@@ -45,7 +45,7 @@ In most cases you'll want to use the Swivel contract implementation to work with
 
 ### Protocols
 
-Swivel supports 6 different interest-generating protocols and each market on Swivel is tied to a specific protocol. You can select a Protocol using the `Protocols` enum:
+Swivel supports 7 different interest-generating protocols and each market on Swivel is tied to a specific protocol. You can select a Protocol using the `Protocols` enum:
 
 ```typescript
 import { Protocols } from '@swivel-finance/swivel-js';
@@ -65,6 +65,7 @@ or you can use the Protocol's numeric value:
  * Yearn    = 3
  * Aave     = 4
  * Euler    = 5
+ * Lido     = 6
  */ 
  
 const protocol = 4; // Aave

@@ -157,6 +157,55 @@ suite.skip('rates', () => {
         });
     });
 
+    suite('lido', () => {
+
+        const protocol = Protocols.Lido;
+        const address = '0x7f39c581f595b53c5cb19bd0b3f8da6c935e2ca0'; // wstETH address
+
+        test('exchangeRate', async () => {
+
+            const result = await getExchangeRate(protocol, address, signer);
+
+            console.log(result);
+
+            assert.ok(result);
+        });
+
+        test('interestRate', async () => {
+
+            const result = await getInterestRate(protocol, address, signer);
+
+            console.log(result);
+
+            assert.ok(result);
+        });
+    });
+
+    suite('lido - goerli', () => {
+
+        const [, signer] = createProvider(5);
+        const protocol = Protocols.Lido;
+        const address = '0x6320cd32aa674d2898a68ec82e869385fc5f7e2f'; // wstETH address
+
+        test('exchangeRate', async () => {
+
+            const result = await getExchangeRate(protocol, address, signer);
+
+            console.log(result);
+
+            assert.ok(result);
+        });
+
+        test('interestRate', async () => {
+
+            const result = await getInterestRate(protocol, address, signer);
+
+            console.log(result);
+
+            assert.ok(result);
+        });
+    });
+
     suite.skip('erc-4626', () => {
 
         const protocol = Protocols.Erc4626;
