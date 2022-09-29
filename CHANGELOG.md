@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.2...v3.1.0) (2022-09-29)
+
+
+### Features
+
+* add lido protocol integration ([ff82aa3](https://github.com/Swivel-Finance/swivel-js/commit/ff82aa3145f2f1cca079674a823ad33cbb803887))
+
 ### [3.0.2](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.1...v3.0.2) (2022-09-28)
 
 
