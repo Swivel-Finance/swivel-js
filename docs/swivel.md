@@ -37,6 +37,7 @@ const enum Protocols {
     Yearn,
     Aave,
     Euler,
+    Lido,
 }
 ```
 

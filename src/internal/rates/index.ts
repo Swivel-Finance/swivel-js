@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Protocols } from '../../types/index.js';
 import { DEFAULT_RATES_CONFIG, RatesConfig } from './config.js';
-import { exchangeRateAave, exchangeRateCERC20, exchangeRateERC4626, exchangeRateEuler, exchangeRateYearn, interestRateAave, interestRateCERC20, interestRateERC4626, interestRateEuler, interestRateYearn } from './protocols/index.js';
+import { exchangeRateAave, exchangeRateCERC20, exchangeRateERC4626, exchangeRateEuler, exchangeRateLido, exchangeRateYearn, interestRateAave, interestRateCERC20, interestRateERC4626, interestRateEuler, interestRateLido, interestRateYearn } from './protocols/index.js';
 
 /**
  * Retrieve the exchange rate for a lending protocol and cToken/pool.
@@ -12,8 +12,6 @@ import { exchangeRateAave, exchangeRateCERC20, exchangeRateERC4626, exchangeRate
  * they are not used by swivel-js. To guarantee consistency between the exchange rates used by the
  * on-chain contracts and consumers of swivel-js, swivel-js will return the exchange rates directly
  * from the MarketPlace contract's `exchangeRate` method.
- *
- * @deprecated
  *
  * @param p - protocol enum value of the lending protocol associated with a swivel market
  * @param a - address of the market's cToken
@@ -44,6 +42,10 @@ export async function getExchangeRate (p: Protocols, a: string, s: Provider | Si
         case Protocols.Aave:
 
             return await exchangeRateAave(a, s);
+
+        case Protocols.Lido:
+
+            return await exchangeRateLido(a, s);
 
         case Protocols.Erc4626:
 
@@ -86,6 +88,10 @@ export async function getInterestRate (p: Protocols, a: string, s: Provider | Si
         case Protocols.Aave:
 
             return await interestRateAave(a, s);
+
+        case Protocols.Lido:
+
+            return await interestRateLido(a, s);
 
         case Protocols.Erc4626:
 
