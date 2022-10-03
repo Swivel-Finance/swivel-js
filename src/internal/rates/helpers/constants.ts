@@ -1,5 +1,17 @@
+/**
+ * A base value with 27 decimals.
+ *
+ * @remarks
+ * Used by Aave and Euler to scale various rates.
+ */
 export const RAY = '1000000000000000000000000000';
 
+/**
+ * A base value with 26 decimals.
+ *
+ * @remarks
+ * Used by Swivel to scale ERC4626 and Euler rates.
+ */
 export const BASE = '100000000000000000000000000';
 
 export const BASE_DECIMALS = 26;

@@ -4,7 +4,7 @@ import { Contract } from 'ethers';
 import { SECONDS_PER_YEAR } from '../../../../constants/index.js';
 import { ERC20Contract, ERC20_ABI } from '../../../erc-20/index.js';
 import { RatesConfig } from '../../config.js';
-import { BASE, fixed, getChain } from '../../helpers/index.js';
+import { BASE, fixed, getChain, stringify } from '../../helpers/index.js';
 import { EULER_MANTISSA, EULER_MARKETS_ABI, EULER_RESERVE_FEE_SCALE, EULER_TOKEN_ABI } from './constants.js';
 import { EulerMarketsContract, EulerTokenContract } from './types.js';
 
@@ -69,5 +69,5 @@ export async function interestRateEuler (a: string, s: Provider | Signer, c: Rat
     // finally we can compound the supply rate and derive the supply APY
     const supplyAPY = Math.pow(Number(supplyRate.toString()) + 1, SECONDS_PER_YEAR) - 1;
 
-    return supplyAPY.toString();
+    return stringify(supplyAPY);
 }
