@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Contract } from 'ethers';
 import { SECONDS_PER_YEAR } from '../../../../constants/index.js';
-import { fixed } from '../../helpers/index.js';
+import { fixed, stringify } from '../../helpers/index.js';
 import { AAVE_MANTISSA, AAVE_POOL_ABI, AAVE_TOKEN_ABI } from './constants.js';
 import { AavePoolContract, AaveTokenContract } from './types.js';
 
@@ -59,5 +59,5 @@ export async function interestRateAave (a: string, s: Provider | Signer): Promis
     // compound the supply rate and derive the supply APY
     const supplyAPY = Math.pow(Number(supplyRate.toString()) / SECONDS_PER_YEAR + 1, SECONDS_PER_YEAR) - 1;
 
-    return supplyAPY.toString();
+    return stringify(supplyAPY);
 }

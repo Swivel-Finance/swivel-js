@@ -25,3 +25,17 @@ export const fixed = (v: BigNumberish, d = BASE_DECIMALS): FixedNumber => {
 
     return FixedNumber.from(v, d);
 };
+
+/**
+ * Stringify a number ensuring no exponential notations.
+ *
+ * @remarks
+ * Trailing zeros are removed from the result.
+ *
+ * @param v - number
+ * @param d - precision (number of decimals)
+ */
+export const stringify = (v: number, d = BASE_DECIMALS): string => {
+
+    return v.toFixed(d).replace(/(?<!\.)0+$/, '');
+};

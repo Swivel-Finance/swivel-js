@@ -2,6 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Contract } from 'ethers';
 import { BLOCKS_PER_DAY, DAYS_PER_YEAR } from '../../../../constants/index.js';
+import { stringify } from '../../helpers/index.js';
 import { CERC20_ABI, CERC20_MANTISSA } from './constants.js';
 import { CERC20Contract } from './types.js';
 
@@ -36,7 +37,9 @@ export async function interestRateCERC20 (a: string, s: Provider | Signer): Prom
 
     const contract = new Contract(a, CERC20_ABI, s) as CERC20Contract;
 
-    const rate = (await contract.supplyRatePerBlock()).toString();
+    const supplyRate = (await contract.supplyRatePerBlock()).toString();
 
-    return (Math.pow(Number(rate) / CERC20_MANTISSA * BLOCKS_PER_DAY + 1, DAYS_PER_YEAR) - 1).toString();
+    const supplyAPY = Math.pow(Number(supplyRate) / CERC20_MANTISSA * BLOCKS_PER_DAY + 1, DAYS_PER_YEAR) - 1;
+
+    return stringify(supplyAPY);
 }

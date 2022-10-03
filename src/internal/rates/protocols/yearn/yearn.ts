@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Contract } from 'ethers';
 import { fetch, request, response } from '../../../fetch/index.js';
-import { BASE_DECIMALS, getChain } from '../../helpers/index.js';
+import { getChain, stringify } from '../../helpers/index.js';
 import { YEARN_ABI, YEARN_API } from './constants.js';
 import { YearnApiSchema, YearnVaultContract } from './types.js';
 
@@ -63,5 +63,5 @@ export async function interestRateYearn (a: string, s: Provider | Signer): Promi
 
     if (!vault) throw new Error(`Vault '${ a }' not found.`);
 
-    return vault.apy.net_apy.toFixed(BASE_DECIMALS);
+    return stringify(vault.apy.net_apy);
 }
