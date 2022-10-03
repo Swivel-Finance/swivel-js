@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.1.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.1.0...v3.1.1) (2022-10-03)
+
+
+### Bug Fixes
+
+* ensure interest rate returns fixed notation ([2cb080d](https://github.com/Swivel-Finance/swivel-js/commit/2cb080d6d2b331424e24382c74f67c7e5be08efc))
+
 ## [3.1.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.0.2...v3.1.0) (2022-09-29)
 
 
