@@ -181,6 +181,30 @@ suite.skip('rates', () => {
         });
     });
 
+    suite('frax', () => {
+
+        const protocol = Protocols.Frax;
+        const address = '0xac3E018457B222d93114458476f3E3416Abbe38F'; // sfrxETH address
+
+        test('exchangeRate', async () => {
+
+            const result = await getExchangeRate(protocol, address, signer);
+
+            console.log(result);
+
+            assert.ok(result);
+        });
+
+        test('interestRate', async () => {
+
+            const result = await getInterestRate(protocol, address, signer);
+
+            console.log(result);
+
+            assert.ok(result);
+        });
+    });
+
     suite('lido - goerli', () => {
 
         const [, signer] = createProvider(5);
