@@ -181,9 +181,9 @@ suite.skip('rates', () => {
         });
     });
 
-    suite('frax', () => {
+    suite('frax / erc-4626', () => {
 
-        const protocol = Protocols.Frax;
+        const protocol = Protocols.Erc4626;
         const address = '0xac3E018457B222d93114458476f3E3416Abbe38F'; // sfrxETH address
 
         test('exchangeRate', async () => {
@@ -227,31 +227,6 @@ suite.skip('rates', () => {
             console.log(result);
 
             assert.ok(result);
-        });
-    });
-
-    suite.skip('erc-4626', () => {
-
-        const protocol = Protocols.Erc4626;
-        const address = '0x0'; // we need some actual erc-4626 token in the wild...
-
-        test('exchangeRate', async () => {
-
-            const result = await getExchangeRate(protocol, address, signer);
-
-            console.log(result);
-
-            assert.ok(result);
-        });
-
-        test('interestRate', async () => {
-
-            const result = await getInterestRate(protocol, address, signer);
-
-            console.log(result);
-
-            // erc-4626 don't implement an interest-rate/apy
-            assert.strictEqual(result, undefined);
         });
     });
 });

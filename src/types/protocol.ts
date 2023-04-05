@@ -6,5 +6,4 @@ export const enum Protocols {
     Aave,
     Euler,
     Lido,
-    Frax,
 }
