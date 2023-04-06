@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.1.1...v3.2.0) (2023-04-06)
+
+
+### Features
+
+* add frxETH support ([f0d213d](https://github.com/Swivel-Finance/swivel-js/commit/f0d213d016984d094ab39cb5a8c6ba924279b711))
+
+
+### Bug Fixes
+
+* use `Protocols.ERC4626` for Frax ([1947196](https://github.com/Swivel-Finance/swivel-js/commit/19471968d8eb775cd5cfb3dc4c4f27ff3138880b))
+
 ### [3.1.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.1.0...v3.1.1) (2022-10-03)
 
 
