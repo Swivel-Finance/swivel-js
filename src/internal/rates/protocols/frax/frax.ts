@@ -36,5 +36,5 @@ export async function interestRateFrax (): Promise<string | undefined> {
 
     const data = await response<FraxApiSchema>(res);
 
-    return stringify(data.sfrxethApr);
+    return stringify(data.sfrxethApr / 100);
 }
