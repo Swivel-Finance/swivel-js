@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.2.0...v3.2.1) (2023-04-06)
+
+
+### Bug Fixes
+
+* normalize frax interest rate ([3a6961c](https://github.com/Swivel-Finance/swivel-js/commit/3a6961c626b574e195f41d2f6bd90e4288e6e4de))
+
 ## [3.2.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.1.1...v3.2.0) (2023-04-06)
 
 
