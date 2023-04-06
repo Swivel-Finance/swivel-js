@@ -52,7 +52,7 @@ export function request (u: string, m: RequestMethod, p?: RequestPayload, i?: Re
         }
     }
 
-    return new Request(url.toString(), init);
+    return new Request(url.toString(), init as RequestInit);
 }
 
 /**

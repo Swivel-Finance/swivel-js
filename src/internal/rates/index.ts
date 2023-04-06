@@ -2,7 +2,7 @@ import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
 import { Protocols } from '../../types/index.js';
 import { DEFAULT_RATES_CONFIG, RatesConfig } from './config.js';
-import { exchangeRateAave, exchangeRateCERC20, exchangeRateERC4626, exchangeRateEuler, exchangeRateLido, exchangeRateYearn, interestRateAave, interestRateCERC20, interestRateERC4626, interestRateEuler, interestRateLido, interestRateYearn } from './protocols/index.js';
+import { exchangeRateAave, exchangeRateCERC20, exchangeRateEuler, exchangeRateFrax, exchangeRateLido, exchangeRateYearn, interestRateAave, interestRateCERC20, interestRateEuler, interestRateFrax, interestRateLido, interestRateYearn } from './protocols/index.js';
 
 /**
  * Retrieve the exchange rate for a lending protocol and cToken/pool.
@@ -49,7 +49,7 @@ export async function getExchangeRate (p: Protocols, a: string, s: Provider | Si
 
         case Protocols.Erc4626:
 
-            return await exchangeRateERC4626(a, s);
+            return await exchangeRateFrax(a, s);
 
         default:
 
@@ -95,7 +95,7 @@ export async function getInterestRate (p: Protocols, a: string, s: Provider | Si
 
         case Protocols.Erc4626:
 
-            return interestRateERC4626();
+            return interestRateFrax();
 
         default:
 
