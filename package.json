@@ -45,7 +45,7 @@
     "release:minor": "npm run release -- --release-as minor",
     "release:major": "npm run release -- --release-as major",
     "release:dry": "npm run release -- --dry-run",
-    "release:publish": "git push --follow-tags origin v3 && npm publish --access public"
+    "release:publish": "git push --follow-tags origin v4 && npm publish --access public"
   },
   "devDependencies": {
     "@swivel-finance/eslint-config": "^0.1.0",
