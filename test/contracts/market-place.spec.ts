@@ -79,7 +79,7 @@ suite('marketplace', () => {
 
     suite('markets', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
 
@@ -327,7 +327,7 @@ suite('marketplace', () => {
 
     suite('matureMarket', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
 
@@ -384,7 +384,7 @@ suite('marketplace', () => {
 
     suite('transferVaultNotional', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
         const receiver = '0xreceiver';

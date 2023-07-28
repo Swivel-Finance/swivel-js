@@ -3,7 +3,7 @@ import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber, CallOverrides, Contract } from 'ethers';
 import { VAULT_TRACKER_ABI } from '../constants/index.js';
 import { unwrap } from '../helpers/index.js';
-import { Protocols, Vault } from '../types/index.js';
+import { Protocol, Vault } from '../types/index.js';
 
 /**
  * An internal type solely for vault struct response.
@@ -64,7 +64,7 @@ export class VaultTracker {
      *
      * @param t - optional transaction overrides
      */
-    async protocol (t: CallOverrides = {}): Promise<Protocols> {
+    async protocol (t: CallOverrides = {}): Promise<Protocol> {
 
         return unwrap<number>(await this.contract.functions.protocol(t));
     }

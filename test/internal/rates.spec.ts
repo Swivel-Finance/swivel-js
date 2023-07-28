@@ -183,7 +183,7 @@ suite.skip('rates', () => {
 
     suite('frax / erc-4626', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const address = '0xac3E018457B222d93114458476f3E3416Abbe38F'; // sfrxETH address
 
         test('exchangeRate', async () => {

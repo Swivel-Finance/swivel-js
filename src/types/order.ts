@@ -1,11 +1,11 @@
-import { Protocols } from './protocol.js';
+import { Protocol } from './protocol.js';
 
 /**
  * A Swivel order.
  */
 export interface Order {
     key: string;
-    protocol: Protocols;
+    protocol: Protocol;
     maker: string;
     underlying: string;
     vault: boolean;

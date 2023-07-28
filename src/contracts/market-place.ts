@@ -5,7 +5,7 @@ import { MARKET_PLACE_ABI } from '../constants/index.js';
 import { executeTransaction, TransactionExecutor, unwrap } from '../helpers/index.js';
 import { getInterestRate } from '../internal/index.js';
 import { RatesConfig } from '../internal/rates/config.js';
-import { Market, Protocols } from '../types/index.js';
+import { Market, Protocol } from '../types/index.js';
 
 /**
  * An internal type solely for market struct responses.
@@ -101,12 +101,12 @@ export class MarketPlace {
     /**
      * Retrieve a market's information.
      *
-     * @param p - protocol enum value associated with the market
+     * @param p - protocol id associated with the market
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
      */
-    async markets (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<Market> {
+    async markets (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<Market> {
 
         const maturity = BigNumber.from(m);
 
@@ -132,12 +132,12 @@ export class MarketPlace {
     /**
      * Get a market's cToken address.
      *
-     * @param p - protocol enum value associated with the market
+     * @param p - protocol id associated with the market
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
      */
-    async cTokenAddress (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string> {
+    async cTokenAddress (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string> {
 
         const maturity = BigNumber.from(m);
 
@@ -147,13 +147,13 @@ export class MarketPlace {
     /**
      * Get a market's maturityRate and exchangeRate.
      *
-     * @param p - protocol enum value associated with the market
+     * @param p - protocol id associated with the market
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
      * @returns a tuple containing the maturityRate and exchangeRate of the market
      */
-    async rates (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<[string, string]> {
+    async rates (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<[string, string]> {
 
         const maturity = BigNumber.from(m);
 
@@ -165,12 +165,12 @@ export class MarketPlace {
     /**
      * Retrieve the exchange rate for a lending protocol and cToken/pool using Swivel's ICompounding abstraction.
      *
-     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param p - protocol id of the lending protocol associated with a swivel market
      * @param a - address of the market's cToken
      * @param t - optional transaction overrides
      * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
      */
-    async exchangeRate (p: Protocols, a: string, t: CallOverrides = {}): Promise<string> {
+    async exchangeRate (p: Protocol, a: string, t: CallOverrides = {}): Promise<string> {
 
         return unwrap<BigNumber>(await this.contract.functions.exchangeRate(p, a, t)).toString();
     }
@@ -178,11 +178,11 @@ export class MarketPlace {
     /**
      * Retrieve the interest rate (supply APY) for a lending protocol and cToken/pool.
      *
-     * @param p - protocol enum value of the lending protocol associated with a swivel market
+     * @param p - protocol id of the lending protocol associated with a swivel market
      * @param a - address of the market's cToken
      * @returns the interest rate of the protocol's cToken/pool (as a fraction 1/100%)
      */
-    interestRate (p: Protocols, a: string): Promise<string | undefined> {
+    interestRate (p: Protocol, a: string): Promise<string | undefined> {
 
         const provider = this.contract.provider;
 
@@ -198,12 +198,12 @@ export class MarketPlace {
     /**
      * Mature a market after its maturity has been reached.
      *
-     * @param p - protocol enum value associated with the market
+     * @param p - protocol id associated with the market
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
      */
-    async matureMarket (p: Protocols, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async matureMarket (p: Protocol, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
 
@@ -213,14 +213,14 @@ export class MarketPlace {
     /**
      * Transfer a vault's notional.
      *
-     * @param p - protocol enum value associated with the market
+     * @param p - protocol id associated with the market
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param r - receiver to be transferred to
      * @param a - amount of notional to be transferred
      * @param t - optional transaction overrides
      */
-    async transferVaultNotional (p: Protocols, u: string, m: BigNumberish, r: string, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async transferVaultNotional (p: Protocol, u: string, m: BigNumberish, r: string, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);

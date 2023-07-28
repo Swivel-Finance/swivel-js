@@ -4,7 +4,7 @@ import { BytesLike, SignatureLike } from '@ethersproject/bytes';
 import { BigNumber, BigNumberish, CallOverrides, Contract, PayableOverrides, utils } from 'ethers';
 import { ORDER_TYPEHASH, SWIVEL_ABI, TYPES } from '../constants/index.js';
 import { domain, executeTransaction, parseOrder, TransactionExecutor, unwrap } from '../helpers/index.js';
-import { Order, Protocols } from '../types/index.js';
+import { Order, Protocol } from '../types/index.js';
 
 export class Swivel {
 
@@ -283,13 +283,13 @@ export class Swivel {
     /**
      * Desposit underlying into Swivel and receive the minted zcTokens and nTokens.
      *
-     * @param p - protocol enum value associated with the market pair
+     * @param p - protocol id associated with the market pair
      * @param u - underlying address
      * @param m - maturity timestamp
      * @param a - amount to split
      * @param t - optional transaction overrides
      */
-    async splitUnderlying (p: Protocols, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async splitUnderlying (p: Protocol, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
@@ -300,13 +300,13 @@ export class Swivel {
     /**
      * Burn 1-1 amounts of zcTokens and nTokens and receive the redeemed underlying.
      *
-     * @param p - protocol enum value associated with the market pair
+     * @param p - protocol id associated with the market pair
      * @param u - underlying address
      * @param m - maturity timestamp
      * @param a - amount to combine
      * @param t - optional transaction overrides
      */
-    async combineTokens (p: Protocols, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async combineTokens (p: Protocol, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
@@ -317,13 +317,13 @@ export class Swivel {
     /**
      * Redeem zcTokens at market maturity and receive the redeemed underlying.
      *
-     * @param p - protocol enum value associated with the market pair
+     * @param p - protocol id associated with the market pair
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param a - amount of zcTokens being redeemed
      * @param t - optional transaction overrides
      */
-    async redeemZcToken (p: Protocols, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async redeemZcToken (p: Protocol, u: string, m: BigNumberish, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
@@ -334,12 +334,12 @@ export class Swivel {
     /**
      * Redeem any currently accrued interest.
      *
-     * @param p - protocol enum value associated with the market pair
+     * @param p - protocol id associated with the market pair
      * @param u - underlying token address associated with the market
      * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
      */
-    async redeemVaultInterest (p: Protocols, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
+    async redeemVaultInterest (p: Protocol, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
 

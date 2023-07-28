@@ -633,7 +633,7 @@ suite('swivel', () => {
 
     suite('splitUnderlying', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
         const amount = '1000000';
@@ -693,7 +693,7 @@ suite('swivel', () => {
 
     suite('combineTokens', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
         const amount = '1000000';
@@ -753,7 +753,7 @@ suite('swivel', () => {
 
     suite('redeemZcToken', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
         const amount = '1000000';
@@ -813,7 +813,7 @@ suite('swivel', () => {
 
     suite('redeemVaultInterest', () => {
 
-        const protocol = Protocols.Erc4626;
+        const protocol = Protocols.Frax;
         const underlying = '0xunderlying';
         const maturity = '1656526007';
 
