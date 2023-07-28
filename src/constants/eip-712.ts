@@ -9,7 +9,7 @@ export const DOMAIN_NAME = 'Swivel Finance';
 /**
  * Swivel version for EIP-712 signing.
  */
-export const DOMAIN_VERSION = '3.0.0';
+export const DOMAIN_VERSION = '4.0.0';
 
 /**
  * The typed data description for signing messages according to EIP-712.
