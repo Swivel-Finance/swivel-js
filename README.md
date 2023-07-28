@@ -59,7 +59,7 @@ or you can use the Protocol's numeric value:
 /**
  * The Protocol's numeric values
  * 
- * Erc4626  = 0
+ * Frax     = 0
  * Compound = 1
  * Rari     = 2
  * Yearn    = 3
