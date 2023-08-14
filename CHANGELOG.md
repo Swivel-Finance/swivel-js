@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-next.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.2.1...v4.0.0-next.0) (2023-08-14)
+
+
+### ⚠ BREAKING CHANGES
+
+* rename `Erc4626` entry of `Protocols` enum to `Frax`
+
+### Features
+
+* introduce new `Protocol` type and update `Protocols` enum ([b442ec8](https://github.com/Swivel-Finance/swivel-js/commit/b442ec8a5e8edea91a5c5519288f6ff56934ea9d))
+
+
+### Bug Fixes
+
+* update EIP-712 signature `DOMAIN_VERSION` to `4.0.0` ([3814385](https://github.com/Swivel-Finance/swivel-js/commit/3814385e2ae202d1adbbee685af287ce18f5c597))
+
 ### [3.2.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.2.0...v3.2.1) (2023-04-06)
 
 
