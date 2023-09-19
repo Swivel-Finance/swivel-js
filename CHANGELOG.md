@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-next.1](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.0...v4.0.0-next.1) (2023-09-19)
+
+
+### ⚠ BREAKING CHANGES
+
+* add `adapter` address to `Market` type
+
+### Features
+
+* add `adapter` address to `Market` struct ([fe968b3](https://github.com/Swivel-Finance/swivel-js/commit/fe968b38b033f06cf694349ee6010d2ba0538b01))
+
 ## [4.0.0-next.0](https://github.com/Swivel-Finance/swivel-js/compare/v3.2.1...v4.0.0-next.0) (2023-08-14)
 
 
