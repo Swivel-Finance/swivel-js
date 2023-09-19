@@ -8,8 +8,8 @@ Market information is returned in a struct of the following shape:
 
 ```typescript
 interface Market {
+    adapter: string;
     cTokenAddr: string;
-    adapterAddr: string;
     zcToken: string;
     vaultTracker: string;
     maturityRate: string;
