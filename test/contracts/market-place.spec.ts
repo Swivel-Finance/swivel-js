@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Provider, TransactionResponse } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
-import { BigNumber, CallOverrides, getDefaultProvider, PayableOverrides, utils, Wallet } from 'ethers';
+import { BigNumber, CallOverrides, PayableOverrides, Wallet, getDefaultProvider, utils } from 'ethers';
 import { suite, suiteSetup, test } from 'mocha';
 import { MarketPlace, MarketResponse } from '../../src/contracts/index.js';
 import { Market, Protocols } from '../../src/types/index.js';
@@ -85,6 +85,7 @@ suite('marketplace', () => {
 
         // a mocked market response
         const mockResult = {
+            adapter: '0xadapter',
             cTokenAddr: '0xcToken',
             zcToken: '0xzcToken',
             vaultTracker: '0xvaultTracker',
@@ -93,6 +94,7 @@ suite('marketplace', () => {
 
         // an expected market result
         const expected: Market = {
+            adapter: '0xadapter',
             cTokenAddr: '0xcToken',
             zcToken: '0xzcToken',
             vaultTracker: '0xvaultTracker',

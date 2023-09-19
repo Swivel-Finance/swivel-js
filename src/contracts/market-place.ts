@@ -13,6 +13,7 @@ import { Market, Protocol } from '../types/index.js';
  * @internal
  */
 export type MarketResponse = unknown[] & {
+    adapter: string;
     cTokenAddr: string;
     zcToken: string;
     vaultTracker: string;
@@ -122,6 +123,7 @@ export class MarketPlace {
         const market = await this.contract.functions.markets(p, u, maturity, t) as MarketResponse;
 
         return {
+            adapter: market.adapter,
             cTokenAddr: market.cTokenAddr,
             zcToken: market.zcToken,
             vaultTracker: market.vaultTracker,

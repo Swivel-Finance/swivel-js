@@ -1,7 +1,7 @@
 import assert from 'assert';
 import { Provider } from '@ethersproject/abstract-provider';
 import { Signer } from '@ethersproject/abstract-signer';
-import { getDefaultProvider, Wallet } from 'ethers';
+import { Wallet, getDefaultProvider } from 'ethers';
 import { suite, suiteSetup, test } from 'mocha';
 import { getExchangeRate, getInterestRate } from '../../src/internal/index.js';
 import { Protocols } from '../../src/types/index.js';
@@ -109,7 +109,7 @@ suite.skip('rates', () => {
         });
     });
 
-    suite('euler', () => {
+    suite.skip('euler', () => {
 
         const protocol = Protocols.Euler;
         const address = '0xEb91861f8A4e1C12333F42DCE8fB0Ecdc28dA716'; // Euler EToken for USDC market
@@ -205,7 +205,7 @@ suite.skip('rates', () => {
         });
     });
 
-    suite('lido - goerli', () => {
+    suite.skip('lido - goerli', () => {
 
         const [, signer] = createProvider(5);
         const protocol = Protocols.Lido;

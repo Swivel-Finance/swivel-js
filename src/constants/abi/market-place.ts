@@ -418,9 +418,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'event',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'admin',
         'outputs': [
             {
@@ -584,9 +582,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'creator',
         'outputs': [
             {
@@ -707,7 +703,7 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
         ],
-        'stateMutability': 'view',
+        'stateMutability': 'nonpayable',
         'type': 'function',
     },
     {
@@ -730,6 +726,11 @@ export const MARKET_PLACE_ABI = [
         ],
         'name': 'markets',
         'outputs': [
+            {
+                'internalType': 'address',
+                'name': 'adapter',
+                'type': 'address',
+            },
             {
                 'internalType': 'address',
                 'name': 'cTokenAddr',
@@ -984,7 +985,7 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
         ],
-        'stateMutability': 'view',
+        'stateMutability': 'nonpayable',
         'type': 'function',
     },
     {
@@ -1099,9 +1100,7 @@ export const MARKET_PLACE_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'swivel',
         'outputs': [
             {
