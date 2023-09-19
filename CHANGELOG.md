@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-next.2](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.1...v4.0.0-next.2) (2023-09-19)
+
 ## [4.0.0-next.1](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.0...v4.0.0-next.1) (2023-09-19)
 
 
