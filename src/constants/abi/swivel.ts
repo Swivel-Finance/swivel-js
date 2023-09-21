@@ -16,9 +16,7 @@ export const SWIVEL_ABI = [
         'type': 'constructor',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'ApproveFailed',
         'type': 'error',
     },
@@ -54,37 +52,27 @@ export const SWIVEL_ABI = [
         'type': 'error',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'S',
         'type': 'error',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'TransferFailed',
         'type': 'error',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'TransferFromFailed',
         'type': 'error',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'V',
         'type': 'error',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'ZeroAddress',
         'type': 'error',
     },
@@ -109,9 +97,7 @@ export const SWIVEL_ABI = [
     },
     {
         'anonymous': false,
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'BlockFeeChange',
         'type': 'event',
     },
@@ -164,6 +150,37 @@ export const SWIVEL_ABI = [
             },
         ],
         'name': 'ChangeFee',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'compounding',
+                'type': 'address',
+            },
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'adapter',
+                'type': 'address',
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'deposited',
+                'type': 'uint256',
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'received',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'Deposit',
         'type': 'event',
     },
     {
@@ -353,9 +370,38 @@ export const SWIVEL_ABI = [
         'type': 'event',
     },
     {
+        'anonymous': false,
         'inputs': [
-
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'compounding',
+                'type': 'address',
+            },
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'adapter',
+                'type': 'address',
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'redeemed',
+                'type': 'uint256',
+            },
+            {
+                'indexed': false,
+                'internalType': 'uint256',
+                'name': 'withdrawn',
+                'type': 'uint256',
+            },
         ],
+        'name': 'Withdrawal',
+        'type': 'event',
+    },
+    {
+        'inputs': [],
         'name': 'HOLD',
         'outputs': [
             {
@@ -368,9 +414,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'MIN_FEENOMINATOR',
         'outputs': [
             {
@@ -383,9 +427,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'NAME',
         'outputs': [
             {
@@ -398,9 +440,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'VERSION',
         'outputs': [
             {
@@ -413,9 +453,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'aaveAddr',
         'outputs': [
             {
@@ -428,9 +466,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'admin',
         'outputs': [
             {
@@ -493,10 +529,29 @@ export const SWIVEL_ABI = [
     {
         'inputs': [
             {
-                'internalType': 'uint8',
-                'name': 'p',
-                'type': 'uint8',
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
             },
+            {
+                'internalType': 'address',
+                'name': 'c',
+                'type': 'address',
+            },
+        ],
+        'name': 'authApprove',
+        'outputs': [
+            {
+                'internalType': 'uint256',
+                'name': 'a',
+                'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
             {
                 'internalType': 'address',
                 'name': 'u',
@@ -509,12 +564,17 @@ export const SWIVEL_ABI = [
             },
             {
                 'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
                 'name': 't',
                 'type': 'address',
             },
             {
                 'internalType': 'uint256',
-                'name': 'a',
+                'name': 'amount',
                 'type': 'uint256',
             },
         ],
@@ -554,9 +614,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'blockFeeChange',
         'outputs': [
             {
@@ -731,9 +789,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'domain',
         'outputs': [
             {
@@ -844,9 +900,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'feeChange',
         'outputs': [
             {
@@ -995,9 +1049,7 @@ export const SWIVEL_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'marketPlace',
         'outputs': [
             {
@@ -1224,7 +1276,7 @@ export const SWIVEL_ABI = [
                 'type': 'address',
             },
         ],
-        'name': 'withdraw',
+        'name': 'withdrawFunds',
         'outputs': [
             {
                 'internalType': 'bool',
