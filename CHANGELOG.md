@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-next.3](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.2...v4.0.0-next.3) (2023-09-21)
+
+
+### ⚠ BREAKING CHANGES
+
+* the `Vault` struct now has the additional `accrualBlock` property
+* `exchangeRate` function now requires the `protocol`, `underlying` and `maturity`
+
+### Features
+
+* update marketplace ABI to latest v4 ([86dbb7b](https://github.com/Swivel-Finance/swivel-js/commit/86dbb7b3c9e0f1d6aa87f166fa76e4815c0b61fc))
+* update swivel ABI to latest v4 ([d6d83a1](https://github.com/Swivel-Finance/swivel-js/commit/d6d83a171583612bea500edc2561a3a00aef3fe4))
+* update vaulttracker ABI to latest v4 ([d0142d1](https://github.com/Swivel-Finance/swivel-js/commit/d0142d18a5a1515f703c9f4470f8c249edca6bd0))
+
 ## [4.0.0-next.2](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.1...v4.0.0-next.2) (2023-09-19)
 
 ## [4.0.0-next.1](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.0...v4.0.0-next.1) (2023-09-19)
