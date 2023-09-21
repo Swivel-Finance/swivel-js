@@ -14,6 +14,7 @@ export type VaultResponse = BigNumber[] & {
     notional: BigNumber;
     redeemable: BigNumber;
     exchangeRate: BigNumber;
+    accrualBlock: BigNumber;
 };
 
 export class VaultTracker {
@@ -67,6 +68,16 @@ export class VaultTracker {
     async protocol (t: CallOverrides = {}): Promise<Protocol> {
 
         return unwrap<number>(await this.contract.functions.protocol(t));
+    }
+
+    /**
+     * Get the adapter address.
+     *
+     * @param t - optional transaction overrides
+     */
+    async adapter (t: CallOverrides = {}): Promise<string> {
+
+        return unwrap<string>(await this.contract.functions.adapter(t));
     }
 
     /**
@@ -132,6 +143,7 @@ export class VaultTracker {
             notional: vault.notional.toString(),
             redeemable: vault.redeemable.toString(),
             exchangeRate: vault.exchangeRate.toString(),
+            accrualBlock: vault.accrualBlock.toString(),
         };
     }
 

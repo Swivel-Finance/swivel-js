@@ -69,6 +69,19 @@ suite('vaulttracker', () => {
         });
     });
 
+    suite('adapter', () => {
+
+        test('unwraps result and accepts transaction overrides', async () => {
+
+            await assertGetter(
+                new VaultTracker(ADDRESSES.VAULT_TRACKER, provider),
+                'adapter',
+                '0xadapter',
+                callOverrides,
+            );
+        });
+    });
+
     suite('cTokenAddr', () => {
 
         test('unwraps result and accepts transaction overrides', async () => {
@@ -241,6 +254,7 @@ suite('vaulttracker', () => {
             notional: BigNumber.from(0),
             redeemable: BigNumber.from(0),
             exchangeRate: BigNumber.from(1),
+            accrualBlock: BigNumber.from(12345),
         } as VaultResponse;
 
         // an expected vault result
@@ -248,6 +262,7 @@ suite('vaulttracker', () => {
             notional: '0',
             redeemable: '0',
             exchangeRate: '1',
+            accrualBlock: '12345',
         };
 
         test('unwraps and converts result', async () => {

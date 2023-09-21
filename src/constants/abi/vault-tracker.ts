@@ -13,6 +13,11 @@ export const VAULT_TRACKER_ABI = [
             },
             {
                 'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+            {
+                'internalType': 'address',
                 'name': 'c',
                 'type': 'address',
             },
@@ -60,6 +65,19 @@ export const VAULT_TRACKER_ABI = [
         ],
         'name': 'Exception',
         'type': 'error',
+    },
+    {
+        'inputs': [],
+        'name': 'adapter',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
     },
     {
         'inputs': [
@@ -110,9 +128,7 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'cTokenAddr',
         'outputs': [
             {
@@ -125,9 +141,7 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'marketPlace',
         'outputs': [
             {
@@ -159,9 +173,7 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'maturity',
         'outputs': [
             {
@@ -174,9 +186,7 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'maturityRate',
         'outputs': [
             {
@@ -189,9 +199,7 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'protocol',
         'outputs': [
             {
@@ -204,9 +212,7 @@ export const VAULT_TRACKER_ABI = [
         'type': 'function',
     },
     {
-        'inputs': [
-
-        ],
+        'inputs': [],
         'name': 'rates',
         'outputs': [
             {
@@ -220,7 +226,7 @@ export const VAULT_TRACKER_ABI = [
                 'type': 'uint256',
             },
         ],
-        'stateMutability': 'view',
+        'stateMutability': 'nonpayable',
         'type': 'function',
     },
     {
@@ -268,8 +274,19 @@ export const VAULT_TRACKER_ABI = [
     },
     {
         'inputs': [
-
+            {
+                'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
         ],
+        'name': 'setAdapter',
+        'outputs': [],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [],
         'name': 'swivel',
         'outputs': [
             {
@@ -357,6 +374,11 @@ export const VAULT_TRACKER_ABI = [
             {
                 'internalType': 'uint256',
                 'name': 'exchangeRate',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'accrualBlock',
                 'type': 'uint256',
             },
         ],
