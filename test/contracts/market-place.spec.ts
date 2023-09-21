@@ -219,30 +219,36 @@ suite('marketplace', () => {
     suite('exchangeRate', () => {
 
         const protocol = Protocols.Compound;
-        const address = '0xcTokenAddress';
+        const underlying = '0xunderlying';
+        const maturity = '1656526007';
 
-        const expected = '21382742901237490012';
+        const maturityRate = '20000000000000000000';
+        const exchangeRate = '21382742901237490012';
+        const expected = exchangeRate;
 
         test('converts arguments, unwraps and converts result', async () => {
 
             const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
 
-            const exchangeRate = mockMethod<string>(marketplace, 'exchangeRate');
-            exchangeRate.resolves([expected]);
+            // rates returns a tuple of uint256 which ethers will convert to BigNumbers
+            // we create a mock result with BigNumbers and assert the HOC converts them to strings
+            const rates = mockMethod<[BigNumber, BigNumber]>(marketplace, 'rates');
+            rates.resolves([BigNumber.from(maturityRate), BigNumber.from(exchangeRate)]);
 
-            const result = await marketplace.exchangeRate(protocol, address);
+            const result = await marketplace.exchangeRate(protocol, underlying, maturity);
 
             assert.deepStrictEqual(result, expected);
-            assert(exchangeRate.calledOnce);
+            assert(rates.calledOnce);
 
-            const args = exchangeRate.getCall(0).args;
+            const args = rates.getCall(0).args;
 
-            assert.strictEqual(args.length, 3);
+            assert.strictEqual(args.length, 4);
 
-            const [passedProtocol, passedAddress, passedOverrides] = args;
+            const [passedProtocol, passedUnderlying, passedMaturity, passedOverrides] = args;
 
             assert.strictEqual(passedProtocol, protocol);
-            assert.strictEqual(passedAddress, address);
+            assert.strictEqual(passedUnderlying, underlying);
+            assert.deepStrictEqual(passedMaturity, BigNumber.from(maturity));
             assert.deepStrictEqual(passedOverrides, {});
         });
 
@@ -250,22 +256,82 @@ suite('marketplace', () => {
 
             const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
 
-            const exchangeRate = mockMethod<string>(marketplace, 'exchangeRate');
-            exchangeRate.resolves([expected]);
+            // rates returns a tuple of uint256 which ethers will convert to BigNumbers
+            // we create a mock result with BigNumbers and assert the HOC converts them to strings
+            const rates = mockMethod<[BigNumber, BigNumber]>(marketplace, 'rates');
+            rates.resolves([BigNumber.from(maturityRate), BigNumber.from(exchangeRate)]);
 
-            const result = await marketplace.exchangeRate(protocol, address, callOverrides);
+            const result = await marketplace.exchangeRate(protocol, underlying, maturity, callOverrides);
 
             assert.deepStrictEqual(result, expected);
-            assert(exchangeRate.calledOnce);
+            assert(rates.calledOnce);
 
-            const args = exchangeRate.getCall(0).args;
+            const args = rates.getCall(0).args;
 
-            assert.strictEqual(args.length, 3);
+            assert.strictEqual(args.length, 4);
 
-            const [passedProtocol, passedAddress, passedOverrides] = args;
+            const [passedProtocol, passedUnderlying, passedMaturity, passedOverrides] = args;
 
             assert.strictEqual(passedProtocol, protocol);
-            assert.strictEqual(passedAddress, address);
+            assert.strictEqual(passedUnderlying, underlying);
+            assert.deepStrictEqual(passedMaturity, BigNumber.from(maturity));
+            assert.deepStrictEqual(passedOverrides, callOverrides);
+        });
+    });
+
+    suite('adapterAddress', () => {
+
+        const protocol = Protocols.Compound;
+        const underlying = '0xunderlying';
+        const maturity = '1656526007';
+
+        const expected = '0xadapter';
+
+        test('converts arguments, unwraps and converts result', async () => {
+
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
+
+            const adapterAddress = mockMethod<string>(marketplace, 'adapterAddress');
+            adapterAddress.resolves([expected]);
+
+            const result = await marketplace.adapterAddress(protocol, underlying, maturity);
+
+            assert.deepStrictEqual(result, expected);
+            assert(adapterAddress.calledOnce);
+
+            const args = adapterAddress.getCall(0).args;
+
+            assert.strictEqual(args.length, 4);
+
+            const [passedProtocol, passedUnderlying, passedMaturity, passedOverrides] = args;
+
+            assert.strictEqual(passedProtocol, protocol);
+            assert.strictEqual(passedUnderlying, underlying);
+            assert.deepStrictEqual(passedMaturity, BigNumber.from(maturity));
+            assert.deepStrictEqual(passedOverrides, {});
+        });
+
+        test('accepts transaction overrides', async () => {
+
+            const marketplace = new MarketPlace(ADDRESSES.MARKET_PLACE, provider);
+
+            const adapterAddress = mockMethod<string>(marketplace, 'adapterAddress');
+            adapterAddress.resolves([expected]);
+
+            const result = await marketplace.adapterAddress(protocol, underlying, maturity, callOverrides);
+
+            assert.deepStrictEqual(result, expected);
+            assert(adapterAddress.calledOnce);
+
+            const args = adapterAddress.getCall(0).args;
+
+            assert.strictEqual(args.length, 4);
+
+            const [passedProtocol, passedUnderlying, passedMaturity, passedOverrides] = args;
+
+            assert.strictEqual(passedProtocol, protocol);
+            assert.strictEqual(passedUnderlying, underlying);
+            assert.deepStrictEqual(passedMaturity, BigNumber.from(maturity));
             assert.deepStrictEqual(passedOverrides, callOverrides);
         });
     });

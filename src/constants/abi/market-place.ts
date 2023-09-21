@@ -367,6 +367,31 @@ export const MARKET_PLACE_ABI = [
             {
                 'indexed': true,
                 'internalType': 'address',
+                'name': 'underlying',
+                'type': 'address',
+            },
+            {
+                'indexed': true,
+                'internalType': 'uint256',
+                'name': 'maturity',
+                'type': 'uint256',
+            },
+            {
+                'indexed': true,
+                'internalType': 'address',
+                'name': 'adapter',
+                'type': 'address',
+            },
+        ],
+        'name': 'SetAdapter',
+        'type': 'event',
+    },
+    {
+        'anonymous': false,
+        'inputs': [
+            {
+                'indexed': true,
+                'internalType': 'address',
                 'name': 'admin',
                 'type': 'address',
             },
@@ -416,6 +441,35 @@ export const MARKET_PLACE_ABI = [
         ],
         'name': 'TransferVaultNotional',
         'type': 'event',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+        ],
+        'name': 'adapterAddress',
+        'outputs': [
+            {
+                'internalType': 'address',
+                'name': '',
+                'type': 'address',
+            },
+        ],
+        'stateMutability': 'view',
+        'type': 'function',
     },
     {
         'inputs': [],
@@ -560,6 +614,11 @@ export const MARKET_PLACE_ABI = [
                 'type': 'address',
             },
             {
+                'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+            {
                 'internalType': 'string',
                 'name': 'n',
                 'type': 'string',
@@ -677,30 +736,6 @@ export const MARKET_PLACE_ABI = [
                 'internalType': 'bool',
                 'name': '',
                 'type': 'bool',
-            },
-        ],
-        'stateMutability': 'nonpayable',
-        'type': 'function',
-    },
-    {
-        'inputs': [
-            {
-                'internalType': 'uint8',
-                'name': 'p',
-                'type': 'uint8',
-            },
-            {
-                'internalType': 'address',
-                'name': 'c',
-                'type': 'address',
-            },
-        ],
-        'name': 'exchangeRate',
-        'outputs': [
-            {
-                'internalType': 'uint256',
-                'name': '',
-                'type': 'uint256',
             },
         ],
         'stateMutability': 'nonpayable',
@@ -1056,6 +1091,40 @@ export const MARKET_PLACE_ABI = [
                 'internalType': 'uint256',
                 'name': '',
                 'type': 'uint256',
+            },
+        ],
+        'stateMutability': 'nonpayable',
+        'type': 'function',
+    },
+    {
+        'inputs': [
+            {
+                'internalType': 'address',
+                'name': 'u',
+                'type': 'address',
+            },
+            {
+                'internalType': 'uint256',
+                'name': 'm',
+                'type': 'uint256',
+            },
+            {
+                'internalType': 'uint8',
+                'name': 'p',
+                'type': 'uint8',
+            },
+            {
+                'internalType': 'address',
+                'name': 'a',
+                'type': 'address',
+            },
+        ],
+        'name': 'setAdapter',
+        'outputs': [
+            {
+                'internalType': 'bool',
+                'name': '',
+                'type': 'bool',
             },
         ],
         'stateMutability': 'nonpayable',

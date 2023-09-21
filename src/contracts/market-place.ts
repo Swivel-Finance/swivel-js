@@ -132,6 +132,21 @@ export class MarketPlace {
     }
 
     /**
+     * Get a market's adapter address.
+     *
+     * @param p - protocol id associated with the market
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
+     * @param t - optional transaction overrides
+     */
+    async adapterAddress (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string> {
+
+        const maturity = BigNumber.from(m);
+
+        return unwrap<string>(await this.contract.functions.adapterAddress(p, u, maturity, t));
+    }
+
+    /**
      * Get a market's cToken address.
      *
      * @param p - protocol id associated with the market
@@ -168,13 +183,16 @@ export class MarketPlace {
      * Retrieve the exchange rate for a lending protocol and cToken/pool using Swivel's ICompounding abstraction.
      *
      * @param p - protocol id of the lending protocol associated with a swivel market
-     * @param a - address of the market's cToken
+     * @param u - underlying token address associated with the market
+     * @param m - maturity timestamp of the market
      * @param t - optional transaction overrides
      * @returns the exchange rate of the protocol's cToken/pool to underlying (the scale of the value depends on the protocol)
      */
-    async exchangeRate (p: Protocol, a: string, t: CallOverrides = {}): Promise<string> {
+    async exchangeRate (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string> {
 
-        return unwrap<BigNumber>(await this.contract.functions.exchangeRate(p, a, t)).toString();
+        const rates = await this.rates(p, u, m, t);
+
+        return rates[1];
     }
 
     /**
