@@ -1020,7 +1020,7 @@ export const MARKET_PLACE_ABI = [
                 'type': 'uint256',
             },
         ],
-        'stateMutability': 'nonpayable',
+        'stateMutability': 'view',
         'type': 'function',
     },
     {
