@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0-next.4](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.3...v4.0.0-next.4) (2023-09-21)
+
+
+### Bug Fixes
+
+* update `stateMutability` of `rates` methods ([e6bf337](https://github.com/Swivel-Finance/swivel-js/commit/e6bf337d45bfd9bdae74e44712ceb3e65814212b))
+
 ## [4.0.0-next.3](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.2...v4.0.0-next.3) (2023-09-21)
 
 
