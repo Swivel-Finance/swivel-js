@@ -169,15 +169,16 @@ Allows a user to retrieve a market's exchange rate.
 ### Signature
 
 ```typescript
-exchangeRate (p: Protocols, a: string, t: CallOverrides = {}): Promise<string>;
+exchangeRate ((p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the lending protocol associated with the market.|
-|a|`string`|The cToken address of the market.|
+|p|`Protocol`|The protocol enum value of the lending protocol associated with the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
 |t|`CallOverrides`|Optional transaction overrides.|
 
 ### Returns
@@ -195,14 +196,14 @@ Allows a user to retrieve a market's interest rate (supply APY).
 ### Signature
 
 ```typescript
-interestRate (p: Protocols, a: string): Promise<string | undefined>;
+interestRate (p: Protocol, a: string): Promise<string | undefined>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the lending protocol associated with the market.|
+|p|`Protocol`|The protocol enum value of the lending protocol associated with the market.|
 |a|`string`|The cToken address of the market.|
 
 ### Returns
@@ -218,14 +219,14 @@ Allows a user to retrieve a market's maturity rate and exchange rate in one call
 ### Signature
 
 ```typescript
-rates (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<[string, string]>;
+rates (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<[string, string]>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the market.|
+|p|`Protocol`|The protocol enum value of the market.|
 |u|`string`|The underlying token address of the market.|
 |m|`BigNumberish`|The maturity timestamp of the market.|
 |t|`CallOverrides`|Optional transaction overrides.|
@@ -245,14 +246,14 @@ Allows a user to retrieve market information from the MarketPlace.
 ### Signature
 
 ```typescript
-markets (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<Market>;
+markets (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<Market>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the market.|
+|p|`Protocol`|The protocol enum value of the market.|
 |u|`string`|The underlying token address of the market.|
 |m|`BigNumberish`|The maturity timestamp of the market.|
 |t|`CallOverrides`|Optional transaction overrides.|
@@ -293,6 +294,31 @@ const maturityRate = market.maturityRate;
 
 
 
+## adapterAddress
+
+Allows a user to retrieve a market's adapter address.
+
+### Signature
+
+```ts
+adapterAddress (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|p|`Protocol`|The protocol enum value of the market.|
+|u|`string`|The underlying token address of the market.|
+|m|`BigNumberish`|The maturity timestamp of the market.|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the market's adapeter address if the contract call succeeds and rejects otherwise.
+
+
+
 ## cTokenAddress
 
 Allows a user to retrieve a market's cToken address.
@@ -300,14 +326,14 @@ Allows a user to retrieve a market's cToken address.
 ### Signature
 
 ```typescript
-cTokenAddress (p: Protocols, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string>;
+cTokenAddress (p: Protocol, u: string, m: BigNumberish, t: CallOverrides = {}): Promise<string>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the market.|
+|p|`Protocol`|The protocol enum value of the market.|
 |u|`string`|The underlying token address of the market.|
 |m|`BigNumberish`|The maturity timestamp of the market.|
 |t|`CallOverrides`|Optional transaction overrides.|
@@ -325,14 +351,14 @@ Allows a user to mature a market in the MarketPlace.
 ### Signature
 
 ```typescript
-matureMarket (p: Protocols, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
+matureMarket (p: Protocol, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the market.|
+|p|`Protocol`|The protocol enum value of the market.|
 |u|`string`|The underlying token address of the market.|
 |m|`BigNumberish`|The maturity timestamp of the market.|
 |t|`PayableOverrides`|Optional transaction overrides.|
@@ -350,14 +376,14 @@ Allows a user to transfer the their notional from a market in the MarketPlace.
 ### Signature
 
 ```typescript
-transferVaultNotional (p: Protocols, u: string, m: BigNumberish, r: string, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
+transferVaultNotional (p: Protocol, u: string, m: BigNumberish, r: string, a: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse>;
 ```
 
 ### Parameters
 
 |Paramater|Type|Description|
 |---------|----|-----------|
-|p|`Protocols`|The protocol enum value of the market.|
+|p|`Protocol`|The protocol enum value of the market.|
 |u|`string`|The underlying token address of the market.|
 |m|`BigNumberish`|The maturity timestamp of the market.|
 |r|`string`|The receiver address to which to transfer the notional.|

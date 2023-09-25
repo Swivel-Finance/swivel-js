@@ -11,6 +11,7 @@ interface Vault {
     notional: string;
     redeemable: string;
     exchangeRate: string;
+    accrualBlock: string;
 }
 ```
 
@@ -178,6 +179,28 @@ maturityRate (t: CallOverrides = {}): Promise<string>;
 ### Returns
 
 A promise that resolves with the vault's maturity rate if the contract call succeeds and rejects otherwise.
+
+
+
+## adapter
+
+Allows a user to retrieve the vault's adapter address.
+
+### Signature
+
+```typescript
+adapter (t: CallOverrides = {}): Promise<string>;
+```
+
+### Parameters
+
+|Paramater|Type|Description|
+|---------|----|-----------|
+|t|`CallOverrides`|Optional transaction overrides.|
+
+### Returns
+
+A promise that resolves with the vault's adapter address if the contract call succeeds and rejects otherwise.
 
 
 
