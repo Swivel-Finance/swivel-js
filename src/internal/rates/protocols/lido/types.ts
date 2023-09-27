@@ -12,22 +12,19 @@ export interface wstETHContract extends Contract {
 }
 
 /**
- * An interface for a subset of Lido's (stETH) ABI.
+ * An interface for Lido's API response.
  *
  * @remarks
- * https://docs.lido.fi/contracts/lido
+ * https://eth-api.lido.fi/api/static/index.html#/APR%20for%20Eth%20and%20stEth/ProtocolController_findLastAPRforSTETH
  */
-export interface LidoContract extends Contract {
-    getFee (): Promise<number>;
-    getOracle (): Promise<string>;
-}
-
-/**
- * An interface for a subset of Lido's Oracle ABI.
- *
- * @remarks
- * https://docs.lido.fi/contracts/lido-oracle
- */
-export interface LidoOracleContract extends Contract {
-    getLastCompletedReportDelta (): Promise<[BigNumber, BigNumber, BigNumber]>;
+export interface LidoApiSchema {
+    data: {
+        timeUnix: number;
+        apr: number;
+    };
+    meta: {
+        symbol: string;
+        address: string;
+        chainId: number;
+    };
 }

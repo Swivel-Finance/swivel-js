@@ -4,7 +4,7 @@
  * @remarks
  * https://docs.lido.fi/contracts/lido#getfee
  */
-export const BASIS_POINTS = 10000;
+// export const BASIS_POINTS = 10000;
 
 /**
  * A minimal subset of Lido's wstETH ABI.
@@ -18,22 +18,8 @@ export const WSTETH_ABI = [
 ];
 
 /**
- * A minimal subset of Lido's (stETH) ABI.
- *
+ * The Lido API endpoint for APR.
  * @remarks
- * https://docs.lido.fi/contracts/lido
+ * https://docs.lido.fi/integrations/api#last-lido-apr-for-steth
  */
-export const LIDO_ABI = [
-    'function getFee() view returns (uint16)',
-    'function getOracle() view returns (address)',
-];
-
-/**
- * A minimal subset of Lido's Oracle ABI.
- *
- * @remarks
- * https://docs.lido.fi/contracts/lido-oracle
- */
-export const LIDO_ORACLE_ABI = [
-    'function getLastCompletedReportDelta() view returns (uint256 postTotalPooledEther, uint256 preTotalPooledEther, uint256 timeElapsed)',
-];
+export const LIDO_API = 'https://eth-api.lido.fi/v1/protocol/steth/apr/last';
