@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0...v4.0.1) (2023-09-27)
+
+
+### Bug Fixes
+
+* update lido's `interestRate` method ([6833128](https://github.com/Swivel-Finance/swivel-js/commit/6833128ed37c5fa289dd22f01325664412d671ca))
+
 ## [4.0.0](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.4...v4.0.0) (2023-09-25)
 
 ## [4.0.0-next.4](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.0-next.3...v4.0.0-next.4) (2023-09-21)

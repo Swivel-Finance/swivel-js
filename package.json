@@ -1,6 +1,6 @@
 {
   "name": "@swivel-finance/swivel-js",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Javascript library for working with the Swivel Finance Protocol",
   "type": "module",
   "main": "build/index.js",
