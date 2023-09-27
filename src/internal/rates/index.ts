@@ -91,7 +91,7 @@ export async function getInterestRate (p: Protocol, a: string, s: Provider | Sig
 
         case Protocols.Lido:
 
-            return await interestRateLido(a, s);
+            return await interestRateLido();
 
         case Protocols.Frax:
 
