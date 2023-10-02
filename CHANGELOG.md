@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/Swivel-Finance/swivel-js/compare/v3.2.1...v3.2.2) (2023-10-02)
+
+
+### Bug Fixes
+
+* increase gas optimization for Compound ([f3ac249](https://github.com/Swivel-Finance/swivel-js/commit/f3ac249091410d26af98c5998de7d40de838fa2c))
+
 ### [3.2.1](https://github.com/Swivel-Finance/swivel-js/compare/v3.2.0...v3.2.1) (2023-04-06)
 
 
