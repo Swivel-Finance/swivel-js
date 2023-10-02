@@ -3,7 +3,8 @@ import { TypedDataDomain } from '@ethersproject/abstract-signer';
 import { BigNumber, utils } from 'ethers';
 import { suite, test } from 'mocha';
 import { DOMAIN_NAME, DOMAIN_VERSION } from '../../src/constants/index.js';
-import { addGasLimitAdjustment, domain, parseOrder, unwrap } from '../../src/helpers/index.js';
+import { addGasLimitAdjustment, domain, GAS_LIMIT_DELTA, GAS_LIMIT_DELTA_COMPOUND, getGasLimitAdjustment, parseOrder, unwrap } from '../../src/helpers/index.js';
+import { Protocols } from '../../src/types/index.js';
 import { mockOrder, NETWORK, VERIFYING_CONTRACT } from '../test-helpers/index.js';
 
 suite('helpers', () => {
@@ -28,14 +29,47 @@ suite('helpers', () => {
 
     suite('optimize', () => {
 
-        test('calculates a correct gas limit', () => {
+        test('gets the correct gas limit delta per protocol', () => {
 
-            const estimated = BigNumber.from('400000');
-            const limit = addGasLimitAdjustment(estimated);
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Aave).toString(), GAS_LIMIT_DELTA.toString(), 'should return the correct gas limit delta');
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Euler).toString(), GAS_LIMIT_DELTA.toString(), 'should return the correct gas limit delta');
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Frax).toString(), GAS_LIMIT_DELTA.toString(), 'should return the correct gas limit delta');
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Lido).toString(), GAS_LIMIT_DELTA.toString(), 'should return the correct gas limit delta');
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Rari).toString(), GAS_LIMIT_DELTA.toString(), 'should return the correct gas limit delta');
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Yearn).toString(), GAS_LIMIT_DELTA.toString(), 'should return the correct gas limit delta');
+            assert.strictEqual(getGasLimitAdjustment(Protocols.Compound).toString(), GAS_LIMIT_DELTA_COMPOUND.toString(), 'should return the correct gas limit delta');
+        });
+
+        test('calculates the correct gas limit per protocol', () => {
+
+            const estimated = BigNumber.from('200000');
+
+            // Aave
+
+            let adjustment = getGasLimitAdjustment(Protocols.Aave);
+            let limit = addGasLimitAdjustment(estimated, adjustment);
 
             assert.strictEqual(limit._isBigNumber, true, 'should create a BigNumber instance');
             assert.strictEqual(limit.gt(estimated), true, 'the limit should be greater than the estimate');
-            assert.strictEqual(limit.toNumber(), estimated.toNumber() + 26000, 'the limit should be 26k greater than the estimate');
+            assert.strictEqual(limit.toNumber(), estimated.toNumber() + GAS_LIMIT_DELTA.toNumber(), `'the limit should be ${ GAS_LIMIT_DELTA.toNumber() } greater than the estimate'`);
+
+            // Lido
+
+            adjustment = getGasLimitAdjustment(Protocols.Lido);
+            limit = addGasLimitAdjustment(estimated, adjustment);
+
+            assert.strictEqual(limit._isBigNumber, true, 'should create a BigNumber instance');
+            assert.strictEqual(limit.gt(estimated), true, 'the limit should be greater than the estimate');
+            assert.strictEqual(limit.toNumber(), estimated.toNumber() + GAS_LIMIT_DELTA.toNumber(), `'the limit should be ${ GAS_LIMIT_DELTA.toNumber() } greater than the estimate'`);
+
+            // Compound
+
+            adjustment = getGasLimitAdjustment(Protocols.Compound);
+            limit = addGasLimitAdjustment(estimated, adjustment);
+
+            assert.strictEqual(limit._isBigNumber, true, 'should create a BigNumber instance');
+            assert.strictEqual(limit.gt(estimated), true, 'the limit should be greater than the estimate');
+            assert.strictEqual(limit.toNumber(), estimated.toNumber() + GAS_LIMIT_DELTA_COMPOUND.toNumber(), `'the limit should be ${ GAS_LIMIT_DELTA_COMPOUND.toNumber() } greater than the estimate'`);
         });
     });
 

@@ -1,12 +1,22 @@
 import { TransactionResponse } from '@ethersproject/abstract-provider';
-import { Contract, PayableOverrides } from 'ethers';
+import { BigNumber, BigNumberish, Contract, PayableOverrides } from 'ethers';
 import { optimizeGas } from './optimize.js';
 
 /**
  * Interface for a method that executes transactions
  */
 export interface TransactionExecutor {
-    (c: Contract, m: string, a: unknown[], t?: PayableOverrides, o?: boolean): Promise<TransactionResponse>;
+    /**
+     * Execute a transaction safely and allow for gas limit optimizations.
+     *
+     * @param c - the contract instance
+     * @param m - the method name
+     * @param a - the method arguments array
+     * @param t - optional transaction overrides (default: `{}`)
+     * @param o - should `gasLimit` for this call be optimized (default: `false`, set to `true` to use default optimization, or provide a `BigNumberish` to use a custom gas limit delta)
+     * @returns an ethers {@link TransactionResponse} if successful, otherwise rejects with ethers' original error
+     */
+    (c: Contract, m: string, a: unknown[], t?: PayableOverrides, o?: boolean | BigNumberish): Promise<TransactionResponse>;
 }
 
 /**
@@ -43,7 +53,7 @@ export interface TransactionExecutor {
  * @param m - the method name
  * @param a - the method arguments array
  * @param t - optional transaction overrides (default: `{}`)
- * @param o - should `gasLimit` for this call be optimized (default: `false`)
+ * @param o - should `gasLimit` for this call be optimized (default: `false`, set to `true` to use default optimization, or provide a `BigNumberish` to use a custom gas limit delta)
  * @returns an ethers {@link TransactionResponse} if successful, otherwise rejects with ethers' original error
  */
 export const executeTransaction: TransactionExecutor = async (
@@ -51,7 +61,7 @@ export const executeTransaction: TransactionExecutor = async (
     m: string,
     a: unknown[],
     t: PayableOverrides = {},
-    o = false,
+    o: boolean | BigNumberish = false,
 ): Promise<TransactionResponse> => {
 
     let options: PayableOverrides = { ...t };
@@ -71,7 +81,9 @@ export const executeTransaction: TransactionExecutor = async (
             // if gas should be optimized, run custom gas optimization
             // then execute tx with optimized gas options
 
-            options = await optimizeGas(c, m, a, t);
+            const delta = (typeof o === 'boolean') ? undefined : BigNumber.from(o);
+
+            options = await optimizeGas(c, m, a, t, delta);
 
         } else {
 
