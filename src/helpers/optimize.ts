@@ -51,6 +51,7 @@ export const addGasLimitAdjustment = (e: BigNumber, d: BigNumber = GAS_LIMIT_DEL
  * @param m - method name on the contract
  * @param a - arguments for the contract method call
  * @param t - optional transaction overrides provided by the user
+ * @param d - the gas limit delta to add to the estimated gas (default: `GAS_LIMIT_DELTA`)
  * @returns a {@link PayableOverrides} object with an optimized gas limit for the specified call
  */
 export const optimizeGas = async (
