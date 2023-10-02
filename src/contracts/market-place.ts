@@ -2,7 +2,7 @@ import { Provider, TransactionResponse } from '@ethersproject/abstract-provider'
 import { Signer } from '@ethersproject/abstract-signer';
 import { BigNumber, BigNumberish, CallOverrides, Contract, PayableOverrides } from 'ethers';
 import { MARKET_PLACE_ABI } from '../constants/index.js';
-import { executeTransaction, TransactionExecutor, unwrap } from '../helpers/index.js';
+import { executeTransaction, getGasLimitAdjustment, TransactionExecutor, unwrap } from '../helpers/index.js';
 import { getInterestRate } from '../internal/index.js';
 import { RatesConfig } from '../internal/rates/config.js';
 import { Market, Protocol } from '../types/index.js';
@@ -245,6 +245,8 @@ export class MarketPlace {
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
 
-        return await this.executor(this.contract, 'transferVaultNotional', [p, u, maturity, r, amount], t, true);
+        const gasOptimization = getGasLimitAdjustment(p);
+
+        return await this.executor(this.contract, 'transferVaultNotional', [p, u, maturity, r, amount], t, gasOptimization);
     }
 }

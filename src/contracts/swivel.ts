@@ -3,7 +3,7 @@ import { Signer, TypedDataSigner } from '@ethersproject/abstract-signer';
 import { BytesLike, SignatureLike } from '@ethersproject/bytes';
 import { BigNumber, BigNumberish, CallOverrides, Contract, PayableOverrides, utils } from 'ethers';
 import { ORDER_TYPEHASH, SWIVEL_ABI, TYPES } from '../constants/index.js';
-import { domain, executeTransaction, parseOrder, TransactionExecutor, unwrap } from '../helpers/index.js';
+import { domain, executeTransaction, getGasLimitAdjustment, parseOrder, TransactionExecutor, unwrap } from '../helpers/index.js';
 import { Order, Protocol } from '../types/index.js';
 
 export class Swivel {
@@ -247,7 +247,10 @@ export class Swivel {
         const amounts = a.map(amount => BigNumber.from(amount));
         const signatures = s.map(signature => utils.splitSignature(signature));
 
-        return await this.executor(this.contract, 'initiate', [orders, amounts, signatures], t, true);
+        const protocol = orders[0].protocol;
+        const gasOptimization = getGasLimitAdjustment(protocol);
+
+        return await this.executor(this.contract, 'initiate', [orders, amounts, signatures], t, gasOptimization);
     }
 
     /**
@@ -264,7 +267,10 @@ export class Swivel {
         const amounts = a.map(amount => BigNumber.from(amount));
         const signatures = s.map(signature => utils.splitSignature(signature));
 
-        return await this.executor(this.contract, 'exit', [orders, amounts, signatures], t, true);
+        const protocol = orders[0].protocol;
+        const gasOptimization = getGasLimitAdjustment(protocol);
+
+        return await this.executor(this.contract, 'exit', [orders, amounts, signatures], t, gasOptimization);
     }
 
     /**
@@ -293,8 +299,9 @@ export class Swivel {
 
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
+        const gasOptimization = getGasLimitAdjustment(p);
 
-        return await this.executor(this.contract, 'splitUnderlying', [p, u, maturity, amount], t, true);
+        return await this.executor(this.contract, 'splitUnderlying', [p, u, maturity, amount], t, gasOptimization);
     }
 
     /**
@@ -310,8 +317,9 @@ export class Swivel {
 
         const maturity = BigNumber.from(m);
         const amount = BigNumber.from(a);
+        const gasOptimization = getGasLimitAdjustment(p);
 
-        return await this.executor(this.contract, 'combineTokens', [p, u, maturity, amount], t, true);
+        return await this.executor(this.contract, 'combineTokens', [p, u, maturity, amount], t, gasOptimization);
     }
 
     /**
@@ -342,8 +350,9 @@ export class Swivel {
     async redeemVaultInterest (p: Protocol, u: string, m: BigNumberish, t: PayableOverrides = {}): Promise<TransactionResponse> {
 
         const maturity = BigNumber.from(m);
+        const gasOptimization = getGasLimitAdjustment(p);
 
-        return await this.executor(this.contract, 'redeemVaultInterest', [p, u, maturity], t, true);
+        return await this.executor(this.contract, 'redeemVaultInterest', [p, u, maturity], t, gasOptimization);
     }
 
     /**
