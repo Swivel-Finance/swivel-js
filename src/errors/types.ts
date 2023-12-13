@@ -164,6 +164,34 @@ export const EXCEPTION = {
         name: 'APPROVAL.HOLD',
         message: (e: Exception): string => `Approval is on hold.`,
     },
+    40: {
+        name: 'SSM.COOLDOWN.BALANCE',
+        message: (e: Exception): string => `Requested cooldown amount exceeds available balance.`,
+    },
+    41: {
+        name: 'SSM.COOLDOWN.TIME',
+        message: (e: Exception): string => `Cooldown has not been reached or has been exceeded.`,
+    },
+    42: {
+        name: 'SSM.WITHDRAW.BALANCE',
+        message: (e: Exception): string => `Requested withdraw amount ${ e.amount.toString() } exceeds available balance ${ e.amountExpected.toString() }.`,
+    },
+    43: {
+        name: 'SSM.MINT.SWIV_LIMIT',
+        message: (e: Exception): string => `Deposited ETH requires more than maximumSWIV.`,
+    },
+    44: {
+        name: 'SSM.MINT.SHARES_LIMIT',
+        message: (e: Exception): string => `Requested shares amount ${ e.amountExpected.toString() } requires more ETH/SWIV.`,
+    },
+    46: {
+        name: 'SSM.BALANCER.SLIPPAGE',
+        message: (e: Exception): string => `Balancer slippage exception.`,
+    },
+    47: {
+        name: 'SSM.REDEEM.SHARES_LIMIT',
+        message: (e: Exception): string => `Requested ETH/SWIV requires more shares.`,
+    },
 };
 
 
