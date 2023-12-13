@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.3](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.2...v4.0.3) (2023-12-13)
+
+
+### Bug Fixes
+
+* add exception codes for `stkSWIV` exceptions ([435a4ed](https://github.com/Swivel-Finance/swivel-js/commit/435a4ed0f41bacd1352de23d381cdfe6a933c06e))
+
 ### [4.0.2](https://github.com/Swivel-Finance/swivel-js/compare/v4.0.1...v4.0.2) (2023-10-02)
 
 
